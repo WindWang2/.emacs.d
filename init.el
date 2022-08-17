@@ -1,4 +1,3 @@
-
 ;; -*- lexical-binding: t -*-
 ;; (setq debug-on-error 1)
 (cond
