@@ -1,3 +1,4 @@
+
 ;; -*- lexical-binding: t -*-
 ;; (setq debug-on-error 1)
 (cond
@@ -2323,30 +2324,6 @@ the \"file\" field is empty, return the empty string."
         "xelatex -interaction nonstopmode -output-directory %o %f")
       )
 
-
-
 (load-theme 'doom-solarized-light 'no-confirm)
 
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(macrostep-expansion-highlight-face ((t (:inherit tooltip :extend t))))
- '(org-ellipsis ((t (:foreground nil))))
- '(org-pomodoro-mode-line ((t (:inherit warning))))
- '(org-pomodoro-mode-line-break ((t (:inherit success))))
- '(org-pomodoro-mode-line-overtime ((t (:inherit error)))))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("51c71bb27bdab69b505d9bf71c99864051b37ac3de531d91fdad1598ad247138" default))
- '(package-selected-packages
-   '(winum treemacs ztree youdao-dictionary yasnippet-snippets which-key vulpea vertico use-package undo-tree toc-org smart-region rime rg quickrun projectile popper ox-gfm overseer org-tree-slide org-timeline org-superstar org-super-agenda org-roam-ui org-roam-bibtex org-rich-yank org-ref org-preview-html org-pomodoro org-modern org-mime org-fragtog org-fancy-priorities org-download org-appear orderless openwith olivetti ob-rust ob-mermaid ob-go modern-cpp-font-lock memory-usage markdown-mode marginalia major-mode-hydra macrostep list-environment ivy-xref iedit highlight-defined helpful gnu-elpa-keyring-update gcmh focus flycheck fanyi evil-nerd-commenter embark emacsql-sqlite-builtin editorconfig ebib doom-themes diredfl dired-rsync dired-git-info diminish devdocs deft copyit consult citar cal-china-x beginend auto-package-update anzu all-the-icons-dired aggressive-indent))
- '(warning-suppress-log-types '(comp comp))
- '(warning-suppress-types '(comp)))
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
