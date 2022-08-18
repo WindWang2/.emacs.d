@@ -80,6 +80,7 @@
 (require 'subr-x)
 (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+(package-install 'use-package-ensure-system-package)
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 ;; Setup `use-package
@@ -1191,7 +1192,6 @@ Lisp function does not specify a special indentation."
   (use-package tldr))
 
 (use-package evil-nerd-commenter
-  :ensure t
   :init
   (global-set-key (kbd "M-;") 'evilnc-comment-or-uncomment-lines)
   (global-set-key (kbd "C-c l") 'evilnc-quick-comment-or-uncomment-to-the-line)
@@ -1199,7 +1199,6 @@ Lisp function does not specify a special indentation."
   (global-set-key (kbd "C-c m") 'evilnc-comment-or-uncomment-paragraphs))
 
 (use-package rime
-  :ensure t
   :commands (toggle-input-method)
   :custom
   ;; (rime-librime-root "/usr/lib")
