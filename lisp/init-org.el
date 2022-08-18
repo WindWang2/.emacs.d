@@ -29,27 +29,7 @@
 ;;
 
 ;; 7. org
-(use-package hydra)
-(use-package pretty-hydra
-  :bind ("<f6>" . toggles-hydra/body)
-  :init
-  (cl-defun pretty-hydra-title (title &optional icon-type icon-name
-                                      &key face height v-adjust)
-    "Add an icon in the hydra title."
-    (let ((face (or face `(:foreground ,(face-background 'highlight))))
-          (height (or height 1.0))
-          (v-adjust (or v-adjust 0.0)))
-      (concat
-       (when (and (icon-displayable-p) icon-type icon-name)
-         (let ((f (intern (format "all-the-icons-%s" icon-type))))
-           (when (fboundp f)
-             (concat
-              (apply f (list icon-name :face face :height height :v-adjust v-adjust))
-              " "))))
-       (propertize title 'face face)))))
 
-(require 'hydra)
-(require 'pretty-hydra)
 (use-package org
   :after pretty-hydra
   :defer t
@@ -385,7 +365,7 @@ If the function sets CREATED, it returns its value."
   ;; Rich text clipboard
   (use-package org-rich-yank
     :bind (:map org-mode-map
-	   ("C-M-y" . org-rich-yank)))
+	       ("C-M-y" . org-rich-yank)))
 
   ;; Table of contents
   (use-package toc-org
@@ -394,9 +374,9 @@ If the function sets CREATED, it returns its value."
   ;; Export text/html MIME emails
   (use-package org-mime
     :bind (:map message-mode-map
-	   ("C-c M-o" . org-mime-htmlize)
-	   :map org-mode-map
-	   ("C-c M-o" . org-mime-org-buffer-htmlize)))
+	       ("C-c M-o" . org-mime-htmlize)
+	       :map org-mode-map
+	       ("C-c M-o" . org-mime-org-buffer-htmlize)))
 
   ;; Add graphical view of agenda
   (use-package org-timeline
@@ -411,7 +391,7 @@ If the function sets CREATED, it returns its value."
   (use-package org-preview-html
     :diminish
     :bind (:map org-mode-map
-	   ("C-c C-h" . org-preview-html-mode))
+	       ("C-c C-h" . org-preview-html-mode))
     :init (when (featurep 'xwidget-internal)
             (setq org-preview-html-viewer 'xwidget)))
 
@@ -421,12 +401,12 @@ If the function sets CREATED, it returns its value."
     :functions (org-display-inline-images
                 org-remove-inline-images)
     :bind (:map org-mode-map
-	   ("s-<f7>" . org-tree-slide-mode)
-	   :map org-tree-slide-mode-map
-	   ("<left>" . org-tree-slide-move-previous-tree)
-	   ("<right>" . org-tree-slide-move-next-tree)
-	   ("S-SPC" . org-tree-slide-move-previous-tree)
-	   ("SPC" . org-tree-slide-move-next-tree))
+	       ("s-<f7>" . org-tree-slide-mode)
+	       :map org-tree-slide-mode-map
+	       ("<left>" . org-tree-slide-move-previous-tree)
+	       ("<right>" . org-tree-slide-move-next-tree)
+	       ("S-SPC" . org-tree-slide-move-previous-tree)
+	       ("SPC" . org-tree-slide-move-next-tree))
     :hook ((org-tree-slide-play . (lambda ()
                                     (text-scale-increase 4)
                                     (org-display-inline-images)
@@ -496,10 +476,10 @@ tasks."
         #'car
         (org-roam-db-query
          [:select [nodes:file]
-	  :from tags
-	  :left-join nodes
-	  :on (= tags:node-id nodes:id)
-	  :where (like tag (quote "%\"project\"%"))]))))
+	      :from tags
+	      :left-join nodes
+	      :on (= tags:node-id nodes:id)
+	      :where (like tag (quote "%\"project\"%"))]))))
     (defun vulpea-agenda-files-update (&rest _)
       "Update the value of `org-agenda-files'."
       (setq org-agenda-files (vulpea-project-files)))
@@ -546,12 +526,12 @@ tasks."
     (org-pomodoro-mode-line-overtime ((t (:inherit error))))
     (org-pomodoro-mode-line-break ((t (:inherit success))))
     :bind (:map org-mode-map
-	   ("C-c C-x m" . org-pomodoro))
+	       ("C-c C-x m" . org-pomodoro))
     :init
     (with-eval-after-load 'org-agenda
       (bind-keys :map org-agenda-mode-map
-	("K" . org-pomodoro)
-	("C-c C-x m" . org-pomodoro)))
+	    ("K" . org-pomodoro)
+	    ("C-c C-x m" . org-pomodoro)))
     :custom
     ;; 设置org-pomodoro桌面全局通知
     ;; 定义通知函数
@@ -566,20 +546,20 @@ tasks."
 
     (defun notify-osx (title message)
       (call-process "notify-send"
-		    message
-		    ))
+		            message
+		            ))
     (add-hook 'org-pomodoro-finished-hook
-	      (lambda ()
-		(notify-osx "Org-pomodoro GTD 完成" "休息5分钟")))
+	          (lambda ()
+		        (notify-osx "Org-pomodoro GTD 完成" "休息5分钟")))
     (add-hook 'org-pomodoro-break-finished-hook
-	      (lambda ()
+	          (lambda ()
                 (notify-osx "Org-pomodoro GTD 休息完成" "设置开始下一个？")))
     (add-hook 'org-pomodoro-long-break-finished-hook
-	      (lambda ()
-		(notify-osx "Org-pomodoro GTD 长休息完成" "设置开始下一个？")))
+	          (lambda ()
+		        (notify-osx "Org-pomodoro GTD 长休息完成" "设置开始下一个？")))
     (add-hook 'org-pomodoro-killed-hook
-	      (lambda ()
-		(notify-osx "Org-pomodoro GTD 番茄取消" "取消！！！")))
+	          (lambda ()
+		        (notify-osx "Org-pomodoro GTD 番茄取消" "取消！！！")))
     )
   (use-package org-super-agenda
     :ensure t
@@ -595,57 +575,57 @@ tasks."
              ((alltodo "" ((org-agenda-override-header "")
                            (org-super-agenda-groups
                             '((:name "Project View"
-			       :auto-parent t))
+			                   :auto-parent t))
                             )))))
             ("P" "This week"
              ((alltodo "" ((org-agenda-override-header "")
                            (org-super-agenda-groups
                             '((:name "This Weak"
-			       :and (:todo "TODO" :tag "THIS_WEEK")))
+			                   :and (:todo "TODO" :tag "THIS_WEEK")))
                             )))))
             ("z" "Super view"
              ((agenda "" ((org-agenda-span 'day)
                           (org-super-agenda-groups
                            '((:name "Today"
-			      :time-grid t
-			      :date today
-			      :todo "TODO"
-			      :scheduled today
-			      :order 1)))))
+			                  :time-grid t
+			                  :date today
+			                  :todo "TODO"
+			                  :scheduled today
+			                  :order 1)))))
               (alltodo "" ((org-agenda-overriding-header "")
                            (org-super-agenda-groups
                             '((:name "Next @Sicnu"
-			       :and (:todo "TODO" :tag "THIS_WEEK" :tag "@Sicnu" :priority>="B")
-			       :order 1)
+			                   :and (:todo "TODO" :tag "THIS_WEEK" :tag "@Sicnu" :priority>="B")
+			                   :order 1)
                               (:name "Next @Home"
-			       :and (:tag "THIS_WEEK" :tag "@Home" :todo "TODO" :priority>="B")
-			       :order 2)
+			                   :and (:tag "THIS_WEEK" :tag "@Home" :todo "TODO" :priority>="B")
+			                   :order 2)
                               (:name "Important"
-			       :and (:todo "TODO" :priority>="B")
-			       :order 3)
+			                   :and (:todo "TODO" :priority>="B")
+			                   :order 3)
                               (:name "Due Today"
-			       :deadline today
-			       :order 4)
+			                   :deadline today
+			                   :order 4)
                               (:name "Due Soon"
-			       :deadline future
-			       :order 8)
+			                   :deadline future
+			                   :order 8)
                               (:name "Overdue"
-			       :deadline past
-			       :order 7)
+			                   :deadline past
+			                   :order 7)
                               (:name "This Week"
-			       :tag "THIS_WEEK"
-			       :order 5)
+			                   :tag "THIS_WEEK"
+			                   :order 5)
                               (:name "At SICNU"
-			       :tag "@Sicnu"
-			       :order 13)
+			                   :tag "@Sicnu"
+			                   :order 13)
                               (:name "At SWJTU"
-			       :tag "@SWJTU"
-			       :order 13)
+			                   :tag "@SWJTU"
+			                   :order 13)
                               (:name "trivial"
-			       :priority<= "C"
-			       :tag ("Trivial" "Unimportant")
-			       :todo ("SOMEDAY")
-			       :order 90)
+			                   :priority<= "C"
+			                   :tag ("Trivial" "Unimportant")
+			                   :todo ("SOMEDAY")
+			                   :order 90)
                               (:discard (:tag ("Chore" "Routine" "Daily")))))))))
             ("r" . "Review")
             ("rw" "Review Archives"
@@ -725,7 +705,7 @@ tasks."
     :init
     (when (featurep 'xwidget-internal)
       (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url)))
-  
+
   :custom
 
   (org-roam-database-connector 'sqlite-builtin)

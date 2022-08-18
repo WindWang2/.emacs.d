@@ -36,8 +36,6 @@
 (defconst sys/mac-ns-p
   (eq window-system 'ns)
   "Are we running on a GNUstep or Macintosh Cocoa display?")
-;; 
-
 (unless (or (daemonp) noninteractive init-file-debug)
   (let ((old-file-name-handler-alist file-name-handler-alist))
     (setq file-name-handler-alist nil)
@@ -56,29 +54,19 @@
             (setq gc-cons-threshold 800000
                   gc-cons-percentage 0.1)))
 
+;; Suppress flashing at startup
+(setq-default inhibit-redisplay t
+              inhibit-message t)
+(add-hook 'window-setup-hook
+          (lambda ()
+            (setq-default inhibit-redisplay nil
+                          inhibit-message nil)
+            (redisplay)))
+
 (if (eq system-type 'darwin)
     (setenv "LANG" "en_US.UTF-8")
   )
 
-;; 1. Optimize emacs
-(global-auto-revert-mode 1)
-(setq inhibit-startup-screen t) ;;启动不显示 *GNU Emacs*
-(setq auto-save-default nil)
-(setq ring-bell-function 'ignore)
-(fset 'yes-or-no-p 'y-or-n-p)
-(setq make-backup-files nil)
-(delete-selection-mode 1)
-(require 'recentf)
-(recentf-mode 1)
-(setq recentf-max-menu-item 10)
-;; Precise mode for scroll
-(setq pixel-scroll-precision-large-scroll-height 40.0)
-(setq pixel-scroll-precision-interpolation-factor 30)
-(pixel-scroll-precision-mode t)
-
-(load-theme 'doom-solarized-light 'no-confirm)
-
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (defun update-load-path (&rest _)
   "Update `load-path'."
@@ -88,9 +76,12 @@
 (advice-add #'package-initialize :after #'update-load-path)
 (update-load-path)
 
-(require 'init-package)
+(require 'init-basic)
 (require 'init-ui)
 (require 'init-edit)
 (require 'init-utils)
 (require 'init-org)
 (require 'init-vcs)
+
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load-theme 'doom-solarized-light 'no-confirm)
