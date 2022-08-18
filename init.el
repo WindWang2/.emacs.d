@@ -241,6 +241,7 @@
 ;; Automatically reload files was modified by external program
 (use-package autorevert
   :ensure nil
+  :defer t
   :diminish
   :hook (after-init . global-auto-revert-mode))
 ;; Minor mode to aggressively keep your code always indented
@@ -270,6 +271,7 @@
 ;; Show number of matches in mode-line while searching
 (use-package anzu
   :diminish
+  :defer t
   :bind (([remap query-replace] . anzu-query-replace)
          ([remap query-replace-regexp] . anzu-query-replace-regexp)
          :map isearch-mode-map
@@ -292,6 +294,7 @@
 ;; Edit multiple regions in the same way simultaneously
 (use-package iedit
   :defines desktop-minor-mode-table
+  :defer t
   :bind (("C-;" . iedit-mode)
          ("C-x r RET" . iedit-rectangle-mode)
          :map isearch-mode-map ("C-;" . iedit-mode-from-isearch)
@@ -697,7 +700,8 @@ Lisp function does not specify a special indentation."
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-env "PYTHONPATH")))
 
-(use-package markdown-mode)
+(use-package markdown-mode
+  :defer t)
 (use-package lsp-bridge
   :ensure nil
   :defer 2
@@ -1106,6 +1110,7 @@ Lisp function does not specify a special indentation."
 ;; Search tools
 ;; Writable `grep' buffer
 (use-package wgrep
+  :defer t
   :init
   (setq wgrep-auto-save-buffer t
         wgrep-change-readonly-file t))
@@ -1192,6 +1197,7 @@ Lisp function does not specify a special indentation."
   (use-package tldr))
 
 (use-package evil-nerd-commenter
+  :defer t
   :init
   (global-set-key (kbd "M-;") 'evilnc-comment-or-uncomment-lines)
   (global-set-key (kbd "C-c l") 'evilnc-quick-comment-or-uncomment-to-the-line)
@@ -1200,6 +1206,7 @@ Lisp function does not specify a special indentation."
 
 (use-package rime
   :commands (toggle-input-method)
+  :defer t
   :custom
   ;; (rime-librime-root "/usr/lib")
   (default-input-method 'rime)
@@ -1246,6 +1253,7 @@ Lisp function does not specify a special indentation."
 (use-package openwith
   :ensure t
   :init
+  :defer t
   :config
   ;; (setq openwith-associations '(("\\.pdf\\'" "open" (file))))
   (when (string-match "-[Mm]icrosoft" operating-system-release)
@@ -1493,6 +1501,7 @@ Lisp function does not specify a special indentation."
 (require 'pretty-hydra)
 (use-package org
   :after pretty-hydra
+  :defer t
   :ensure nil
   :commands (org-dynamic-block-define)
   :custom-face (org-ellipsis ((t (:foreground nil))))
@@ -1768,6 +1777,7 @@ If the function sets CREATED, it returns its value."
   ;; Prettify UI
 
   (use-package org-modern
+    :defer t
     :hook ((org-mode . org-modern-mode)
            (org-agenda-finalize . org-modern-agenda)
            (org-modern-mode . (lambda ()
@@ -1781,6 +1791,7 @@ If the function sets CREATED, it returns its value."
       :hook (org-mode . org-superstar-mode)
       :init (setq org-superstar-headline-bullets-list '("◉""○""◈""◇""⁕")))
     (use-package org-fancy-priorities
+      :defer t
       :diminish
       :hook (org-mode . org-fancy-priorities-mode)
       :init (setq org-fancy-priorities-list
@@ -2142,6 +2153,7 @@ tasks."
 ;; Roam
 (use-package emacsql-sqlite-builtin)
 (use-package org-roam
+  :defer t
   :diminish
   :hook (after-init . org-roam-db-autosync-enable)
   :bind (("C-c n l" . org-roam-buffer-toggle)
@@ -2325,3 +2337,12 @@ the \"file\" field is empty, return the empty string."
 (load-theme 'doom-solarized-light 'no-confirm)
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
+(defun update-load-path (&rest _)
+  "Update `load-path'."
+  (dolist (dir '("site-lisp" "lisp"))
+    (push (expand-file-name dir user-emacs-directory) load-path)))
+
+(advice-add #'package-initialize :after #'update-load-path)
+(update-load-path)
+(require 'init-vcs)
