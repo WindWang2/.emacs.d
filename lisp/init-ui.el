@@ -252,8 +252,7 @@
 (use-package minions
   :hook (doom-modeline-mode . minions-mode))
 
-;; Font
-;;; Font setting
+;; Font setting
 (defvar font-list
   (cond
    ((eq system-type 'darwin)

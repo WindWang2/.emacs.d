@@ -425,6 +425,7 @@ If the function sets CREATED, it returns its value."
                 org-tree-slide-skip-outline-level 3))
 
   (use-package vulpea
+    :defer t
     :init
     (add-to-list 'org-tags-exclude-from-inheritance "project")
     :custom
@@ -488,6 +489,7 @@ tasks."
     (advice-add 'org-agenda-files :filter-return #'vulpea-agenda-files-update)
     )
   (use-package org-appear
+    :defer t
     :ensure t
     :init
     (add-hook 'org-mode-hook 'org-appear-mode)
@@ -642,6 +644,7 @@ tasks."
     (org-super-agenda-mode t)))
 
 (use-package deft
+  :defer t
   :bind
   ("C-c n d" . deft)
   :custom
@@ -670,17 +673,17 @@ tasks."
   used as title."
     (let ((begin (string-match "^#\\+[tT][iI][tT][lL][eE]: .*$" contents)))
       (if begin
-	  (string-trim (substring contents begin (match-end 0)) "#\\+[tT][iI][tT][lL][eE]: *" "[\n\t ]+")
-	(deft-base-filename file))))
+	      (string-trim (substring contents begin (match-end 0)) "#\\+[tT][iI][tT][lL][eE]: *" "[\n\t ]+")
+	    (deft-base-filename file))))
 
   (advice-add 'deft-parse-title :override #'cm/deft-parse-title)
 
   (setq deft-strip-summary-regexp
-	(concat "\\("
-		"[\n\t]" ;; blank
-		"\\|^#\\+[[:alpha:]_]+:.*$" ;; org-mode metadata
-		"\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
-		"\\)")))
+	    (concat "\\("
+		        "[\n\t]" ;; blank
+		        "\\|^#\\+[[:alpha:]_]+:.*$" ;; org-mode metadata
+		        "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
+		        "\\)")))
 ;; Roam
 (use-package emacsql-sqlite-builtin)
 (use-package org-roam
@@ -707,7 +710,6 @@ tasks."
       (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url)))
 
   :custom
-
   (org-roam-database-connector 'sqlite-builtin)
   (org-roam-db-gc-threshold most-positive-fixnum)
   (defun org-roam-open-refs ()
@@ -731,8 +733,10 @@ tasks."
 ;; 8. paper
 ;; config the org-roam-bibtex
 (use-package org-ref
+  :defer t
   :after org)
 (use-package org-roam-bibtex
+  :defer t
   :after org-roam
   :init
   (org-roam-bibtex-mode 1)
@@ -758,6 +762,7 @@ tasks."
   :ensure t)
 
 (use-package citeproc
+  :defer t
   :ensure t
   :config
   (require 'oc-basic)
@@ -767,6 +772,7 @@ tasks."
   )
 
 (use-package citar
+  :defer t
   :init
   (setq org-cite-insert-processor 'citar
         org-cite-follow-processor 'citar
@@ -785,6 +791,7 @@ tasks."
 
 
 (use-package ebib
+  :defer t
   ;; :commands ebib-zotero-protocol-handler
   :init
   ;; (with-eval-after-load 'org-protocol
@@ -807,9 +814,9 @@ tasks."
   (ebib-filters-default-file (concat bibtex-file-path "ebib-filters"))
   (ebib-file-associations '(("pdf")))
   (ebib-index-columns '(("Entry Key" 20 t)
-			("Author/Editor" 40 nil)
-			("Year" 6 t)
-			("Title" 50 t)))
+			            ("Author/Editor" 40 nil)
+			            ("Year" 6 t)
+			            ("Title" 50 t)))
   (ebib-notes-storage 'multiple-notes-per-file)
   (ebib-index-default-sort '("timestamp" . descend))
   :config
@@ -821,7 +828,7 @@ tasks."
                                          (?i . ebib-create-id)
                                          (?K . ebib-create-org-identifier)
                                          (?X . ebib-create-org-title)
-    		                         (?T . ebib-create-org-description)
+    		                             (?T . ebib-create-org-description)
                                          (?L . ebib-create-org-link)
                                          (?F . ebib-create-org-file-name)
                                          (?S . ebib-create-org-time-stamp)))

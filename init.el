@@ -1,5 +1,5 @@
 ;; -*- lexical-binding: t -*-
-;; (setq debug-on-error 1)
+(setq debug-on-error 1)
 (cond
  ((string-match "-[Mm]icrosoft" operating-system-release)
   (setq own-org-directory "/mnt/c/org/"))

@@ -37,6 +37,7 @@
 ;; See `magit-maybe-define-global-key-bindings'
 (use-package magit
   :init (setq magit-diff-refine-hunk t)
+  :defer t
   :config
   (when sys/win32p
     (setenv "GIT_ASKPASS" "git-gui--askpass"))

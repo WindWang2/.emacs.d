@@ -158,9 +158,11 @@
 ;; 5. Code
 (use-package yasnippet
   :diminish yas-minor-mode
+  :defer t
   :hook (after-init . yas-global-mode))
 
 (use-package yasnippet-snippets
+  :defer t
   :after yasnippet)
 
 ;; Prettify Symbols

@@ -47,6 +47,13 @@
   (defalias 'upgrade-packages #'auto-package-update-now))
 (use-package diminish)
 (use-package bind-key)
+;; -------------------------------------------------------------
+(use-package benchmark-init
+  :ensure t
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+;; -------------------------------------------------------------
 (with-no-warnings
   ;; Key Modifiers
   (cond
@@ -91,8 +98,8 @@
     :hook (emacs-startup . gcmh-mode)
     :init
     (setq gcmh-idle-delay 'auto
-	  gcmh-auto-idle-delay-factor 10
-	  gcmh-high-cons-threshold #x1000000) ; 16MB
+	      gcmh-auto-idle-delay-factor 10
+	      gcmh-high-cons-threshold #x1000000) ; 16MB
     ))
 
 ;; Encoding
@@ -255,6 +262,9 @@
 ;; (fset 'yes-or-no-p 'y-or-n-p)
 (setq make-backup-files nil)
 (delete-selection-mode 1)
+(setq initial-scratch-message "")
+;; (setq initial-major-mode 'text-mode)
+(setq org-modules-loaded t)
 ;; Precise mode for scroll
 (use-package hydra)
 (use-package pretty-hydra
