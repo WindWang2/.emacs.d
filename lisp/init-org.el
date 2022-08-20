@@ -32,7 +32,6 @@
 
 (use-package org
   :after pretty-hydra
-  :defer t
   :ensure nil
   :commands (org-dynamic-block-define)
   :custom-face (org-ellipsis ((t (:foreground nil))))
@@ -521,6 +520,7 @@ tasks."
     (org-download-image-dir (concat own-org-directory "/images"))
     )
 
+  ;; (use-package org-wild-notifier)
   ;; Pomodoro
   (use-package org-pomodoro
     :custom-face
@@ -534,35 +534,52 @@ tasks."
       (bind-keys :map org-agenda-mode-map
 	    ("K" . org-pomodoro)
 	    ("C-c C-x m" . org-pomodoro)))
-    :custom
-    ;; 设置org-pomodoro桌面全局通知
-    ;; 定义通知函数
-    ;; (defun notify-osx (title message)
-    ;;   (call-process "terminal-notifier"
-    ;; 		        nil 0 nil
-    ;; 		        "-group" "Emacs"
-    ;; 		        "-title" title
-    ;; 		        "-sender" "org.gnu.Emacs"
-    ;; 		        "-message" message
-    ;; 		        "-activate" "org.gnu.Emacs"))
+    :config
+    (when sys/win32p
+      (defun notify-win (title message)
+        "Temporary replacement for function of the same name which uses the buggy alert.el package. TITLE is the title of the MESSAGE."
+        (let*
+            ((toast "toast")
+             (t-title (concat " -t \"" title))
+             (t-message (concat "\" -m \"" message "\""))
+             (t-image (concat " -p \"C:\\emacs-app\\share\\icons\\hicolor\\128x128\\apps\\emacs.png\""))
+             (my-command (concat toast t-title t-message t-image)))
+          (call-process-shell-command my-command)))
+      (add-hook 'org-pomodoro-finished-hook
+                (lambda ()
+                  (notify-win "Org-pomodoro" "A pomodoro is finished, take a break !!!")
+                  ))
+      (add-hook 'org-pomodoro-short-break-finished-hook
+                (lambda ()
+                  (notify-win "Org-pomodoro" "A short break done, ready a new pomodoro !!!")
+                  ))
+      (add-hook 'org-pomodoro-long-break-finished-hook
+                (lambda ()
+                  (notify-win "Org-pomodoro" "A long break done, ready a new pomodoro !!!")
+                  ))
+      (add-hook 'org-pomodoro-killed-hook
+	            (lambda ()
+		          (notify-win "Org-pomodoro GTD Cancel" "Cancel !!!")))
 
-    (defun notify-osx (title message)
-      (call-process "notify-send"
-		            message
-		            ))
-    (add-hook 'org-pomodoro-finished-hook
-	          (lambda ()
-		        (notify-osx "Org-pomodoro GTD 完成" "休息5分钟")))
-    (add-hook 'org-pomodoro-break-finished-hook
-	          (lambda ()
-                (notify-osx "Org-pomodoro GTD 休息完成" "设置开始下一个？")))
-    (add-hook 'org-pomodoro-long-break-finished-hook
-	          (lambda ()
-		        (notify-osx "Org-pomodoro GTD 长休息完成" "设置开始下一个？")))
-    (add-hook 'org-pomodoro-killed-hook
-	          (lambda ()
-		        (notify-osx "Org-pomodoro GTD 番茄取消" "取消！！！")))
-    )
+      )
+    (when sys/macp
+      (defun notify-osx (title message)
+        (call-process "notify-send"
+		              message
+		              ))
+      (add-hook 'org-pomodoro-finished-hook
+	            (lambda ()
+		          (notify-osx "Org-pomodoro GTD 完成" "休息5分钟")))
+      (add-hook 'org-pomodoro-break-finished-hook
+	            (lambda ()
+                  (notify-osx "Org-pomodoro GTD 休息完成" "设置开始下一个？")))
+      (add-hook 'org-pomodoro-long-break-finished-hook
+	            (lambda ()
+		          (notify-osx "Org-pomodoro GTD 长休息完成" "设置开始下一个？")))
+      (add-hook 'org-pomodoro-killed-hook
+	            (lambda ()
+		          (notify-osx "Org-pomodoro GTD 番茄取消" "取消！！！")))
+      ))
   (use-package org-super-agenda
     :ensure t
     :after org-agenda
