@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t -*-
-(setq debug-on-error 1)
+;; (setq debug-on-error 1)
+(setq warning-minimum-level :error)
+(setq native-comp-async-report-warnings-errors nil)
 (cond
  ((string-match "-[Mm]icrosoft" operating-system-release)
   (setq own-org-directory "/mnt/c/org/"))
@@ -16,7 +18,6 @@
 (defconst sys/win32p
   (eq system-type 'windows-nt)
   "Are we running on a WinTel system?")
-
 (defconst sys/linuxp
   (eq system-type 'gnu/linux)
   "Are we running on a GNU/Linux system?")
