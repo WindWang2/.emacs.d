@@ -729,6 +729,9 @@ tasks."
   :custom
   (org-roam-database-connector 'sqlite-builtin)
   (org-roam-db-gc-threshold most-positive-fixnum)
+  (org-roam-capture-templates '(("d" "default" plain "%?" :target
+                                 (file+head "%<%Y>-${slug}.org" "#+title: ${title}\n")
+                                 :unnarrowed t)))
   (defun org-roam-open-refs ()
     "Open REFs of the node at point."
     (interactive)
