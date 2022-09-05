@@ -263,6 +263,16 @@
 (setq make-backup-files nil)
 (delete-selection-mode 1)
 (setq initial-scratch-message "")
+
+;; https://stackoverflow.com/questions/9951141/eval-every-line-in-the-scratch-buffer-and-append-the-result-to-the-line
+;; show results in minibuffer at eva mode map
+(define-key lisp-interaction-mode-map (kbd "C-c C-e")
+  (lambda ()
+    (interactive)
+    (let ((result (eval (read (buffer-substring
+                               (point-at-bol) (point-at-eol))))))
+      (goto-char (point-at-eol))
+      (insert (format " ; ⇒ %s" result)))))
 ;; (setq initial-major-mode 'text-mode)
 (setq org-modules-loaded t)
 ;; Precise mode for scroll
