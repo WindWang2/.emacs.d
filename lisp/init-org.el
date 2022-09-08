@@ -614,10 +614,10 @@ tasks."
               (alltodo "" ((org-agenda-overriding-header "")
                            (org-super-agenda-groups
                             '((:name "Next @Sicnu"
-			                   :and (:todo "TODO" :tag "THIS_WEEK" :tag "@Sicnu" :priority>="B")
+			                   :and (:todo "TODO" :tag ("@Sicnu" "THIS_WEEK") :priority>="B")
 			                   :order 1)
                               (:name "Next @Home"
-			                   :and (:tag "THIS_WEEK" :tag "@Home" :todo "TODO" :priority>="B")
+			                   :and (:tag ("THIS_WEEK" "@Home") :todo "TODO" :priority>="B")
 			                   :order 2)
                               (:name "Important"
 			                   :and (:todo "TODO" :priority>="B")
