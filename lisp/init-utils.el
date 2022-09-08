@@ -494,50 +494,82 @@
   (global-set-key (kbd "C-c k") 'evilnc-copy-and-comment-lines)
   (global-set-key (kbd "C-c m") 'evilnc-comment-or-uncomment-paragraphs))
 
-(use-package rime
-  :commands (toggle-input-method)
-  :defer t
-  :custom
-  ;; (rime-librime-root "/usr/lib")
-  (default-input-method 'rime)
-  (rime-user-data-dir "~/.emacs.d/rime")
-  (rime-show-candidate 'posframe)
-  (rime-show-preedit t)
-  (rime-disable-predicates
-   '(rime-predicate-prog-in-code-p
-     rime-predicate-auto-english-p
-     rime-predicate-hydra-p
-     rime-predicate-ace-window-p
-     rime-predicate-punctuation-after-ascii-p
-     rime-predicate-punctuation-line-begin-p
-     my/rime-predicate-punctuation-next-char-is-paired-p
-     rime-predicate-tex-math-or-command-p
-     rime-predicate-org-latex-mode-p
-     rime-predicate-current-uppercase-letter-p))
+(use-package sis
+  ;; :hook
+  ;; enable the /follow context/ and /inline region/ mode for specific buffers
+  ;; (((text-mode prog-mode) . sis-context-mode)
+  ;;  ((text-mode prog-mode) . sis-inline-mode))
   :init
-  ;; 参考 https://github.com/DogLooksGood/emacs-rime/issues/161
-  (add-hook 'kill-emacs-hook #'(lambda () (if (fboundp 'rime-lib-finalize)
-                                              (rime-lib-finalize))))
-  (when (eq system-type 'windows-nt)
-    (setq rime-librime-root "C:/msys64/mingw64/bin")
-    )
-  (defun my/rime-predicate-punctuation-next-char-is-paired-p ()
-    (if (not (eq (point) (point-max)))
-        (and (rime-predicate-current-input-punctuation-p)
-             (not (string-match-p
-                   (rx (any "\"\(\[\{"))
-                   (buffer-substring (point) (1- (point)))))
-             (string-match-p
-              (rx (any "\}\]\)\""))
-              (buffer-substring (point) (1+ (point)))))
-      nil))
-
+  :bind ("C-\\" . sis-switch)
   :config
-  (define-key rime-mode-map (kbd "M-j") 'rime-force-enable)
-  (setq rime-inline-ascii-trigger 'shift-l)
-  ;; (define-key rime-active-mode-map (kbd "M-j") 'rime-inline-ascii)
-  (if (eq system-type 'darwin)
-      (setq rime-librime-root "~/.emacs.d/librime/dist"))
+  (when sys/win32p
+    (sis-ism-lazyman-config nil t 'w32))
+  (when sys/macp
+    (sis-ism-lazyman-config
+
+     ;; English input source may be: "ABC", "US" or another one.
+     ;; "com.apple.keylayout.ABC"
+     "com.apple.keylayout.US"
+
+     ;; Other language input source: "rime", "sogou" or another one.
+     ;; "im.rime.inputmethod.Squirrel.Rime"
+     "com.sogou.inputmethod.sogou.pinyin"))
+  ;; enable the /cursor color/ mode
+  (sis-global-cursor-color-mode t)
+  ;; enable the /respect/ mode
+  (sis-global-respect-mode t)
+  ;; enable the /context/ mode for all buffers
+  (sis-global-context-mode t)
+  ;; enable the /inline english/ mode for all buffers
+  (sis-global-inline-mode t)
+  (setq-default sis-inline-tighten-head-rule 0)
+  )
+(when (not sys/win32p)
+  (use-package rime
+    :commands (toggle-input-method)
+    :defer t
+    :custom
+    ;; (rime-librime-root "/usr/lib")
+    (default-input-method 'rime)
+    (rime-user-data-dir "~/.emacs.d/rime")
+    (rime-show-candidate 'posframe)
+    (rime-show-preedit t)
+    (rime-disable-predicates
+     '(rime-predicate-prog-in-code-p
+       rime-predicate-auto-english-p
+       rime-predicate-hydra-p
+       rime-predicate-ace-window-p
+       rime-predicate-punctuation-after-ascii-p
+       rime-predicate-punctuation-line-begin-p
+       my/rime-predicate-punctuation-next-char-is-paired-p
+       rime-predicate-tex-math-or-command-p
+       rime-predicate-org-latex-mode-p
+       rime-predicate-current-uppercase-letter-p))
+    :init
+    ;; 参考 https://github.com/DogLooksGood/emacs-rime/issues/161
+    (add-hook 'kill-emacs-hook #'(lambda () (if (fboundp 'rime-lib-finalize)
+                                                (rime-lib-finalize))))
+    (when (eq system-type 'windows-nt)
+      (setq rime-librime-root "C:/msys64/mingw64/bin")
+      )
+    (defun my/rime-predicate-punctuation-next-char-is-paired-p ()
+      (if (not (eq (point) (point-max)))
+          (and (rime-predicate-current-input-punctuation-p)
+               (not (string-match-p
+                     (rx (any "\"\(\[\{"))
+                     (buffer-substring (point) (1- (point)))))
+               (string-match-p
+                (rx (any "\}\]\)\""))
+                (buffer-substring (point) (1+ (point)))))
+        nil))
+
+    :config
+    (define-key rime-mode-map (kbd "M-j") 'rime-force-enable)
+    (setq rime-inline-ascii-trigger 'shift-l)
+    ;; (define-key rime-active-mode-map (kbd "M-j") 'rime-inline-ascii)
+    (if (eq system-type 'darwin)
+        (setq rime-librime-root "~/.emacs.d/librime/dist"))
+    )
   )
 
 (use-package openwith
