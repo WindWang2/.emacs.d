@@ -586,8 +586,11 @@
     (setq openwith-associations
           '(("\\.pdf$" "start" (file))))
     )
+  (when sys/linuxp
+    (setq openwith-associations '(("\\.pdf\\'" "evince" (file)))))
   :custom
-  (openwith-mode t))
+  (openwith-mode t)
+  )
 
 (use-package cal-china-x
   :after calendar

@@ -56,26 +56,13 @@
 ;; -------------------------------------------------------------
 (with-no-warnings
   ;; Key Modifiers
-  (cond
-   (sys/win32p
+  (when sys/win32p
     ;; make PC keyboard's Win key or other to type Super or Hyper
     ;; (setq w32-pass-lwindow-to-system nil)
     (setq w32-lwindow-modifier 'super     ; Left Windows key
           w32-apps-modifier 'hyper)       ; Menu/App key
-    (w32-register-hot-key [s-t]))
-   (sys/mac-port-p
-    ;; Compatible with Emacs Mac port
-    (setq mac-option-modifier 'meta
-          mac-command-modifier 'super)
-    (bind-keys ([(super a)] . mark-whole-buffer)
-               ([(super c)] . kill-ring-save)
-               ([(super l)] . goto-line)
-               ([(super q)] . save-buffers-kill-emacs)
-               ([(super s)] . save-buffer)
-               ([(super v)] . yank)
-               ([(super w)] . delete-frame)
-               ([(super z)] . undo))))
-
+    (w32-register-hot-key [s-t])
+   )
   ;; Optimization
   (when sys/win32p
     (setq w32-get-true-file-attributes nil   ; decrease file IO workload
@@ -204,10 +191,9 @@
                       (tty (list (aref val 4) 'face 'font-lock-doc-face))
                       (thread (list (aref val 5) 'face 'font-lock-doc-face))
                       (cmd (list (aref val (if emacs/>=27p 6 5)) 'face 'completions-annotations)))
-            (push (list p (if emacs/>=27p
-                              (vector icon name pid status buf-label tty thread cmd)
-                            (vector icon name pid status buf-label tty cmd)))
-		  tabulated-list-entries)))))
+            (push (list
+                   (vector icon name pid status buf-label tty cmd))
+		          tabulated-list-entries)))))
     (advice-add #'list-processes--refresh :after #'my-list-processes--prettify)))
 
 (use-package time

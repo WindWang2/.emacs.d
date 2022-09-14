@@ -261,7 +261,7 @@
     '(("Cascadia Mono" . 11) ("SF Mono" . 11) ("Source Code Pro" . 12)))
    ;; '(("Source Code Pro" . 11)))
    (t
-    '(("SF Mono" . 11) ("Consolas" . 12) ("Cascadia Mono" . 11))))
+    '(("Source Code Pro" . 11) ("Source Han Serif CN" . 12) ("DejaVu Sans Mono" . 11))))
   "List of fonts and sizes.  The first one available will be used.")
 
 ;; Set default font before frame creation to make sure the first frame have the correct size
