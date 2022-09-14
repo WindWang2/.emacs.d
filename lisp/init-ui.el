@@ -85,13 +85,7 @@
 
 ;; Good pixel line scrolling
 (if (fboundp 'pixel-scroll-precision-mode)
-    (pixel-scroll-precision-mode t)
-  (when (and emacs/>=27p (not sys/macp))
-    (use-package good-scroll
-      :diminish
-      :hook (after-init . good-scroll-mode)
-      :bind (([remap next] . good-scroll-up-full-screen)
-             ([remap prior] . good-scroll-down-full-screen)))))
+    (pixel-scroll-precision-mode t))
 (use-package page-break-lines
   :diminish
   :hook (after-init . global-page-break-lines-mode))
