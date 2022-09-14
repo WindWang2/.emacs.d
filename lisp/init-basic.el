@@ -190,7 +190,7 @@
                       (buf-label (aref val 3))
                       (tty (list (aref val 4) 'face 'font-lock-doc-face))
                       (thread (list (aref val 5) 'face 'font-lock-doc-face))
-                      (cmd (list (aref val 6) 'face 'completions-annotations)))
+                      (cmd (list (aref val (if t 6 5)) 'face 'completions-annotations)))
             (push (list
                    (vector icon name pid status buf-label tty cmd))
 		          tabulated-list-entries)))))

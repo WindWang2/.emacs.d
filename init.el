@@ -1,5 +1,5 @@
 ;; -*- lexical-binding: t -*-
-;; (setq debug-on-error 1)
+(setq debug-on-error 1)
 (setq warning-minimum-level :error)
 (setq native-comp-async-report-warnings-errors nil)
 (cond
