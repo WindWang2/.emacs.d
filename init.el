@@ -1,5 +1,5 @@
 ;; -*- lexical-binding: t -*-
-(setq debug-on-error 1)
+;; (setq debug-on-error 1)
 (setq warning-minimum-level :error)
 (setq native-comp-async-report-warnings-errors nil)
 (cond
@@ -85,4 +85,5 @@
 (require 'init-vcs)
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load-theme 'doom-solarized-light 'no-confirm)
+;; (load-theme 'doom-solarized-light 'no-confirm)
+;; (load-theme 'default 'no-confirm)
