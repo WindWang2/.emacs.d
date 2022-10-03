@@ -758,6 +758,7 @@ tasks."
 (use-package org-roam-bibtex
   :defer t
   :after org-roam
+  :diminish org-roam-bibtex-mode
   :init
   (org-roam-bibtex-mode 1)
   :custom
@@ -796,6 +797,7 @@ tasks."
 (use-package citar-embark
   :after citar embark
   :no-require
+  :diminish citar-embark-mode
   :config (citar-embark-mode))
 
 ;; Consult users will also want the embark-consult package.

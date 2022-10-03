@@ -494,6 +494,7 @@ Lisp function does not specify a special indentation."
 (use-package markdown-mode
   :defer t)
 (use-package lsp-bridge
+  :diminish lsp-bridge-mode
   :ensure nil
   :defer 2
   :bind (:map lsp-bridge-mode
@@ -510,7 +511,7 @@ Lisp function does not specify a special indentation."
     (cond
      ((eq major-mode 'emacs-lisp-mode)
       (let ((symb (function-called-at-point)))
-	(when symb
+	    (when symb
           (find-function symb))))
      (lsp-bridge-mode
       (lsp-bridge-find-def))
