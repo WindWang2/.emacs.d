@@ -29,7 +29,14 @@
 ;;
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+
+(use-package cnfonts
+  :ensure t
+  :config
+  (cnfonts-enable))
+
 (use-package all-the-icons
+  :after cnfonts
   :if (display-graphic-p))
 
 (defun icon-displayable-p ()
@@ -56,6 +63,19 @@
       :custom-face (linum-highlight-face ((t (:inherit default :background nil :foreground nil))))
       :hook (global-linum-mode . hlinum-activate)
       :init (setq linum-highlight-in-all-buffersp t))))
+
+;; doom modeline
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode)
+  :init
+  (setq doom-modeline-icon t
+        doom-modeline-height 1
+        doom-modeline-minor-modes t)
+  (unless after-init-time
+    (setq-default mode-line-format nil))
+
+  :config
+  (doom-modeline-mode))
 
 ;; Suppress GUI features
 (setq use-file-dialog nil
