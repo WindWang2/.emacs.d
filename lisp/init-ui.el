@@ -30,10 +30,10 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-(use-package cnfonts
-  :ensure t
-  :config
-  (cnfonts-enable))
+;; (use-package cnfonts
+;;   :ensure t
+;;   :config
+;;   (cnfonts-enable))
 
 (use-package all-the-icons
   :after cnfonts
@@ -70,12 +70,17 @@
   :init
   (setq doom-modeline-icon t
         doom-modeline-height 1
+        doom-modeline-buffer-file-name-style 'auto
         doom-modeline-minor-modes t)
   (unless after-init-time
     (setq-default mode-line-format nil))
 
   :config
-  (doom-modeline-mode))
+  (setq all-the-icons-scale-factor 1.0)
+  (set-face-attribute 'mode-line nil :height 100)
+  (set-face-attribute 'mode-line-inactive nil :height 100)
+  (doom-modeline-mode)
+  )
 
 ;; Suppress GUI features
 (setq use-file-dialog nil
@@ -136,9 +141,9 @@
 (defvar font-list
   (cond
    ((eq system-type 'darwin)
-    '(("SF Mono" . 13) ("Monaco" . 13) ("Menlo" . 13)))
+    '(("SF Mono" . 11) ("Monaco" . 11) ("Menlo" . 11)))
    ((eq system-type 'windows-nt)
-    '(("Cascadia Mono" . 11) ("SF Mono" . 11) ("Source Code Pro" . 12)))
+    '(("Consolas" . 11) ("Cascadia Mono" . 11) ("Source Code Pro" . 11)))
    ;; '(("Source Code Pro" . 11)))
    (t
     '(("Source Code Pro" . 11) ("Source Han Serif CN" . 12) ("DejaVu Sans Mono" . 11))))
@@ -172,7 +177,7 @@
 (defun change-unicode-font ()
   "Setup the Unicode font."
   (when (display-graphic-p)
-    (cl-loop for font in '("Microsoft Yahei" "PingFang SC" "Noto Sans Mono CJK SC")
+    (cl-loop for font in '("明兰_Mono" "PingFang SC" "Noto Sans Mono CJK SC")
              when (font-installed-p font)
              return (dolist (charset '(kana han hangul cjk-misc bopomofo))
                       (set-fontset-font t charset font)))
