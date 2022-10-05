@@ -85,5 +85,3 @@
 (require 'init-vcs)
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-;; (load-theme 'doom-solarized-light 'no-confirm)
-;; (load-theme 'default 'no-confirm)

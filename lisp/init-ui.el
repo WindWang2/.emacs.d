@@ -35,6 +35,13 @@
 ;;   :config
 ;;   (cnfonts-enable))
 
+(use-package ef-themes
+  :ensure t
+  :config
+  ;; (load-theme 'ef-duo-light 'no-confirm)
+  (ef-themes-select 'ef-duo-light)
+  ;; (load-theme 'default 'no-confirm)
+  )
 (use-package all-the-icons
   :after cnfonts
   :if (display-graphic-p))
