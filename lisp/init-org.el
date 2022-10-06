@@ -914,11 +914,22 @@ the \"file\" field is empty, return the empty string."
     "Create timestamp for the Org mode note."
     (format "%s" (with-temp-buffer (org-insert-time-stamp nil)))))
 
+;; (setq org-latex-pdf-process
+;;       '("xelatex -interaction nonstopmode -disable-write18 -shell-escape -output-directory %o %f"
+;;         "biber --output-directory %o $(basename %f .tex)"
+;;         "xelatex -interaction nonstopmode -disable-write18 -shell-escape -output-directory %o %f"
+;;         "xelatex -interaction nonstopmode -disable-write18 -shell-escape -output-directory %o %f")
+;;       )
+;; ;;
+;; ref: https://www.skfwe.cn/p/org-%E9%80%9A%E8%BF%87latex%E5%AF%BC%E5%87%BA-pdf/
 (setq org-latex-pdf-process
-      '("xelatex -interaction nonstopmode -output-directory %o %f"
-        "biber --output-directory %o $(basename %f .tex)"
-        "xelatex -interaction nonstopmode -output-directory %o %f"
-        "xelatex -interaction nonstopmode -output-directory %o %f")
-      )
+      '("xelatex -shell-escape -interaction nonstopmode -disable-write18 -output-directory %o %f"
+        "xelatex -shell-escape -interaction nonstopmode -disable-write18 -output-directory %o %f"
+        "xelatex -shell-escape -interaction nonstopmode -disable-write18 -output-directory %o %f"))
+(setq org-latex-listings 'minted)
+(setq org-latex-packages-alist '(("" "minted")))
+(setq org-latex-minted-options '(("breaklines" "true")
+                                 ("breakanywhere" "true")))
+
 
 (provide 'init-org)

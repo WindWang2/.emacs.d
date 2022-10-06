@@ -529,4 +529,5 @@ Lisp function does not specify a special indentation."
       (dump-jump-back))))
   )
 
+(use-package pangu-spacing)
 (provide 'init-edit)
