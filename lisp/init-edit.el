@@ -502,8 +502,9 @@ Lisp function does not specify a special indentation."
          ("C-M-p" . lsp-bridge-popup-documentation-scroll-down) ;向上滚动文档
          )
   :load-path "~/github/lsp-bridge"
+  ;; :init
+  ;; (setq lsp-bridge-lookup-doc-tooltip-font-height 110)
   :config
-  ;; (setq lsp-bridge-python-command "/Users/albert/.virtualenvs/pandas/bin/python")
   (global-lsp-bridge-mode)
   ;; (setq lsp-bridge-enable-log t)
   (defun lsp-bridge-jump ()
