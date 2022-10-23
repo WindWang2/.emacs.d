@@ -702,12 +702,8 @@ tasks."
 		        "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
 		        "\\)")))
 ;; Roam
-(use-package emacsql-sqlite-builtin :ensure t
-  :init
-  (use-package emacsql)
-  (use-package emacsql-sqlite)
+
 (use-package org-roam
-  :defer t
   :diminish
   :hook (after-init . org-roam-db-autosync-enable)
   :bind (("C-c n l" . org-roam-buffer-toggle)
@@ -723,14 +719,11 @@ tasks."
   (unless (file-exists-p org-roam-directory)
     (make-directory org-roam-directory))
   (org-roam-db-autosync-enable)
-
   (use-package org-roam-ui
     :init
     (when (featurep 'xwidget-internal)
       (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url)))
-
   :custom
-
   (org-roam-database-connector 'sqlite-builtin)
   (org-roam-db-gc-threshold most-positive-fixnum)
   (org-roam-capture-templates '(("d" "default" plain "%?" :target
@@ -754,6 +747,7 @@ tasks."
 
         (citar-run-default-action oc-cites)))))
 
+
 ;; 8. paper
 ;; config the org-roam-bibtex
 (use-package org-ref
@@ -770,6 +764,8 @@ tasks."
   :config
   (require 'org-ref)) ; optional: if using Org-ref v2 or v3 citation links
 
+(use-package emacsql-sqlite-builtin
+  :after org-roam)
 
 (use-package bibtex
   :defer t

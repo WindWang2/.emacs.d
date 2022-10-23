@@ -28,8 +28,12 @@
 ;; packages.
 ;;
 (require 'subr-x)
-(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+;; (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+;; 			 ("nongnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/"
+;;                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/"))))
+(setq package-archives '(("gnu"   . "http://elpa.gnu.org/packages/")
+			 ("nongnu" . "http://elpa.nongnu.org/nongnu/")
+                         ("melpa" . "http://melpa.org/packages/")))
 (package-install 'use-package-ensure-system-package)
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
