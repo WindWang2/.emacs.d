@@ -702,7 +702,10 @@ tasks."
 		        "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
 		        "\\)")))
 ;; Roam
-(use-package emacsql-sqlite-builtin)
+(use-package emacsql-sqlite-builtin :ensure t
+  :init
+  (use-package emacsql)
+  (use-package emacsql-sqlite)
 (use-package org-roam
   :defer t
   :diminish
@@ -727,6 +730,7 @@ tasks."
       (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url)))
 
   :custom
+
   (org-roam-database-connector 'sqlite-builtin)
   (org-roam-db-gc-threshold most-positive-fixnum)
   (org-roam-capture-templates '(("d" "default" plain "%?" :target
