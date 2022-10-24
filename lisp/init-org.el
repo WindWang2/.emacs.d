@@ -215,7 +215,9 @@ If the function sets CREATED, it returns its value."
                                    (:endgroup))
 
         ;; Agenda styling
-        org-agenda-files `(,own-org-directory)
+        ;; org-agenda-files (directory-files-recursively own-org-directory "\\.org$")
+        org-agenda-files (seq-filter (lambda(x) (not (string-match "/Archive/"(file-name-directory x))))
+                                     (directory-files-recursively own-org-directory "\\.org$"))
         org-archive-location "%s.archive::"
         org-agenda-block-separator ?─
         org-agenda-time-grid
@@ -764,6 +766,7 @@ tasks."
             "\\\|common"
             "\\|daily"
             "\\|archive_notes"
+            "\\|archive"
             "\\|auto"
             "\\|_minted.*"
             "\\)$"))
@@ -857,7 +860,7 @@ tasks."
   :config
   (setq bibtex-file-path (concat own-org-directory "references/")
         bibtex-files '("NSF_Fund.bib")
-        bibtex-notes-path (concat own-org-directory "references/notes")
+        bibtex-notes-path (concat own-org-directory "paper_notes")
         bibtex-align-at-equal-sign t
         bibtex-autokey-titleword-separator "-"
         bibtex-autokey-year-title-separator "-"
@@ -911,7 +914,7 @@ tasks."
   (setq org-cite-insert-processor 'citar
         org-cite-follow-processor 'citar
         org-cite-activate-processor 'citar
-        citar-citeproc-csl-styles-dir (concat own-org-directory "references/")
+        citar-citeproc-csl-styles-dir (concat own-org-directory "references/csl_files")
         citar-citeproc-csl-locales-dir (concat own-org-directory "references/locals")
         bibtex-file-path (concat own-org-directory "references/")
         citar-format-reference-function #'citar-citeproc-format-reference
@@ -919,13 +922,12 @@ tasks."
   :config
   (setq citar-at-point-function 'embark-act
         citar-bibliography (mapcar (lambda (file) (concat bibtex-file-path file)) bibtex-files)
-        citar-library-paths `(,(concat bibtex-file-path "papers/"))
+        citar-library-paths `(,(concat bibtex-file-path "PDFs/"))
         citar-notes-paths `(,bibtex-notes-path)))
 ;; ref: https://github.com/bdarcus/citar/issues/531
 
 
 (use-package ebib
-  :defer t
   ;; :commands ebib-zotero-protocol-handler
   :init
   ;; (with-eval-after-load 'org-protocol
@@ -941,23 +943,28 @@ tasks."
   (ebib-uniquify-keys t)
   (ebib-bibtex-dialect 'biblatex)
   (ebib-index-window-size 10)
-  (ebib-file-search-dirs `(,(concat bibtex-file-path "papers")))
-  (ebib-reading-list-file (concat bibtex-file-path "../reading_list.org"))
+  (ebib-file-search-dirs `(,(concat bibtex-file-path "PDFs")))
+  (ebib-reading-list-file (concat bibtex-file-path "../project/reading_list.org"))
+  (ebib-reading-list-template "* %M %T\n:PROPERTIES:\n%K%N\n:END:\n\n")
   (ebib-keywords-field-keep-sorted t)
+  (ebib-keywords-save-on-exit 'always)
   (ebib-use-timestamp t)
   (ebib-filters-default-file (concat bibtex-file-path "ebib-filters"))
   (ebib-file-associations '(("pdf")))
-  (ebib-index-columns '(("Entry Key" 20 t)
+  (ebib-index-columns '(("Entry Key" 15 t)
 			            ("Author/Editor" 40 nil)
 			            ("Year" 6 t)
 			            ("Title" 50 t)))
-  (ebib-notes-storage 'multiple-notes-per-file)
+  (ebib-notes-storage 'one-file-per-note)
   (ebib-index-default-sort '("timestamp" . descend))
   :config
-  (setq ebib-notes-template "* %T\n:PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n%%?\n[cite:@%k]\nDate: %S\n"
-        ebib-notes-default-file (concat bibtex-file-path "../Ref_notes.org")
+  (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Coments \n\n* Highlights\n%%?"
+        ebib-notes-directory (concat bibtex-file-path "../paper_notes")
+        ebib-notes-locations `(,(concat bibtex-file-path "../paper_notes"))
+        ;; ebib-notes-default-file (concat bibtex-file-path "../paper_notes/notes.org")
         ebib-keywords (concat bibtex-file-path "keywords.txt")
         ebib-preload-bib-files `(,(concat bibtex-file-path "NSF_Fund.bib"))
+        ebib-file-search-dirs `(,(concat bibtex-file-path "bibs"))
         ebib-notes-template-specifiers '((?k . ebib-create-key)
                                          (?i . ebib-create-id)
                                          (?K . ebib-create-org-identifier)
