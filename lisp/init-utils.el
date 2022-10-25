@@ -549,9 +549,6 @@
     ;; 参考 https://github.com/DogLooksGood/emacs-rime/issues/161
     (add-hook 'kill-emacs-hook #'(lambda () (if (fboundp 'rime-lib-finalize)
                                                 (rime-lib-finalize))))
-    (when (eq system-type 'windows-nt)
-      (setq rime-librime-root "C:/msys64/mingw64/bin")
-      )
     (defun my/rime-predicate-punctuation-next-char-is-paired-p ()
       (if (not (eq (point) (point-max)))
           (and (rime-predicate-current-input-punctuation-p)
