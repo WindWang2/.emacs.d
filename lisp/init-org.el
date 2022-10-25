@@ -767,6 +767,7 @@ tasks."
             "\\|daily"
             "\\|archive_notes"
             "\\|archive"
+            "\\|collections"
             "\\|auto"
             "\\|paper_notes"
             "\\|_minted.*"
@@ -827,6 +828,11 @@ tasks."
   (org-roam-db-gc-threshold most-positive-fixnum)
   (org-roam-capture-templates '(("d" "default" plain "%?" :target
                                  (file+head "%<%Y>-${slug}.org" "#+title: ${title}\n")
+                                 :imediate-finish t
+                                 :unnarrowed t)
+                                ("k" "knowledge" plain "%?" :target
+                                 (file+head "collections/${title}.org" "#+title: ${title}\n")
+                                 :imediate-finish t
                                  :unnarrowed t)))
   (defun org-roam-open-refs ()
     "Open REFs of the node at point."
@@ -932,6 +938,11 @@ tasks."
         bibtex-file-path (concat own-org-directory "references/")
         citar-format-reference-function #'citar-citeproc-format-reference
         citar-file-open-prompt nil)
+  (setq citar-templates
+        '((main . "${author editor:30}     ${date year issued:4}     ${title:48}")
+          (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags keywords:*}")
+          (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
+          (note . "Scholar: ${title}")))
   :config
   (setq citar-at-point-function 'embark-act
         citar-bibliography (mapcar (lambda (file) (concat bibtex-file-path file)) bibtex-files)
@@ -977,8 +988,9 @@ tasks."
                                                 (?F . ebib-create-org-file-link)
                                                 (?D . ebib-create-org-doi-link)
                                                 (?U . ebib-create-org-url-link)
+                                                (?k . ebib-create-key)
                                                 (?i . ebib-create-id))
-        ebib-reading-list-template "* %M %T\n:PROPERTIES:\n%K\n:ID: %i\n:END:\n\n"
+        ebib-reading-list-template "* %M %T\n:PROPERTIES:\n%K\n:ID: %i\n:END:\n[cite:@%k]\n"
         ebib-notes-directory (concat bibtex-file-path "../paper_notes")
         ebib-notes-locations `(,(concat bibtex-file-path "../paper_notes"))
         ;; ebib-notes-default-file (concat bibtex-file-path "../paper_notes/notes.org")
