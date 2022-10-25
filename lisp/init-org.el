@@ -857,19 +857,22 @@ tasks."
 
 ;; 8. paper
 ;; config the org-roam-bibtex
-(use-package org-ref
-  :defer t
-  :after org)
-(use-package org-roam-bibtex
-  :defer t
-  :after org-roam
-  :diminish org-roam-bibtex-mode
-  :init
-  (org-roam-bibtex-mode 1)
-  :custom
-  (orb-note-actions-interface 'default)
+;; (use-package org-roam-bibtex
+;;   :defer t
+;;   :after org-roam
+;;   :diminish org-roam-bibtex-mode
+;;   :init
+;;   (org-roam-bibtex-mode 1)
+;;   :config
+;;   (setq orb-roam-ref-format 'org-cite))
+
+(use-package citar-org-roam
+  :after citar org-roam
+  :no-require
   :config
-  (require 'org-ref)) ; optional: if using Org-ref v2 or v3 citation links
+  (citar-org-roam-mode)
+  (setq citar-org-roam-note-title-template "Scholar: ${title}")
+  (citar-org-roam-setup))
 
 (use-package emacsql-sqlite-builtin
   :after org-roam)
@@ -947,7 +950,9 @@ tasks."
   (setq citar-at-point-function 'embark-act
         citar-bibliography (mapcar (lambda (file) (concat bibtex-file-path file)) bibtex-files)
         citar-library-paths `(,(concat bibtex-file-path "PDFs/"))
-        citar-notes-paths `(,bibtex-notes-path)))
+        citar-notes-paths `(,bibtex-notes-path))
+
+  )
 ;; ref: https://github.com/bdarcus/citar/issues/531
 
 
