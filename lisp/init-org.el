@@ -172,9 +172,9 @@ If the function sets CREATED, it returns its value."
   (setq org-modules nil                 ; Faster loading
         org-directory own-org-directory
         org-capture-templates
-        `(("i" "Idea" entry (file ,(concat own-org-directory "/idea.org"))
+        `(("i" "Idea" entry (file ,(concat own-org-directory "/tasks/idea.org"))
            "*  %^{Title} %?\n%U\n%a\n")
-          ("t" "Todo" entry (file ,(concat own-org-directory "/inbox.org"))
+          ("t" "Todo" entry (file ,(concat own-org-directory "/tasks/inbox.org"))
            "* TODO %?\n%a\n" :add-created t)
           )
         org-todo-keywords
@@ -768,6 +768,7 @@ tasks."
             "\\|archive_notes"
             "\\|archive"
             "\\|auto"
+            "\\|paper_notes"
             "\\|_minted.*"
             "\\)$"))
   :config
@@ -802,8 +803,17 @@ tasks."
          ("C-c n j" . org-roam-dailies-capture-today))
   :init
   (setq org-roam-directory (file-truename own-org-directory))
+
   ;; (setq org-roam-v2-ack t)
   :config
+  (cl-defmethod org-roam-node-type ((node org-roam-node))
+    "Return the TYPE of NODE."
+    (condition-case nil
+        (file-name-nondirectory
+         (directory-file-name
+          (file-name-directory
+           (file-relative-name (org-roam-node-file node) org-roam-directory))))
+      (error "")))
   (unless (file-exists-p org-roam-directory)
     (make-directory org-roam-directory))
   (org-roam-db-autosync-enable)
@@ -811,6 +821,7 @@ tasks."
     :init
     (when (featurep 'xwidget-internal)
       (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url)))
+
   :custom
   (org-roam-database-connector 'sqlite-builtin)
   (org-roam-db-gc-threshold most-positive-fixnum)
@@ -832,8 +843,10 @@ tasks."
                     (lambda (ref) (substring ref 1))
                     (seq-filter (apply-partially #'string-prefix-p "@") refs)))
                   (user-error "No ROAM_REFS found"))
+        (citar-run-default-action oc-cites))))
 
-        (citar-run-default-action oc-cites)))))
+  (org-roam-node-display-template
+   (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag))))
 
 
 ;; 8. paper
@@ -944,7 +957,7 @@ tasks."
   (ebib-bibtex-dialect 'biblatex)
   (ebib-index-window-size 10)
   (ebib-file-search-dirs `(,(concat bibtex-file-path "PDFs")))
-  (ebib-reading-list-file (concat bibtex-file-path "../project/reading_list.org"))
+  (ebib-reading-list-file (concat bibtex-file-path "../paper_notes/reading_list.org"))
   (ebib-reading-list-template "* %M %T\n:PROPERTIES:\n%K%N\n:END:\n\n")
   (ebib-keywords-field-keep-sorted t)
   (ebib-keywords-save-on-exit 'always)
