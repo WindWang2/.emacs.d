@@ -872,6 +872,7 @@ tasks."
   :config
   (citar-org-roam-mode)
   (setq citar-org-roam-note-title-template "Scholar: ${title}")
+  (setq citar-org-roam-subdir "paper_notes")
   (citar-org-roam-setup))
 
 (use-package emacsql-sqlite-builtin
