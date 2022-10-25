@@ -958,7 +958,6 @@ tasks."
   (ebib-index-window-size 10)
   (ebib-file-search-dirs `(,(concat bibtex-file-path "PDFs")))
   (ebib-reading-list-file (concat bibtex-file-path "../paper_notes/reading_list.org"))
-  (ebib-reading-list-template "* %M %T\n:PROPERTIES:\n%K%N\n:END:\n\n")
   (ebib-keywords-field-keep-sorted t)
   (ebib-keywords-save-on-exit 'always)
   (ebib-use-timestamp t)
@@ -972,6 +971,15 @@ tasks."
   (ebib-index-default-sort '("timestamp" . descend))
   :config
   (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Coments \n\n* Highlights\n%%?"
+        ebib-reading-list-template-specifiers '((?K . ebib-reading-list-create-org-identifier)
+                                                (?T . ebib-create-org-title)
+                                                (?M . ebib-reading-list-todo-marker)
+                                                (?L . ebib-create-org-link)
+                                                (?F . ebib-create-org-file-link)
+                                                (?D . ebib-create-org-doi-link)
+                                                (?U . ebib-create-org-url-link)
+                                                (?i . ebib-create-id))
+        ebib-reading-list-template "* %M %T\n:PROPERTIES:\n%K\n:ID: %i\n:END:\n\n"
         ebib-notes-directory (concat bibtex-file-path "../paper_notes")
         ebib-notes-locations `(,(concat bibtex-file-path "../paper_notes"))
         ;; ebib-notes-default-file (concat bibtex-file-path "../paper_notes/notes.org")
