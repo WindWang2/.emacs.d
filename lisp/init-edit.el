@@ -129,6 +129,7 @@
               ispell-program-name "aspell"
               ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together"))
   :config
+  (add-hook 'org-mode-hook (lambda () (flyspell-mode -1)))
   ;; Correcting words with flyspell via Ivy
   ;; (use-package flyspell-correct-ivy
   ;;   :after ivy
