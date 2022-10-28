@@ -1061,6 +1061,7 @@ the \"file\" field is empty, return the empty string."
 (setq org-latex-packages-alist '(("" "minted")))
 (setq org-latex-minted-options '(("breaklines" "true")
                                  ("breakanywhere" "true")))
+(setq org-preview-latex-default-process 'dvisvgm)
 
 
 (provide 'init-org)
