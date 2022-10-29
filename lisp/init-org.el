@@ -1062,7 +1062,7 @@ the \"file\" field is empty, return the empty string."
 (setq org-latex-minted-options '(("breaklines" "true")
                                  ("breakanywhere" "true")))
 
-;; for latex preview process  ----------------------------------------------------------
+;; for latex preview process  ---------------------------------------------------------- <2022-10-29 周六>
 ;; ref: https://emacs-china.org/t/org-latex-preview/22288/8
 (setq org-preview-latex-process-alist
       '((dvisvgm :programs
