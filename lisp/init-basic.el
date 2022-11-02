@@ -163,42 +163,37 @@
     (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
 
   ;; Prettify the process list
-  (with-no-warnings
-    (add-hook 'process-menu-mode-hook
-              (lambda ()
-                (setq tabulated-list-format
-                      (vconcat `(("" ,(if (icon-displayable-p) 2 0)))
-                               tabulated-list-format))))
+  ;; (with-no-warnings
+  ;;   (add-hook 'process-menu-mode-hook
+  ;;             (lambda ()
+  ;;               (setq tabulated-list-format
+  ;;                     (vconcat `(("" ,(if (icon-displayable-p) 2 0)))
+  ;;                              tabulated-list-format))))
 
-    (defun my-list-processes--prettify ()
-      "Prettify process list."
-      (when-let ((entries tabulated-list-entries))
-        (setq tabulated-list-entries nil)
-        (dolist (p (process-list))
-          (when-let* ((val (cadr (assoc p entries)))
-                      (icon (if (icon-displayable-p)
-                                (concat
-                                 " "
-                                 (all-the-icons-faicon "bolt"
-                                                       :height 1.0 :v-adjust -0.05
-                                                       :face 'all-the-icons-lblue))
-                              " x"))
-                      (name (aref val 0))
-                      (pid (aref val 1))
-                      (status (aref val 2))
-                      (status (list status
-                                    'face
-                                    (if (memq status '(stop exit closed failed))
-                                        'error
-                                      'success)))
-                      (buf-label (aref val 3))
-                      (tty (list (aref val 4) 'face 'font-lock-doc-face))
-                      (thread (list (aref val 5) 'face 'font-lock-doc-face))
-                      (cmd (list (aref val (if t 6 5)) 'face 'completions-annotations)))
-            (push (list
-                   (vector icon name pid status buf-label tty cmd))
-		          tabulated-list-entries)))))
-    (advice-add #'list-processes--refresh :after #'my-list-processes--prettify)))
+  ;;   (defun my-list-processes--prettify ()
+  ;;     "Prettify process list."
+  ;;     (when-let ((entries tabulated-list-entries))
+  ;;       (setq tabulated-list-entries nil)
+  ;;       (dolist (p (process-list))
+  ;;         (when-let* ((val (cadr (assoc p entries)))
+  ;;                     (icon "x")
+  ;;                     (name (aref val 0))
+  ;;                     (pid (aref val 1))
+  ;;                     (status (aref val 2))
+  ;;                     (status (list status
+  ;;                                   'face
+  ;;                                   (if (memq status '(stop exit closed failed))
+  ;;                                       'error
+  ;;                                     'success)))
+  ;;                     (buf-label (aref val 3))
+  ;;                     (tty (list (aref val 4) 'face 'font-lock-doc-face))
+  ;;                     (thread (list (aref val 5) 'face 'font-lock-doc-face))
+  ;;                     (cmd (list (aref val (if t 6 5)) 'face 'completions-annotations)))
+  ;;           (push (list
+  ;;                  (vector icon name pid status buf-label tty cmd))
+  ;;   	          tabulated-list-entries)))))
+  ;;   (advice-add #'list-processes--refresh :after #'my-list-processes--prettify))
+  )
 
 (use-package time
   :ensure nil
