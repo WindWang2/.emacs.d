@@ -1068,7 +1068,7 @@ the \"file\" field is empty, return the empty string."
       '((dvisvgm :programs
           ("latex" "dvisvgm")
           :description "dvi > svg" :message "you need to install the programs: latex and dvisvgm." :image-input-type "dvi" :image-output-type "svg" :image-size-adjust
-          (1.2 . 1.0)
+          (1.0 . 1.0)
           :latex-compiler
           ("latex -interaction nonstopmode -shell-escape -output-directory %o %f")
           :image-converter
@@ -1078,6 +1078,8 @@ the \"file\" field is empty, return the empty string."
   "Setup dedicated `org-format-latex-header' to `my/org--match-text-baseline-ascent'."
   (let ((org-format-latex-header
          "\\documentclass[preview]{standalone}
+\usepackage{amsmath}
+\\usepackage{unicode-math}
 \\usepackage[usenames]{color}
 [PACKAGES]
 [DEFAULT-PACKAGES]"))
