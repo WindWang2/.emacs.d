@@ -986,7 +986,7 @@ tasks."
   (ebib-notes-storage 'one-file-per-note)
   (ebib-index-default-sort '("timestamp" . descend))
   :config
-  (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Coments \n\n* Highlights\n%%?"
+  (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Comments \n\n* Highlights\n%%?"
         ebib-reading-list-template-specifiers '((?K . ebib-reading-list-create-org-identifier)
                                                 (?T . ebib-create-org-title)
                                                 (?M . ebib-reading-list-todo-marker)
@@ -1078,8 +1078,7 @@ the \"file\" field is empty, return the empty string."
   "Setup dedicated `org-format-latex-header' to `my/org--match-text-baseline-ascent'."
   (let ((org-format-latex-header
          "\\documentclass[preview]{standalone}
-\usepackage{amsmath}
-\\usepackage{unicode-math}
+\\usepackage{dsfont}
 \\usepackage[usenames]{color}
 [PACKAGES]
 [DEFAULT-PACKAGES]"))
