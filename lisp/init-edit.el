@@ -531,5 +531,10 @@ Lisp function does not specify a special indentation."
       (dump-jump-back))))
   )
 
+(use-package blink-search
+  :ensure nil
+  :load-path "~/github/blink-search"
+  )
+
 (use-package pangu-spacing)
 (provide 'init-edit)
