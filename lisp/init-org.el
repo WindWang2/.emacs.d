@@ -986,7 +986,7 @@ tasks."
   (ebib-notes-storage 'one-file-per-note)
   (ebib-index-default-sort '("timestamp" . descend))
   :config
-  (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:END:\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Comments \n\n* Details \n\n* Highlights\n%%?"
+  (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Comments \n\n* Details \n\n* Highlights\n%%?"
         ebib-reading-list-template-specifiers '((?K . ebib-reading-list-create-org-identifier)
                                                 (?T . ebib-create-org-title)
                                                 (?M . ebib-reading-list-todo-marker)
@@ -1002,8 +1002,8 @@ tasks."
         ;; ebib-notes-default-file (concat bibtex-file-path "../paper_notes/notes.org")
         ebib-keywords (concat bibtex-file-path "keywords.txt")
         ebib-preload-bib-files `(,(concat bibtex-file-path "NSF_Fund.bib"))
-        ebib-file-search-dirs (list (concat bibtex-file-path "bibs")
-                                    (concat bibtex-file-path "PDFs"))
+        ebib-file-search-dirs (list (concat bibtex-file-path "PDFs")
+                                    (concat bibtex-file-path "bibs"))
         ebib-notes-template-specifiers '((?k . ebib-create-key)
                                          (?i . ebib-create-id)
                                          (?K . ebib-create-org-identifier)
