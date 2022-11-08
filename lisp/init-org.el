@@ -234,8 +234,9 @@ If the function sets CREATED, it returns its value."
         org-ellipsis (if (char-displayable-p ?⏷) "\t⏷" nil)
         org-pretty-entities nil
         org-hide-emphasis-markers t
-        org-refile-files (append (file-expand-wildcards (concat own-org-directory "/*.org"))
-                                 (file-expand-wildcards (concat own-org-directory "/daily/*.org")))
+        org-refile-files (append (file-expand-wildcards (concat own-org-directory "notes/*.org"))
+                                 (file-expand-wildcards (concat own-org-directory "tasks/*.org"))
+                                 (file-expand-wildcards (concat own-org-directory "project/*.org")))
         org-refile-targets
         '((org-refile-files . (:maxlevel . 2))
           (nil . (:level . 1)))
