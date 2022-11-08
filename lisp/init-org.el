@@ -1114,7 +1114,4 @@ as a string.  It defaults to \"png\"."
 		           'display
 		           (list 'image :type imagetype :file image :ascent ascent)))))
 
-
-
-
 (provide 'init-org)
