@@ -1013,6 +1013,17 @@ tasks."
                                          (?L . ebib-create-org-link)
                                          (?F . ebib-create-org-file-name)
                                          (?S . ebib-create-org-time-stamp)))
+
+  ;; Rename of ~ebib-import-file~, Ref: https://mtino1594.hatenablog.com/entry/2019/02/04/230032
+  (defun my/ebib-name-transform-function (key)
+    "Serach file"
+    (format "%s_%s_%s"
+            (ebib-get-year-for-display key ebib--cur-db)
+            (replace-regexp-in-string ":" "" key)
+            (replace-regexp-in-string " " "_" (ebib-create-org-title key ebib--cur-db))))
+
+  (setq ebib-name-transform-function #'my/ebib-name-transform-function)
+
   (defun ebib-create-org-file-name (key db)
     "Create an org link to the file in entry KEY in DB.
 The file is taken from the \"file\" filed in the entry designated
