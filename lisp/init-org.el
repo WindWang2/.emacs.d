@@ -1020,7 +1020,7 @@ tasks."
     (format "%s_%s_%s"
             (ebib-get-year-for-display key ebib--cur-db)
             (replace-regexp-in-string ":" "" key)
-            (replace-regexp-in-string " " "_" (ebib-create-org-title key ebib--cur-db))))
+            (replace-regexp-in-string "?" "_" (replace-regexp-in-string ":" "_" (replace-regexp-in-string " " "_" (ebib-create-org-title key ebib--cur-db))))))
 
   (setq ebib-name-transform-function #'my/ebib-name-transform-function)
 
