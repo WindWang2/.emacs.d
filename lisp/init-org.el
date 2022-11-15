@@ -987,7 +987,7 @@ tasks."
   (ebib-notes-storage 'one-file-per-note)
   (ebib-index-default-sort '("timestamp" . descend))
   :config
-  (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Comments \n\n* Details \n\n* Highlights\n%%?"
+  (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n# Local Variables: \n# org-preview-latex-image-direcotry: \"ltximg/\"\n# End:\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Comments \n\n* Details \n\n* Highlights\n%%?"
         ebib-reading-list-template-specifiers '((?K . ebib-reading-list-create-org-identifier)
                                                 (?T . ebib-create-org-title)
                                                 (?M . ebib-reading-list-todo-marker)
@@ -1070,7 +1070,15 @@ the \"file\" field is empty, return the empty string."
         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
 (setq org-latex-listings 'minted)
-(setq org-latex-packages-alist '(("" "minted")))
+
+(defvar minted-cache-dir
+  (file-name-as-directory
+   (expand-file-name ".minted/\\jombname"
+                     temporary-file-directory)))
+(add-to-list 'org-latex-packages-alist
+             `(,(concat "cachedir=" minted-cache-dir)
+               "minted" nil))
+;; (setq org-latex-packages-alist '(("" "minted")))
 (setq org-latex-minted-options '(("breaklines" "true")
                                  ("breakanywhere" "true")))
 
