@@ -858,14 +858,14 @@ tasks."
 
 ;; 8. paper
 ;; config the org-roam-bibtex
-;; (use-package org-roam-bibtex
-;;   :defer t
-;;   :after org-roam
-;;   :diminish org-roam-bibtex-mode
-;;   :init
-;;   (org-roam-bibtex-mode 1)
-;;   :config
-;;   (setq orb-roam-ref-format 'org-cite))
+(use-package org-roam-bibtex
+  :defer t
+  :after org-roam
+  :diminish org-roam-bibtex-mode
+  :init
+  (org-roam-bibtex-mode 1)
+  :config
+  (setq orb-roam-ref-format 'org-cite))
 
 (use-package citar-org-roam
   :after citar org-roam
@@ -980,8 +980,8 @@ tasks."
   (ebib-use-timestamp t)
   (ebib-filters-default-file (concat bibtex-file-path "ebib-filters"))
   (ebib-file-associations '(("pdf")))
-  (ebib-index-columns '(("Entry Key" 15 t)
-			            ("Author/Editor" 40 nil)
+  (ebib-index-columns '(("Entry Key" 20 t)
+			            ("Author/Editor" 15 nil)
 			            ("Year" 6 t)
 			            ("Title" 50 t)))
   (ebib-notes-storage 'one-file-per-note)
