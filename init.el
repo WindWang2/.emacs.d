@@ -85,3 +85,4 @@
 (require 'init-vcs)
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(put 'set-goal-column 'disabled nil)

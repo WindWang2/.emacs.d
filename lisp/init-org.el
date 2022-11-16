@@ -867,20 +867,12 @@ tasks."
   :config
   (setq orb-roam-ref-format 'org-cite))
 
-(use-package citar-org-roam
-  :after citar org-roam
-  :no-require
-  :config
-  (citar-org-roam-mode)
-  (setq citar-org-roam-note-title-template "Scholar: ${title}\n#+filetags: paper_note")
-  (setq citar-org-roam-subdir "paper_notes")
-  (citar-org-roam-setup))
+
 
 (use-package emacsql-sqlite-builtin
   :after org-roam)
 
 (use-package bibtex
-  :defer t
   :config
   (setq bibtex-file-path (concat own-org-directory "references/")
         bibtex-files '("NSF_Fund.bib")
@@ -933,7 +925,7 @@ tasks."
   )
 
 (use-package citar
-  :defer t
+  :after ebib
   :init
   (setq org-cite-insert-processor 'citar
         org-cite-follow-processor 'citar
@@ -954,9 +946,24 @@ tasks."
         citar-library-paths `(,(concat bibtex-file-path "PDFs/"))
         citar-notes-paths `(,bibtex-notes-path))
 
+  (use-package citar-org-roam
+    :after citar org-roam
+    :no-require
+    :config
+    (citar-org-roam-mode)
+    (setq citar-org-roam-note-title-template "Scholar: ${title}\n#+filetags: paper_note")
+    (setq citar-org-roam-subdir "paper_notes")
+    (defun citar-org-roam--ebib-create-note (citekey entry)
+      (ebib-popup-note citekey))
+    (setq citar-org-roam-notes-config (list :name "Org-Roam Notes ebib"
+                                            :category 'org-roam-node
+                                            :items #'citar-org-roam--get-candidates
+                                            :hasitems #'citar-org-roam-has-notes
+                                            :open #'citar-org-roam-open-note
+                                            :create #'citar-org-roam--ebib-create-note))
+    (citar-org-roam-setup))
   )
 ;; ref: https://github.com/bdarcus/citar/issues/531
-
 
 (use-package ebib
   ;; :commands ebib-zotero-protocol-handler
@@ -1015,12 +1022,15 @@ tasks."
                                          (?S . ebib-create-org-time-stamp)))
 
   ;; Rename of ~ebib-import-file~, Ref: https://mtino1594.hatenablog.com/entry/2019/02/04/230032
+
+  (defun my/get-file-name (name)
+    (if (> (length name) 50) (substring name 0 50) name))
   (defun my/ebib-name-transform-function (key)
     "Serach file"
     (format "%s_%s_%s"
             (ebib-get-year-for-display key ebib--cur-db)
-            (replace-regexp-in-string ":" "" key)
-            (replace-regexp-in-string "?" "_" (replace-regexp-in-string ":" "_" (replace-regexp-in-string " " "_" (ebib-create-org-title key ebib--cur-db))))))
+            (substring key (string-match "[A-Za-z]+" key) (match-end 0))
+            (my/get-file-name (replace-regexp-in-string "?" "_" (replace-regexp-in-string ":" "_" (replace-regexp-in-string " " "_" (ebib-create-org-title key ebib--cur-db)))))))
 
   (setq ebib-name-transform-function #'my/ebib-name-transform-function)
 
