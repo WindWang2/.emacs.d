@@ -893,13 +893,13 @@ tasks."
 
 (use-package embark
   :ensure t
+  :bind
+  (("C-." . embark-act))
   :init
-
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
 
   :config
-
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
@@ -987,7 +987,7 @@ tasks."
   (ebib-notes-storage 'one-file-per-note)
   (ebib-index-default-sort '("timestamp" . descend))
   :config
-  (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n# Local Variables: \n# org-preview-latex-image-direcotry: \"ltximg/\"\n# End:\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Comments \n\n* Details \n\n* Highlights\n%%?"
+  (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Comments \n\n* Details \n\n* Highlights\n%%?"
         ebib-reading-list-template-specifiers '((?K . ebib-reading-list-create-org-identifier)
                                                 (?T . ebib-create-org-title)
                                                 (?M . ebib-reading-list-todo-marker)
