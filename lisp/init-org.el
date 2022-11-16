@@ -216,8 +216,9 @@ If the function sets CREATED, it returns its value."
 
         ;; Agenda styling
         ;; org-agenda-files (directory-files-recursively own-org-directory "\\.org$")
-        org-agenda-files (seq-filter (lambda(x) (not (string-match "/Archive/"(file-name-directory x))))
-                                     (directory-files-recursively own-org-directory "\\.org$"))
+        ;; org-agenda-files (seq-filter (lambda(x) (not (string-match "/Archive/"(file-name-directory x))))
+        ;;                              (directory-files-recursively own-org-directory "\\.org$"))
+
         org-archive-location "%s.archive::"
         org-agenda-block-separator ?─
         org-agenda-time-grid
@@ -427,10 +428,9 @@ If the function sets CREATED, it returns its value."
                 org-tree-slide-skip-outline-level 3))
 
   (use-package vulpea
-    :defer t
     :init
     (add-to-list 'org-tags-exclude-from-inheritance "project")
-    :custom
+    :config
     (defun vulpea-project-p ()
       "Return non-nil if current buffer has any todo entry.
 TODO entries marked as done are ignored, meaning the this
@@ -872,7 +872,7 @@ tasks."
   :no-require
   :config
   (citar-org-roam-mode)
-  (setq citar-org-roam-note-title-template "Scholar: ${title}")
+  (setq citar-org-roam-note-title-template "Scholar: ${title}\n#+filetags: paper_note")
   (setq citar-org-roam-subdir "paper_notes")
   (citar-org-roam-setup))
 
@@ -987,7 +987,7 @@ tasks."
   (ebib-notes-storage 'one-file-per-note)
   (ebib-index-default-sort '("timestamp" . descend))
   :config
-  (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Comments \n\n* Details \n\n* Highlights\n%%?"
+  (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n#+filetags: paper_note\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Comments \n\n* Details \n\n* Highlights\n%%?"
         ebib-reading-list-template-specifiers '((?K . ebib-reading-list-create-org-identifier)
                                                 (?T . ebib-create-org-title)
                                                 (?M . ebib-reading-list-todo-marker)
