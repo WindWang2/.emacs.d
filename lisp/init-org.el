@@ -972,6 +972,7 @@ tasks."
   ;;   (push '("ebib-zotero" :protocol "ebib-zotero" :function ebib-zotero-protocol-handler)
   ;;         org-protocol-protocol-alist))
   (setq ebib-default-directory bibtex-file-path)
+
   :bind
   ("C-c n b" . ebib)
   :custom
@@ -1020,9 +1021,7 @@ tasks."
                                          (?L . ebib-create-org-link)
                                          (?F . ebib-create-org-file-name)
                                          (?S . ebib-create-org-time-stamp)))
-
   ;; Rename of ~ebib-import-file~, Ref: https://mtino1594.hatenablog.com/entry/2019/02/04/230032
-
   (defun my/get-file-name (name)
     (if (> (length name) 50) (substring name 0 50) name))
   (defun my/ebib-name-transform-function (key)
