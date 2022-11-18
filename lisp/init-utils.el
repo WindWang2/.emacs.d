@@ -572,7 +572,6 @@
 (use-package openwith
   :ensure t
   :init
-  :defer t
   :config
   ;; (setq openwith-associations '(("\\.pdf\\'" "open" (file))))
   (when (string-match "-[Mm]icrosoft" operating-system-release)
@@ -581,7 +580,7 @@
     )
   (when (eq system-type 'windows-nt)
     (setq openwith-associations
-          '(("\\.pdf$" "start" (file))))
+          '(("\\.pdf\\'" "C:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe" (file))))
     )
   (when sys/linuxp
     (setq openwith-associations '(("\\.pdf\\'" "evince" (file)))))

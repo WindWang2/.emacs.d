@@ -76,7 +76,12 @@
 
 (advice-add #'package-initialize :after #'update-load-path)
 (update-load-path)
-
+;; (when (eq system-type 'windows-nt)
+;;   (modify-coding-system-alist 'process "fd" '(utf-8 . chinese-gbk-dos))
+;;   (modify-coding-system-alist 'process "rg" '(utf-8 . chinese-gbk-dos))
+;;   (set-default 'process-coding-system-alist
+;;                '(("[cC][mM][dD][pP][rR][oO][xX][yY]" gbk-dos . gbk-dos)))
+;;   )
 (require 'init-basic)
 (require 'init-ui)
 (require 'init-edit)

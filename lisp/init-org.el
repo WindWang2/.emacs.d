@@ -995,6 +995,12 @@ tasks."
   (ebib-notes-storage 'one-file-per-note)
   (ebib-index-default-sort '("timestamp" . descend))
   :config
+  ;; (w32-shell-execute "open" file)
+  (when (eq system-type 'windows-nt)
+    (modify-coding-system-alist 'process "C:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe" '(utf-8 . chinese-gbk-dos))
+    (setq ebib-file-associations '(("pdf" . "C:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe")))
+    ;; (setq ebib-file-associations '(("pdf" . "")))
+    )
   (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n#+filetags: paper_note\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Comments \n\n* Details \n\n* Highlights\n%%?"
         ebib-reading-list-template-specifiers '((?K . ebib-reading-list-create-org-identifier)
                                                 (?T . ebib-create-org-title)
