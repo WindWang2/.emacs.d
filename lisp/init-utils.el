@@ -580,7 +580,7 @@
     )
   (when (eq system-type 'windows-nt)
     (setq openwith-associations
-          '(("\\.pdf\\'" "C:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe" (file))))
+          '(("\\.pdf\\'" "c:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe" (file))))
     )
   (when sys/linuxp
     (setq openwith-associations '(("\\.pdf\\'" "evince" (file)))))

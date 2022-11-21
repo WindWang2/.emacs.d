@@ -874,8 +874,8 @@ tasks."
 
 (use-package bibtex
   :config
-  (setq bibtex-file-path (concat own-org-directory "references/")
-        bibtex-files '("NSF_Fund.bib")
+  (setq bibtex-file-path (concat own-org-directory "references/bibs/")
+        bibtex-files '("NSF_Fund.bib" "buildinds-self-sup.bib")
         bibtex-notes-path (concat own-org-directory "paper_notes")
         bibtex-align-at-equal-sign t
         bibtex-autokey-titleword-separator "-"
@@ -932,7 +932,7 @@ tasks."
         org-cite-activate-processor 'citar
         citar-citeproc-csl-styles-dir (concat own-org-directory "references/csl_files")
         citar-citeproc-csl-locales-dir (concat own-org-directory "references/locals")
-        bibtex-file-path (concat own-org-directory "references/")
+        bibtex-file-path (concat own-org-directory "references/bibs/")
         citar-format-reference-function #'citar-citeproc-format-reference
         citar-file-open-prompt nil)
   (setq citar-templates
@@ -943,7 +943,7 @@ tasks."
   :config
   (setq citar-at-point-function 'embark-act
         citar-bibliography (mapcar (lambda (file) (concat bibtex-file-path file)) bibtex-files)
-        citar-library-paths `(,(concat bibtex-file-path "PDFs/"))
+        citar-library-paths `(,(concat bibtex-file-path "../PDFs/"))
         citar-notes-paths `(,bibtex-notes-path))
 
   (use-package citar-org-roam
@@ -982,7 +982,7 @@ tasks."
   (ebib-uniquify-keys t)
   (ebib-bibtex-dialect 'biblatex)
   (ebib-index-window-size 15)
-  (ebib-reading-list-file (concat bibtex-file-path "../paper_notes/reading_list.org"))
+  (ebib-reading-list-file (concat own-org-directory "paper_notes/reading_list.org"))
   (ebib-keywords-field-keep-sorted t)
   (ebib-keywords-save-on-exit 'always)
   (ebib-use-timestamp t)
@@ -997,8 +997,8 @@ tasks."
   :config
   ;; (w32-shell-execute "open" file)
   (when (eq system-type 'windows-nt)
-    (modify-coding-system-alist 'process "C:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe" '(utf-8 . chinese-gbk-dos))
-    (setq ebib-file-associations '(("pdf" . "C:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe")))
+    (modify-coding-system-alist 'process "c:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe" '(utf-8 . chinese-gbk-dos))
+    (setq ebib-file-associations '(("pdf" . "c:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe")))
     ;; (setq ebib-file-associations '(("pdf" . "")))
     )
   (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n#+filetags: paper_note\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Comments \n\n* Details \n\n* Highlights\n%%?"
@@ -1012,13 +1012,13 @@ tasks."
                                                 (?k . ebib-create-key)
                                                 (?i . ebib-create-id))
         ebib-reading-list-template "* %M %T\n:PROPERTIES:\n%K\n:ID: %i\n:END:\n[cite:@%k]\n"
-        ebib-notes-directory (concat bibtex-file-path "../paper_notes")
-        ebib-notes-locations `(,(concat bibtex-file-path "../paper_notes"))
+        ebib-notes-directory (concat own-org-directory "paper_notes")
+        ebib-notes-locations `(,(concat own-org-directory "paper_notes"))
         ;; ebib-notes-default-file (concat bibtex-file-path "../paper_notes/notes.org")
         ebib-keywords (concat bibtex-file-path "keywords.txt")
         ebib-preload-bib-files `(,(concat bibtex-file-path "NSF_Fund.bib"))
-        ebib-file-search-dirs (list (concat bibtex-file-path "PDFs")
-                                    (concat bibtex-file-path "bibs"))
+        ebib-file-search-dirs (list (concat bibtex-file-path "../PDFs")
+                                    (concat bibtex-file-path "../bibs"))
         ebib-notes-template-specifiers '((?k . ebib-create-key)
                                          (?i . ebib-create-id)
                                          (?K . ebib-create-org-identifier)

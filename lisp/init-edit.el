@@ -27,6 +27,11 @@
 ;;
 ;; edit.
 ;;
+(defun org-english-writing-font ()
+  "Sets a fixed width (monospace) font in current buffer"
+  (interactive)
+  (setq buffer-face-mode-face '(:family "Times New Roman" :height 120))
+  (buffer-face-mode))
 
 (use-package autorevert
   :ensure nil
