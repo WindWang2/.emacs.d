@@ -68,6 +68,8 @@
     (setenv "LANG" "en_US.UTF-8")
   )
 
+(setq system-time-locale "C")
+(format-time-string "%Y-%m-%d %a")
 
 (defun update-load-path (&rest _)
   "Update `load-path'."
