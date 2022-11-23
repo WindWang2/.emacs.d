@@ -710,7 +710,13 @@
   :init
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+        completion-category-overrides '((file (styles partial-completion))))
+  :config
+  (use-package pinyinlib)
+  (defun orderless-regexp-pinyin (str)
+    (setf (car str) (pinyinlib-build-regexp-string (car str)))
+    str)
+  (advice-add 'orderless-regexp :filter-args #'orderless-regexp-pinyin))
 
 ;; Example configuration for Consult
 (use-package consult
@@ -793,4 +799,9 @@
   :init
   (marginalia-mode))
 
+;; dictionary overlay
+;; (add-to-list 'load-path "~/github/websocket-bridge/")
+;; (require 'websocket-bridge)
+;; (add-to-list 'load-path "~/github/dictionary-overlay/")
+;; (require 'dictionary-overlay)
 (provide 'init-utils)

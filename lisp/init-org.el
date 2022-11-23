@@ -774,6 +774,15 @@ tasks."
             "\\|_minted.*"
             "\\)$"))
   :config
+  (setq deft-incremental-search nil)
+  (defun deft-search-forward (str)
+    "Function to use when matching files against filter strings STR.
+This function calls `search-forward' when `deft-incremental-search'
+is non-nil and `re-search-forward' otherwise."
+    (let ((case-fold-search deft-case-fold-search))
+      (if deft-incremental-search
+          (search-forward str nil t)
+        (re-search-forward (pinyinlib-build-regexp-string str) nil t))))
   (defun cm/deft-parse-title (file contents)
     "Parse the given FILE and CONTENTS and determine the title.
   If `deft-use-filename-as-title' is nil, the title is taken to
