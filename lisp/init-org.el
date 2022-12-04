@@ -1009,6 +1009,9 @@ is non-nil and `re-search-forward' otherwise."
     (setq ebib-file-associations '(("pdf" . "c:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe")))
     ;; (setq ebib-file-associations '(("pdf" . "")))
     )
+  (when sys/linuxp
+    (setq ebib-file-associations '(("pdf" . "evince")))
+    )
   (setq ebib-notes-template ":PROPERTIES:\n%K\n:ROAM_REFS: @%k\n:ID:  %i\n:NOTER_DOCUMENT: %F\n:END:\n#+filetags: paper_note\n%%?#+TITLE: Scholar: %X\n \n[cite:@%k]\nDate: %S\n* Main Idea \n\n* Comments \n\n* Details \n\n* Highlights\n%%?"
         ebib-reading-list-template-specifiers '((?K . ebib-reading-list-create-org-identifier)
                                                 (?T . ebib-create-org-title)
