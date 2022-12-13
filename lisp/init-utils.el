@@ -534,6 +534,7 @@
     (rime-user-data-dir "~/.emacs.d/rime")
     (rime-show-candidate 'posframe)
     (rime-show-preedit t)
+    (rime-posframe-properties (list :internal-border-width 1))
     (rime-disable-predicates
      '(rime-predicate-prog-in-code-p
        rime-predicate-auto-english-p
@@ -584,6 +585,8 @@
     )
   (when sys/linuxp
     (setq openwith-associations '(("\\.pdf\\'" "evince" (file)))))
+  (when sys/macp
+    (setq openwith-associations '(("\\.pdf\\'" "open" (file)))))
   :custom
   (openwith-mode t)
   )
