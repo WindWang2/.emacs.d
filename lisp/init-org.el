@@ -624,7 +624,7 @@ tasks."
 	    ("C-c C-x m" . org-pomodoro)))
     :config
     (when sys/win32p
-      (defun notify-win (title message)
+      (defun notify-pomo (title message)
         "Temporary replacement for function of the same name which uses the buggy alert.el package. TITLE is the title of the MESSAGE."
         (let*
             ((toast "toast")
@@ -632,42 +632,35 @@ tasks."
              (t-message (concat "\" -m \"" message "\""))
              (t-image (concat " -p \"C:\\emacs-app\\share\\icons\\hicolor\\128x128\\apps\\emacs.png\""))
              (my-command (concat toast t-title t-message t-image)))
-          (call-process-shell-command my-command)))
-      (add-hook 'org-pomodoro-finished-hook
-                (lambda ()
-                  (notify-win "Org-pomodoro" "A pomodoro is finished, take a break !!!")
-                  ))
-      (add-hook 'org-pomodoro-short-break-finished-hook
-                (lambda ()
-                  (notify-win "Org-pomodoro" "A short break done, ready a new pomodoro !!!")
-                  ))
-      (add-hook 'org-pomodoro-long-break-finished-hook
-                (lambda ()
-                  (notify-win "Org-pomodoro" "A long break done, ready a new pomodoro !!!")
-                  ))
-      (add-hook 'org-pomodoro-killed-hook
-	            (lambda ()
-		          (notify-win "Org-pomodoro GTD Cancel" "Cancel !!!")))
-
-      )
+          (call-process-shell-command my-command))))
     (when sys/macp
-      (defun notify-osx (title message)
+      (defun notify-pomo (title message)
+        (call-process "terminal-notifier"
+                      nil 0 nil
+                      "-group" "Emacs"
+                      "-title" title
+                      "-sender" "org.gnu.Emacs"
+                      "-message" message
+                      "-activate" "oeg.gnu.Emacs")))
+    (when sys/linuxp
+      (defun notify-pomo (title message)
         (call-process "notify-send"
 		              message
-		              ))
-      (add-hook 'org-pomodoro-finished-hook
-	            (lambda ()
-		          (notify-osx "Org-pomodoro GTD 完成" "休息5分钟")))
-      (add-hook 'org-pomodoro-break-finished-hook
-	            (lambda ()
-                  (notify-osx "Org-pomodoro GTD 休息完成" "设置开始下一个？")))
-      (add-hook 'org-pomodoro-long-break-finished-hook
-	            (lambda ()
-		          (notify-osx "Org-pomodoro GTD 长休息完成" "设置开始下一个？")))
-      (add-hook 'org-pomodoro-killed-hook
-	            (lambda ()
-		          (notify-osx "Org-pomodoro GTD 番茄取消" "取消！！！")))
-      ))
+		              )))
+
+    (add-hook 'org-pomodoro-finished-hook
+	          (lambda ()
+		        (notify-pomo "Org-pomodoro GTD 完成" "休息5分钟")))
+    (add-hook 'org-pomodoro-break-finished-hook
+	          (lambda ()
+                (notify-pomo "Org-pomodoro GTD 休息完成" "设置开始下一个？")))
+    (add-hook 'org-pomodoro-long-break-finished-hook
+	          (lambda ()
+		        (notify-pomo "Org-pomodoro GTD 长休息完成" "设置开始下一个？")))
+    (add-hook 'org-pomodoro-killed-hook
+	          (lambda ()
+		        (notify-pomo "Org-pomodoro GTD 番茄取消" "取消！！！")))
+    )
   (use-package org-super-agenda
     :ensure t
     :after org-agenda
@@ -1101,10 +1094,16 @@ the \"file\" field is empty, return the empty string."
 (setq  org-latex-pdf-process '("tectonic -Z shell-escape %f"))
 (setq org-latex-listings 'minted)
 
+
 (defvar minted-cache-dir
   (file-name-as-directory
-   (expand-file-name ".minted/\\jombname"
-                     temporary-file-directory)))
+   (cond (sys/macp    (expand-file-name ".minted/jombname"
+                                        temporary-file-directory))
+         (sys/win32p    (expand-file-name ".minted/\\jombname"
+                                          temporary-file-directory))
+         (sys/linuxp    (expand-file-name ".minted/jombname"
+                                          temporary-file-directory))
+         )))
 (add-to-list 'org-latex-packages-alist
              `(,(concat "cachedir=" minted-cache-dir)
                "minted" nil))

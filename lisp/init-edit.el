@@ -31,6 +31,8 @@
   "Sets a fixed width (monospace) font in current buffer"
   (interactive)
   (setq buffer-face-mode-face '(:family "Times New Roman" :height 120))
+  (when sys/macp
+    (setq buffer-face-mode-face '(:family "Times New Roman" :height 150)))
   (buffer-face-mode))
 
 (use-package autorevert
