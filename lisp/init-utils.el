@@ -550,6 +550,7 @@
     ;; 参考 https://github.com/DogLooksGood/emacs-rime/issues/161
     (add-hook 'kill-emacs-hook #'(lambda () (if (fboundp 'rime-lib-finalize)
                                                 (rime-lib-finalize))))
+    (global-set-key (kbd "C-\\") 'toggle-input-method)
     (defun my/rime-predicate-punctuation-next-char-is-paired-p ()
       (if (not (eq (point) (point-max)))
           (and (rime-predicate-current-input-punctuation-p)
