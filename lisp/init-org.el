@@ -1091,7 +1091,19 @@ the \"file\" field is empty, return the empty string."
 ;;       '("xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
 ;;         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
 ;;         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
-(setq  org-latex-pdf-process '("tectonic -Z shell-escape %f"))
+;; (setq  org-latex-pdf-process '("tectonic -Z shell-escape %f"))
+(setq org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "bibtex %b"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+(add-to-list 'org-latex-classes
+             '("mdpi"
+               "\\documentclass[remotesensing,article,submit,pdftex,moreauthors]{Definitions/mdpi}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+             )
 (setq org-latex-listings 'minted)
 
 
@@ -1112,16 +1124,33 @@ the \"file\" field is empty, return the empty string."
                                  ("breakanywhere" "true")))
 
 ;; for latex preview process  ---------------------------------------------------------- <2022-10-29 周六>
+
 ;; ref: https://emacs-china.org/t/org-latex-preview/22288/8
-(setq org-preview-latex-process-alist
-      '((dvisvgm :programs
-          ("latex" "dvisvgm")
-          :description "dvi > svg" :message "you need to install the programs: latex and dvisvgm." :image-input-type "dvi" :image-output-type "svg" :image-size-adjust
-          (1.0 . 1.0)
-          :latex-compiler
-          ("latex -interaction nonstopmode -shell-escape -output-directory %o %f")
-          :image-converter
-          ("dvisvgm %f -e -n -b 1 -c %S -o %O"))))
+
+(when sys/win32p
+  (setq org-preview-latex-process-alist
+        '((dvisvgm
+           :programs ("latex" "dvisvgm")
+           :description "dvi > svg"
+           :message "you need to install the programs: latex and dvisvgm."
+           :image-input-type "dvi"
+           :image-output-type "svg"
+           :image-size-adjust (1.0 . 1.0)
+           :latex-compiler ("latex -interaction nonstopmode -shell-escape -output-directory %o %f")
+           :image-converter ("dvisvgm %f -e -n -b 1 -c %S -o %O")))))
+(when sys/macp
+  (setq org-preview-latex-process-alist
+        '((dvisvgm
+           :programs ("latex" "dvisvgm")
+           :description "dvi > svg"
+           :message "you need to install the programs: latex and dvisvgm."
+           :image-input-type "dvi"
+           :image-output-type "svg"
+           :image-size-adjust (1.7 . 1.5)
+           :latex-compiler ("latex -interaction nonstopmode -shell-escape -output-directory %o %f")
+           :image-converter ("dvisvgm %f -e -n -b 1 -c %S -o %O")))))
+
+
 (setq org-preview-latex-default-process 'dvisvgm)
 (defun my/org--latex-header-preview (orig &rest args)
   "Setup dedicated `org-format-latex-header' to `my/org--match-text-baseline-ascent'."
