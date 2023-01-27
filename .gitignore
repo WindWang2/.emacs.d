@@ -83,6 +83,7 @@ tldr/
 tmp*
 transient/
 tutorial/
+org-persist/
 url/
 var/
 workspace/
