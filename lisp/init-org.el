@@ -925,8 +925,8 @@ is non-nil and `re-search-forward' otherwise."
   (require 'oc-biblatex)
   )
 
+
 (use-package citar
-  :after ebib
   :init
   (setq org-cite-insert-processor 'citar
         org-cite-follow-processor 'citar
@@ -1104,24 +1104,58 @@ the \"file\" field is empty, return the empty string."
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
              )
-(setq org-latex-listings 'minted)
 
+(setq org-latex-with-hyperref nil)
 
-(defvar minted-cache-dir
-  (file-name-as-directory
-   (cond (sys/macp    (expand-file-name ".minted/jombname"
-                                        temporary-file-directory))
-         (sys/win32p    (expand-file-name ".minted/\\jombname"
-                                          temporary-file-directory))
-         (sys/linuxp    (expand-file-name ".minted/jombname"
-                                          temporary-file-directory))
-         )))
-(add-to-list 'org-latex-packages-alist
-             `(,(concat "cachedir=" minted-cache-dir)
-               "minted" nil))
+;; remove the hyperref
+(setq org-latex-default-packages-alist
+      '(("AUTO" "inputenc" t
+         ("pdflatex"))
+        ("T1" "fontenc" t
+         ("pdflatex"))
+        ("" "graphicx" t)
+        ("" "longtable" nil)
+        ("" "wrapfig" nil)
+        ("" "rotating" nil)
+        ("normalem" "ulem" t)
+        ("" "amsmath" t)
+        ("" "amssymb" t)
+        ("" "capt-of" nil)))
+
+;; Export to latex without "\title{}, should include the empty title option in the org file"
+(defun my-org-latex-remove-title (str)
+  (replace-regexp-in-string "^\\\\title{}$" "" str))
+(defun my-org-latex-remove-date (str)
+  (replace-regexp-in-string "^\\\\date{}$" "" str))
+
+(advice-add 'org-latex-template :filter-return 'my-org-latex-remove-title)
+(advice-add 'org-latex-template :filter-return 'my-org-latex-remove-date)
+
+;; https://emacs.stackexchange.com/questions/47733/org-latex-exports-math-as-can-this-be-avoided
+;; $$ -> $$
+(defun org-latex-math-block (_math-block contents _info)
+  "Transcode a MATH-BLOCK object from Org to LaTeX.
+CONTENTS is a string.  INFO is a plist used as a communication
+channel."
+  (when (org-string-nw-p contents)
+    (format "$%s$" (org-trim contents))))
+
+;; (setq org-latex-listings 'minted)
+;; (defvar minted-cache-dir
+;;   (file-name-as-directory
+;;    (cond (sys/macp    (expand-file-name ".minted/jombname"
+;;                                         temporary-file-directory))
+;;          (sys/win32p    (expand-file-name ".minted/\\jombname"
+;;                                           temporary-file-directory))
+;;          (sys/linuxp    (expand-file-name ".minted/jombname"
+;;                                           temporary-file-directory))
+;;          )))
+;; (add-to-list 'org-latex-packages-alist
+;;              `(,(concat "cachedir=" minted-cache-dir)
+;;                "minted" nil))
 ;; (setq org-latex-packages-alist '(("" "minted")))
-(setq org-latex-minted-options '(("breaklines" "true")
-                                 ("breakanywhere" "true")))
+;; (setq org-latex-minted-options '(("breaklines" "true")
+;;                                  ("breakanywhere" "true")))
 
 ;; for latex preview process  ---------------------------------------------------------- <2022-10-29 周六>
 
