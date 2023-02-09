@@ -84,6 +84,7 @@
 (require 'init-edit)
 (require 'init-utils)
 (require 'init-org)
+(require 'init-latex)
 (require 'init-vcs)
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))

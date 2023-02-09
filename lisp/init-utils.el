@@ -524,6 +524,45 @@
   (sis-global-inline-mode t)
   (setq-default sis-inline-tighten-head-rule 0)
   )
+
+;; Siri shortcusts: for translating
+;; -ref: https://emacs-china.org/t/macos/23234, https://emacs-china.org/t/emacs-macos/23268/6
+(when sys/macp
+  (use-package simple
+    :ensure nil
+    :bind ("H-t H-t" . my/translate-language-to-zh-or-zh-to-english)
+    :config
+    ;; Siri Shortcuts: Translate
+    (defun my/siri-translate ()
+      (interactive)
+      (let ((tempfile (make-temp-file "siri-translate-" nil ".txt")))
+        (write-region (format "%s" (thing-at-point 'paragraph)) nil tempfile)
+        (end-of-paragraph-text) ; jump to end of paragraph
+        (shell-command (format "shortcuts run \"Translate File\" -i %s" tempfile)))
+      (shell-command "open -b org.gnu.Emacs")
+      ;; (shell-command "pbpaste")
+      )
+
+    (defun my/siri-translate2english ()
+      (interactive)
+      (let ((tempfile (make-temp-file "siri-translate-" nil ".txt")))
+        (write-region (format "%s" (thing-at-point 'paragraph)) nil tempfile)
+        (end-of-paragraph-text) ; jump to end of paragraph
+        (shell-command
+         (format "shortcuts run \"Translate File 2 English\" -i %s" tempfile)))
+      (shell-command "open -b org.gnu.Emacs")
+      ;; (shell-command "pbpaste")
+      )
+
+    (defun my/translate-language-to-zh-or-zh-to-english ()
+      (interactive) ; 测试
+      (let ((string (thing-at-point 'paragraph)))
+        (if (eq (string-match "\\cC" string) nil)
+            (my/siri-translate)
+          (my/siri-translate2english)))
+      (shell-command "pbpaste")))
+  )
+
 (when (not sys/win32p)
   (use-package rime
     :commands (toggle-input-method)
