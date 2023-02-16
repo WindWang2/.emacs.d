@@ -12,7 +12,7 @@
 (use-package bibtex
   :config
   (setq bibtex-file-path (concat own-org-directory "references/bibs/")
-        bibtex-files '("NSF_Fund.bib" "buildinds-self-sup.bib")
+        bibtex-files '("NSF_Fund.bib" "buildings-self-sup.bib")
         bibtex-notes-path (concat own-org-directory "paper_notes")
         bibtex-align-at-equal-sign t
         bibtex-autokey-titleword-separator "-"
@@ -226,22 +226,22 @@ the \"file\" field is empty, return the empty string."
 ;;       '("xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
 ;;         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
 ;;         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
-;; (setq  org-latex-pdf-process '("tectonic -Z shell-escape %f"))
-(setq org-latex-pdf-process
-      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "bibtex %b"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+(setq  org-latex-pdf-process '("tectonic -Z shell-escape %f"))
+;; (setq org-latex-pdf-process
+;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+;;         "bibtex %b"
+;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
 (add-to-list 'org-latex-classes
              '("mdpi"
-               "\\documentclass[remotesensing,article,submit,pdftex,moreauthors]{Templates/MDPI/Definitions/mdpi}"
+               "\\documentclass[remotesensing,article,submit,pdftex,moreauthors]{Templates/MDPI/Definitions/mdpi}\n\\newlength{\\extralength}\n\\setlength{\\extralength}{1.5cm}\n\\setlength{\\parskip}{0.3em}"
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
              )
 (add-to-list 'org-latex-classes
-             '("koma-article" "\\documentclass[11pt]{scrartcl}"
+             '("koma-article" "\\documentclass[11pt]{scrartcl}\n\\newlength{\\extralength}\n\\setlength{\\extralength}{1.5cm}\n\\setlength{\\parskip}{0.3em}"
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -249,7 +249,7 @@ the \"file\" field is empty, return the empty string."
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
 (add-to-list 'org-latex-classes
-             '("koma-letter" "\\documentclass[11pt]{scrletter}"
+             '("koma-letter" "\\documentclass[11pt]{scrletter}\n\\newlength{\\extralength}\n\\setlength{\\extralength}{1.5cm}\n\\setlength{\\parskip}{0.3em}"
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -257,7 +257,7 @@ the \"file\" field is empty, return the empty string."
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
 (add-to-list 'org-latex-classes
-             '("koma-report" "\\documentclass[11pt]{scrreprt}"
+             '("koma-report" "\\documentclass[11pt]{scrreprt}\n\\newlength{\\extralength}\n\\setlength{\\extralength}{1.5cm}\n\\setlength{\\parskip}{0.3em}"
                ("\\part{%s}" . "\\part*{%s}")
                ("\\chapter{%s}" . "\\chapter*{%s}")
                ("\\section{%s}" . "\\section*{%s}")
@@ -265,7 +265,7 @@ the \"file\" field is empty, return the empty string."
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
 
 (add-to-list 'org-latex-classes
-             '("koma-book" "\\documentclass[11pt]{scrbook}"
+             '("koma-book" "\\documentclass[11pt]{scrbook}\n\\newlength{\\extralength}\n\\setlength{\\extralength}{1.5cm}\n\\setlength{\\parskip}{0.3em}"
                ("\\part{%s}" . "\\part*{%s}")
                ("\\chapter{%s}" . "\\chapter*{%s}")
                ("\\section{%s}" . "\\section*{%s}")
@@ -298,7 +298,8 @@ the \"file\" field is empty, return the empty string."
         ("" "color" nil)
         ))
 
-(setq org-format-latex-header "\\documentclass{article}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\pagestyle{empty}             % do not remove\n% The settings below are copied from fullpage.sty\n\\setlength{\\textwidth}{\\paperwidth}\n\\addtolength{\\textwidth}{-3cm}\n\\setlength{\\oddsidemargin}{1.5cm}\n\\addtolength{\\oddsidemargin}{-2.54cm}\n\\setlength{\\evensidemargin}{\\oddsidemargin}\n\\setlength{\\textheight}{\\paperheight}\n\\addtolength{\\textheight}{-\\headheight}\n\\addtolength{\\textheight}{-\\headsep}\n\\addtolength{\\textheight}{-\\footskip}\n\\addtolength{\\textheight}{-3cm}\n\\setlength{\\topmargin}{1.5cm}\n\\addtolength{\\topmargin}{-2.54cm}\n\\newlength{\\extralength}\n\\setlength{\\extralength}{1.5cm}\n\\setlength{\\parskip}{0.3em}")
+
+(setq org-format-latex-header "\\documentclass{article}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\pagestyle{empty}             % do not remove\n% The settings below are copied from fullpage.sty\n\\setlength{\\textwidth}{\\paperwidth}\n\\addtolength{\\textwidth}{-3cm}\n\\setlength{\\oddsidemargin}{1.5cm}\n\\addtolength{\\oddsidemargin}{-2.54cm}\n\\setlength{\\evensidemargin}{\\oddsidemargin}\n\\setlength{\\textheight}{\\paperheight}\n\\addtolength{\\textheight}{-\\headheight}\n\\addtolength{\\textheight}{-\\headsep}\n\\addtolength{\\textheight}{-\\footskip}\n\\addtolength{\\textheight}{-3cm}\n\\setlength{\\topmargin}{1.5cm}\n\\addtolength{\\topmargin}{-2.54cm}")
 
 ;; Export to latex without "\title{}, should include the empty title option in the org file"
 (defun my-org-latex-remove-title (str)
