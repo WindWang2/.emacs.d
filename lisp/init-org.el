@@ -741,6 +741,10 @@ tasks."
     :custom
     (org-super-agenda-mode t)))
 
+(use-package org-contrib
+  :pin nongnu
+  )
+
 (use-package deft
   :defer t
   :bind
