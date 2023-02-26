@@ -428,6 +428,8 @@ If the function sets CREATED, it returns its value."
                 org-tree-slide-skip-outline-level 3))
 
   (use-package vulpea
+    :ensure t
+    :hook (org-roam-db-autosync-mode . vulpea-db-autosync-enable)
     :init
     (add-to-list 'org-tags-exclude-from-inheritance "project")
     :config
@@ -440,10 +442,10 @@ tasks."
        (lambda (type)
          (eq type 'todo))
        (org-element-map                         ; (2)
-           (org-element-parse-buffer 'headline) ; (1)
-           'headline
-         (lambda (h)
-           (org-element-property :todo-type h)))))
+        (org-element-parse-buffer 'headline) ; (1)
+        'headline
+        (lambda (h)
+          (org-element-property :todo-type h)))))
 
     (defun vulpea-project-update-tag ()
       "Update PROJECT tag in the current buffer."
@@ -523,19 +525,19 @@ tasks."
   If the property is already set, replace its value."
       (setq name (downcase name))
       (org-with-point-at 1
-        (let ((case-fold-search t))
-          (if (re-search-forward (concat "^#\\+" name ":\\(.*\\)")
-                                 (point-max) t)
-              (replace-match (concat "#+" name ": " value) 'fixedcase)
-            (while (and (not (eobp))
-                        (looking-at "^[#:]"))
-              (if (save-excursion (end-of-line) (eobp))
-                  (progn
-                    (end-of-line)
-                    (insert "\n"))
-                (forward-line)
-                (beginning-of-line)))
-            (insert "#+" name ": " value "\n")))))
+                         (let ((case-fold-search t))
+                           (if (re-search-forward (concat "^#\\+" name ":\\(.*\\)")
+                                                  (point-max) t)
+                               (replace-match (concat "#+" name ": " value) 'fixedcase)
+                             (while (and (not (eobp))
+                                         (looking-at "^[#:]"))
+                               (if (save-excursion (end-of-line) (eobp))
+                                   (progn
+                                     (end-of-line)
+                                     (insert "\n"))
+                                 (forward-line)
+                                 (beginning-of-line)))
+                             (insert "#+" name ": " value "\n")))))
 
     (defun vulpea-buffer-prop-set-list (name values &optional separators)
       "Set a file property called NAME to VALUES in current buffer.
@@ -552,11 +554,11 @@ tasks."
     (defun vulpea-buffer-prop-get (name)
       "Get a buffer property called NAME as a string."
       (org-with-point-at 1
-        (when (re-search-forward (concat "^#\\+" name ": \\(.*\\)")
-                                 (point-max) t)
-          (buffer-substring-no-properties
-           (match-beginning 1)
-           (match-end 1)))))
+                         (when (re-search-forward (concat "^#\\+" name ": \\(.*\\)")
+                                                  (point-max) t)
+                           (buffer-substring-no-properties
+                            (match-beginning 1)
+                            (match-end 1)))))
 
     (defun vulpea-buffer-prop-get-list (name &optional separators)
       "Get a buffer property NAME as a list using SEPARATORS.
@@ -571,9 +573,9 @@ tasks."
     (defun vulpea-buffer-prop-remove (name)
       "Remove a buffer property called NAME."
       (org-with-point-at 1
-        (when (re-search-forward (concat "\\(^#\\+" name ":.*\n?\\)")
-                                 (point-max) t)
-          (replace-match ""))))
+                         (when (re-search-forward (concat "\\(^#\\+" name ":.*\n?\\)")
+                                                  (point-max) t)
+                           (replace-match ""))))
     )
   (use-package org-appear
     :defer t
@@ -861,7 +863,7 @@ is non-nil and `re-search-forward' otherwise."
   (org-roam-node-display-template
    (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag))))
 
-(use-package emacsql-sqlite-builtin
+(use-package emacsql-sqlite-module
   :after org-roam)
 ;; 8. paper
 
