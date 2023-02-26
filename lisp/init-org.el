@@ -863,8 +863,8 @@ is non-nil and `re-search-forward' otherwise."
   (org-roam-node-display-template
    (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag))))
 
-(use-package emacsql-sqlite-module
-  :after org-roam)
+;; (use-package emacsql-sqlite-module
+;;   :after org-roam)
 ;; 8. paper
 
 (provide 'init-org)
