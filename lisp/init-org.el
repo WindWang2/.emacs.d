@@ -556,6 +556,9 @@ If the function sets CREATED, it returns its value."
                               (:name "Important"
 			                   :and (:todo "TODO" :priority>="B")
 			                   :order 3)
+                              (:name "Not Important"
+			                   :and (:todo "TODO" :priority>="C")
+			                   :order 3)
                               (:name "Due Today"
 			                   :deadline today
 			                   :order 4)
@@ -573,6 +576,9 @@ If the function sets CREATED, it returns its value."
 			                   :order 13)
                               (:name "At SWJTU"
 			                   :tag "@SWJTU"
+			                   :order 13)
+                              (:name "Reading List"
+			                   :and (:file-path "reading_list" :todo "TODO")
 			                   :order 13)
                               (:name "trivial"
 			                   :priority<= "C"
