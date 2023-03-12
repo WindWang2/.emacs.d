@@ -658,8 +658,11 @@ is non-nil and `re-search-forward' otherwise."
 		        "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
 		        "\\)")))
 ;; Roam
-
+(use-package emacsql-sqlite
+  :ensure t)
+(use-package emacsql-sqlite-builtin)
 (use-package org-roam
+  :after emacsql-sqlite emacsql-sqlite-builtin
   :diminish
   :hook (after-init . org-roam-db-autosync-enable)
   :bind (("C-c n l" . org-roam-buffer-toggle)
