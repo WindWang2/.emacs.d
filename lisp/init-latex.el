@@ -12,7 +12,7 @@
 (use-package bibtex
   :config
   (setq bibtex-file-path (concat own-org-directory "references/bibs/")
-        bibtex-files '("NSF_Fund.bib" "buildings-self-sup.bib")
+        bibtex-files '("NSF_Fund.bib" "buildings-self-sup.bib" "landfills.bib")
         bibtex-notes-path (concat own-org-directory "paper_notes")
         bibtex-align-at-equal-sign t
         bibtex-autokey-titleword-separator "-"
