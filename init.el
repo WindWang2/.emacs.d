@@ -89,3 +89,4 @@
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (put 'set-goal-column 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
