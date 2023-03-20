@@ -695,14 +695,19 @@ is non-nil and `re-search-forward' otherwise."
   :custom
   (org-roam-database-connector 'sqlite-builtin)
   (org-roam-db-gc-threshold most-positive-fixnum)
-  (org-roam-capture-templates '(("d" "default" plain "%?" :target
+  (org-roam-capture-templates '(("d" "default (main)" plain "%?" :target
                                  (file+head "%<%Y>-${slug}.org" "#+title: ${title}\n")
                                  :imediate-finish t
                                  :unnarrowed t)
-                                ("k" "knowledge" plain "%?" :target
+                                ("k" "knowledge (collection)" plain "%?" :target
                                  (file+head "collections/${title}.org" "#+title: ${title}\n")
                                  :imediate-finish t
-                                 :unnarrowed t)))
+                                 :unnarrowed t)
+                                ("p" "Project (project)" plain "%?" :target
+                                 (file+head "project/${title}.org" "#+title: Project: ${title}\n")
+                                 :imediate-finish t
+                                 :unnarrowed t)
+                                ))
   (defun org-roam-open-refs ()
     "Open REFs of the node at point."
     (interactive)
