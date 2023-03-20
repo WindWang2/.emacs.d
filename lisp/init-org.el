@@ -770,11 +770,12 @@ tasks."
             (apply #'vulpea-buffer-tags-set tags))))))
 
   (defun vulpea-buffer-p ()
-    "Return non-nil if the currently visited buffer is a note."
-    (and buffer-file-name
-         (string-prefix-p
-          (expand-file-name (file-name-as-directory own-org-directory))
-          (file-name-directory buffer-file-name))))
+    "Return non-nil if the currently visited buffer is a note with the addr 'org'."
+    (and (string-equal "org" (file-name-extension buffer-file-name))
+         (and buffer-file-name
+              (string-prefix-p
+               (expand-file-name (file-name-as-directory own-org-directory))
+               (file-name-directory buffer-file-name)))))
 
   (defun vulpea-project-files ()
     "Return a list of note files containing 'project' tag." ;
@@ -875,12 +876,15 @@ tasks."
       (when (re-search-forward (concat "\\(^#\\+" name ":.*\n?\\)")
                                (point-max) t)
         (replace-match ""))))
+
   )
 (require 'vulpea)
 (add-hook 'find-file-hook #'vulpea-project-update-tag)
 (add-hook 'before-save-hook #'vulpea-project-update-tag)
 (advice-add 'org-agenda :before #'vulpea-agenda-files-update)
 (advice-add 'org-todo-list :before #'vulpea-agenda-files-update)
+
+
 ;; (use-package emacsql-sqlite-module
 ;;   :after org-roam)
 ;; 8. paper
