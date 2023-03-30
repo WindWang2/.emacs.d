@@ -82,6 +82,16 @@
         citar-library-paths `(,(concat bibtex-file-path "../PDFs/"))
         citar-notes-paths `(,bibtex-notes-path))
 
+  (defun citar-copy-title (citekey)
+    "Copy title associated with the CITEKEYS."
+    (interactive (list (citar-select-ref)))
+    (setq ref-title (citar-get-value citekey))
+    (if (not (equal "" ref-title))
+        (progn
+          (kill-new (concat ref-title (format "  [cite:@%s]" citekey)))
+          (message (format "Copied:\n%s" ref-title)))
+      (message "Key not found.")))
+
   (use-package citar-org-roam
     :after citar org-roam
     :no-require
