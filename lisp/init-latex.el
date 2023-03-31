@@ -232,11 +232,12 @@ the \"file\" field is empty, return the empty string."
 ;;       )
 ;; ;;
 ;; ref: https://www.skfwe.cn/p/org-%E9%80%9A%E8%BF%87latex%E5%AF%BC%E5%87%BA-pdf/
-;; (setq org-latex-pdf-process
-;;       '("xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
-;;         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
-;;         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
-(setq  org-latex-pdf-process '("tectonic -Z shell-escape %f"))
+(setq org-latex-pdf-process
+      '("xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
+        "bibtex %b"
+        "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
+;; (setq  org-latex-pdf-process '("tectonic -Z shell-escape %f"))
 ;; (setq org-latex-pdf-process
 ;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
 ;;         "bibtex %b"
