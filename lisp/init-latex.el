@@ -85,7 +85,7 @@
   (defun citar-copy-title (citekey)
     "Copy title associated with the CITEKEYS."
     (interactive (list (citar-select-ref)))
-    (setq ref-title (citar-get-value citekey))
+    (setq ref-title (citar-get-value 'title citekey))
     (if (not (equal "" ref-title))
         (progn
           (kill-new (concat ref-title (format "  [cite:@%s]" citekey)))
