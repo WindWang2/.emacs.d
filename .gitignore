@@ -84,6 +84,7 @@ tmp*
 transient/
 tutorial/
 org-persist/
+lsp-bridge/
 url/
 var/
 workspace/
