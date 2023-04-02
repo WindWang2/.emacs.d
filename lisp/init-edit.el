@@ -496,53 +496,28 @@ Lisp function does not specify a special indentation."
              (string= python-shell-interpreter "python"))
     (setq python-shell-interpreter "python3"))
 
+  (when sys/macp
+    (setq python-shell-interpreter "~/mambaforge/bin/python3"))
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-env "PYTHONPATH")))
 
 (use-package markdown-mode
   :defer t)
-(use-package lsp-bridge
-  :diminish lsp-bridge-mode
-  :ensure nil
-  :defer 2
-  :bind (:map lsp-bridge-mode
-         ("C-M-n" . lsp-bridge-popup-documentation-scroll-up) ;向下滚动文档
-         ("C-M-p" . lsp-bridge-popup-documentation-scroll-down) ;向上滚动文档
-         )
-  :load-path "~/github/lsp-bridge"
-  ;; :init
-  ;; (setq lsp-bridge-lookup-doc-tooltip-font-height 110)
-  :config
-  (global-lsp-bridge-mode)
-  ;; (setq lsp-bridge-enable-log t)
-  (defun lsp-bridge-jump ()
-    (interactive)
-    (cond
-     ((eq major-mode 'emacs-lisp-mode)
-      (let ((symb (function-called-at-point)))
-	    (when symb
-          (find-function symb))))
-     (lsp-bridge-mode
-      (lsp-bridge-find-def))
-     (t
-      (require 'dumb-jump)
-      (dumb-jump-go))))
 
-  (defun lsp-bridge-jump-back ()
-    (interactive)
-    (cond
-     (lsp-bridge-mode
-      (lsp-bridge-return-from-def))
-     (t
-      (require 'dumb-jump)
-      (dump-jump-back))))
-  )
 
-(use-package blink-search
-  :ensure nil
-  :load-path "~/github/blink-search"
-  )
+(add-to-list 'load-path "~/github/lsp-bridge")
+(require 'yasnippet)
+(yas-global-mode 1)
+
+(require 'lsp-bridge)
+(when sys/macp
+  (setq lsp-bridge-python-command "python"))
+(global-lsp-bridge-mode)
+
+
+(add-to-list 'load-path "~/github/blink-search")
+(require 'blink-search)
 
 (use-package pangu-spacing)
 (provide 'init-edit)
