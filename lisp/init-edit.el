@@ -496,13 +496,25 @@ Lisp function does not specify a special indentation."
              (string= python-shell-interpreter "python"))
     (setq python-shell-interpreter "python3"))
 
-  (when sys/macp
-    (setq python-shell-interpreter "~/mambaforge/bin/python3"))
-  (when sys/linuxp
-    (setq python-shell-interpreter "~/miniconda3/bin/python3"))
+  (use-package conda
+    :init
+    (setq conda-anaconda-home "/opt/miniconda3/bin")
+    (when sys/linuxp
+      (setq conda-anaconda-home "/opt/miniconda3/bin"))
+    (when sys/macp
+      (setq conda-anaconda-home (expand-file-name "~/miniconda3/bin")))
+    :config
+    (conda-env-initialize-interactive-shells)
+    )
+  ;; (when sys/macp
+  ;;   (setq python-shell-interpreter "~/mambaforge/bin/python3"))
+  ;; (when sys/linuxp
+  ;;   (setq python-shell-interpreter "/opt/miniconda3/bin/python3"))
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-env "PYTHONPATH")))
+
+
 
 (use-package markdown-mode
   :defer t)
