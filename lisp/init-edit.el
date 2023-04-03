@@ -498,6 +498,8 @@ Lisp function does not specify a special indentation."
 
   (when sys/macp
     (setq python-shell-interpreter "~/mambaforge/bin/python3"))
+  (when sys/linuxp
+    (setq python-shell-interpreter "~/miniconda3/bin/python3"))
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-env "PYTHONPATH")))
