@@ -258,7 +258,6 @@ the \"file\" field is empty, return the empty string."
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
 (add-to-list 'org-latex-classes
              '("koma-letter" "\\documentclass[11pt]{scrletter}\n\\newlength{\\extralength}\n\\setlength{\\extralength}{1.5cm}\n\\setlength{\\parskip}{0.3em}"
                ("\\section{%s}" . "\\section*{%s}")
@@ -266,7 +265,6 @@ the \"file\" field is empty, return the empty string."
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
 (add-to-list 'org-latex-classes
              '("koma-report" "\\documentclass[11pt]{scrreprt}\n\\newlength{\\extralength}\n\\setlength{\\extralength}{1.5cm}\n\\setlength{\\parskip}{0.3em}"
                ("\\part{%s}" . "\\part*{%s}")
@@ -274,7 +272,6 @@ the \"file\" field is empty, return the empty string."
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-
 (add-to-list 'org-latex-classes
              '("koma-book" "\\documentclass[11pt]{scrbook}\n\\newlength{\\extralength}\n\\setlength{\\extralength}{1.5cm}\n\\setlength{\\parskip}{0.3em}"
                ("\\part{%s}" . "\\part*{%s}")
@@ -282,6 +279,28 @@ the \"file\" field is empty, return the empty string."
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+(add-to-list 'org-latex-classes
+             '("ctex-article" "\\documentclass[11pt]{ctexart}\n\\newlength{\\extralength}\n\\setlength{\\extralength}{1.5cm}\n\\setlength{\\parskip}{0.3em}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+(add-to-list 'org-latex-classes
+             '("ctex-book" "\\documentclass[11pt]{ctexbook}\n\\newlength{\\extralength}\n\\setlength{\\extralength}{1.5cm}\n\\setlength{\\parskip}{0.3em}"
+               ("\\part{%s}" . "\\part*{%s}")
+               ("\\chapter{%s}" . "\\chapter*{%s}")
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+(add-to-list 'org-latex-classes
+             '("ctex-report" "\\documentclass[11pt]{ctexrep}\n\\newlength{\\extralength}\n\\setlength{\\extralength}{1.5cm}\n\\setlength{\\parskip}{0.3em}"
+               ("\\part{%s}" . "\\part*{%s}")
+               ("\\chapter{%s}" . "\\chapter*{%s}")
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+
 
 ;; (setq org-latex-with-hyperref nil)
 ;; You can disable in the org file with the sample as follows:
