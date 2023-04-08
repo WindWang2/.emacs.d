@@ -8,7 +8,7 @@
  ((eq system-type 'darwin)
   (setq own-org-directory "~/org/"))
  ((eq system-type 'windows-nt)
-  (setq own-org-directory "c:/org/"))
+  (setq own-org-directory "~/org/"))
  (t
   (setq own-org-directory "~/org/")))
 
