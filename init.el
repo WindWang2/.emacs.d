@@ -4,7 +4,7 @@
 (setq native-comp-async-report-warnings-errors nil)
 (cond
  ((string-match "-[Mm]icrosoft" operating-system-release)
-  (setq own-org-directory "/mnt/c/org/"))
+  (setq own-org-directory "/mnt/c/emacs/org/"))
  ((eq system-type 'darwin)
   (setq own-org-directory "~/org/"))
  ((eq system-type 'windows-nt)
