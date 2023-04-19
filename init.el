@@ -15,6 +15,8 @@
 ;; Speed up startup
 (setq auto-mode-case-fold nil)
 (setq truncate-partial-width-windows nil)
+(defconst sys/wsl
+  (string-match "-[Mm]icrosoft" operating-system-release))
 (defconst sys/win32p
   (eq system-type 'windows-nt)
   "Are we running on a WinTel system?")

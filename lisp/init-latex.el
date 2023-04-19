@@ -150,6 +150,8 @@
   (when sys/linuxp
     (setq ebib-file-associations '(("pdf" . "evince")))
     )
+  (when sys/wsl
+    (setq ebib-file-associations '(("pdf" . "wslview"))))
   (when sys/macp
     (setq ebib-file-associations '(("pdf" . "open")))
     )
