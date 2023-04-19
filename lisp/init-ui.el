@@ -39,9 +39,38 @@
   :ensure t
   :config
   ;; (load-theme 'ef-duo-light 'no-confirm)
-  (ef-themes-select 'ef-duo-light)
+  ;; (ef-themes-select 'ef-duo-light)
   ;; (load-theme 'default 'no-confirm)
   )
+(use-package color-identifiers-mode
+  :diminish (color-identifiers-mode . "≡ ")
+  :bind (("C-c hi" . color-identifiers-mode))
+  :ensure t
+  :defer t
+  :config
+  (add-to-list
+   'color-identifiers:modes-alist
+   `(rjsx-mode . ("[^.][[:space:]]*"
+                  "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
+                  (nil font-lock-variable-name-face js2-function-param)))))
+(use-package tao-theme
+  :ensure t
+  :config
+  ;; (defun tao-palette () (tao-theme-golden-grayscale-yin-palette))
+  ;; (tao-with-color-variables tao-palette
+  ;;                           (progn
+  ;;                             (setq
+  ;;                              hl-paren-colors (list color-14 color-11 color-9 color-7 color-6)
+  ;;                              hl-paren-background-colors (list color-4 color-4 color-4 color-4 color-4))))
+  (setq tao-theme-use-sepia t)
+  (setq tao-theme-use-height nil)
+  (setq tao-theme-sepia-depth 10)
+  (setq tao-theme-sepia-saturation 1.08)
+  (load-theme 'tao-yang t)
+  (defun tao-palette ()
+    (tao-theme-yang-palette))
+  )
+
 (use-package all-the-icons
   :after cnfonts
   :if (display-graphic-p))
