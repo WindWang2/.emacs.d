@@ -268,7 +268,6 @@
                                         :height (cond (sys/macp 130)
                                                       (sys/win32p 100)
                                                       (t 100))))
-
     ;; Set mode-line font
     ;; (cl-loop for font in '("Menlo" "SF Pro Display" "Helvetica")
     ;;          when (font-installed-p font)
@@ -303,6 +302,12 @@
                       (setq face-font-rescale-alist `((,font . 1.1)))
                       (set-fontset-font t '(#x4e00 . #x9fff) (font-spec :family font))
                       (set-fontset-font t '(#xf0e7 . #x9fff) (font-spec :family font))))))
+(set-face-attribute 'fixed-pitch nil
+                    :font "Source Code Pro"
+                    :height (cond (sys/macp 130)
+                                  (sys/win32p 100)
+                                  (t 100)))
+
 (centaur-setup-fonts)
 (add-hook 'window-setup-hook #'centaur-setup-fonts)
 (add-hook 'server-after-make-frame-hook #'centaur-setup-fonts)
