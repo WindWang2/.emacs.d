@@ -395,7 +395,7 @@ channel."
            :latex-compiler ("latex -interaction nonstopmode -shell-escape -output-directory %o %f")
            :image-converter ("dvisvgm %f -e -n -b 1 -c %S -o %O")))))
 
-
+;; (add-hook 'org-mode-hook (lambda () (org-fragtog-mode -1)))
 (setq org-preview-latex-default-process 'dvisvgm)
 (defun my/org--latex-header-preview (orig &rest args)
   "Setup dedicated `org-format-latex-header' to `my/org--match-text-baseline-ascent'."

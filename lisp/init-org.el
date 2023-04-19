@@ -388,8 +388,8 @@ If the function sets CREATED, it returns its value."
   ;; Auto-toggle Org LaTeX fragments
   (use-package org-fragtog
     :diminish
-    :hook (org-mode . org-fragtog-mode))
-
+    )
+  ;; :hook (org-mode . org-fragtog-mode))
   ;; Preview
   (use-package org-preview-html
     :diminish

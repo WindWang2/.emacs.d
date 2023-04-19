@@ -259,8 +259,8 @@
   "Setup fonts."
   (when (display-graphic-p)
     ;; Set default font
-    (cl-loop for font in '("Monego Nerd Font Fix" "Cascadia Code" "Fira Code" "Jetbrains Mono"
-                           "SF Mono" "Hack" "Source Code Pro" "Menlo"
+    (cl-loop for font in '("Source Code Pro" "Cascadia Code" "Fira Code" "Jetbrains Mono" "Monego Nerd Font Fix"
+                           "SF Mono" "Hack" "Menlo"
                            "Monaco" "DejaVu Sans Mono" "Consolas")
              when (font-installed-p font)
              return (set-face-attribute 'default nil
