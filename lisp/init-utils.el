@@ -37,14 +37,15 @@
            (executable-find "make"))
   (use-package vterm
     :bind (:map vterm-mode-map
-	   ([f9] . (lambda ()
-		     (interactive)
-		     (and (fboundp 'shell-pop-toggle)
+	       ([f9] . (lambda ()
+		             (interactive)
+		             (and (fboundp 'shell-pop-toggle)
                           (shell-pop-toggle)))))
     :config
     (define-key vterm-mode-map (kbd "C-\\") nil)
     :init (setq vterm-always-compile-module t)))
 
+;; (setq default-input-method nil)
 (use-package winum
   :bind (("C-`" . winum-select-window-by-number)
          ("C-²" . winum-select-window-by-number)
@@ -484,8 +485,41 @@
 
 (unless sys/win32p
   (use-package daemons)                 ; system services/daemons
-  (use-package tldr))
+  (use-package tldr)
+  )
 
+(when sys/win32p
+  (use-package sis
+    ;; :hook
+    ;; enable the /follow context/ and /inline region/ mode for specific buffers
+    ;; (((text-mode prog-mode) . sis-context-mode)
+    ;;  ((text-mode prog-mode) . sis-inline-mode))
+    :init
+    :bind ("C-\\" . sis-switch)
+    :config
+    (when sys/win32p
+      (sis-ism-lazyman-config nil t 'w32))
+    (when sys/macp
+      (sis-ism-lazyman-config
+
+       ;; English input source may be: "ABC", "US" or another one.
+       ;; "com.apple.keylayout.ABC"
+       "com.apple.keylayout.US"
+
+       ;; Other language input source: "rime", "sogou" or another one.
+       ;; "im.rime.inputmethod.Squirrel.Rime"
+       "com.sogou.inputmethod.sogou.pinyin"))
+    ;; enable the /cursor color/ mode
+    (sis-global-cursor-color-mode t)
+    ;; enable the /respect/ mode
+    (sis-global-respect-mode t)
+    ;; enable the /context/ mode for all buffers
+    (sis-global-context-mode t)
+    ;; enable the /inline english/ mode for all buffers
+    (sis-global-inline-mode t)
+    (setq-default sis-inline-tighten-head-rule 0)
+    )
+  )
 (use-package evil-nerd-commenter
   :defer t
   :init
@@ -493,37 +527,6 @@
   (global-set-key (kbd "C-c l") 'evilnc-quick-comment-or-uncomment-to-the-line)
   (global-set-key (kbd "C-c k") 'evilnc-copy-and-comment-lines)
   (global-set-key (kbd "C-c m") 'evilnc-comment-or-uncomment-paragraphs))
-
-;; (use-package sis
-;;   ;; :hook
-;;   ;; enable the /follow context/ and /inline region/ mode for specific buffers
-;;   ;; (((text-mode prog-mode) . sis-context-mode)
-;;   ;;  ((text-mode prog-mode) . sis-inline-mode))
-;;   :init
-;;   :bind ("C-\\" . sis-switch)
-;;   :config
-;;   (when sys/win32p
-;;     (sis-ism-lazyman-config nil t 'w32))
-;;   (when sys/macp
-;;     (sis-ism-lazyman-config
-
-;;      ;; English input source may be: "ABC", "US" or another one.
-;;      ;; "com.apple.keylayout.ABC"
-;;      "com.apple.keylayout.US"
-
-;;      ;; Other language input source: "rime", "sogou" or another one.
-;;      ;; "im.rime.inputmethod.Squirrel.Rime"
-;;      "com.sogou.inputmethod.sogou.pinyin"))
-;;   ;; enable the /cursor color/ mode
-;;   (sis-global-cursor-color-mode t)
-;;   ;; enable the /respect/ mode
-;;   (sis-global-respect-mode t)
-;;   ;; enable the /context/ mode for all buffers
-;;   (sis-global-context-mode t)
-;;   ;; enable the /inline english/ mode for all buffers
-;;   (sis-global-inline-mode t)
-;;   (setq-default sis-inline-tighten-head-rule 0)
-;;   )
 
 ;; Siri shortcusts: for translating
 ;; -ref: https://emacs-china.org/t/macos/23234, https://emacs-china.org/t/emacs-macos/23268/6
