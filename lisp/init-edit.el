@@ -134,8 +134,10 @@
                             (dolist (key '("C-;" "C-," "C-."))
                               (unbind-key key flyspell-mode-map)))))
   :init (setq flyspell-issue-message-flag nil
-              ispell-program-name "aspell"
-              ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together"))
+              ispell-program-name "enchant-2"
+              ispell-dictionary "english")
+  ;; ispell-program-name "aspell"
+  ;; ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together"))
   :config
   ;; (add-hook 'org-mode-hook (lambda () (flyspell-mode -1)))
   ;; Correcting words with flyspell via Ivy
