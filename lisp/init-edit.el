@@ -494,27 +494,32 @@ Lisp function does not specify a special indentation."
   :config
   ;; Default to Python 3. Prefer the versioned Python binaries since some
   ;; systems stupidly make the unversioned one point at Python 2.
-  (when (and (executable-find "python3")
-             (string= python-shell-interpreter "python"))
-    (setq python-shell-interpreter "python3"))
-
   (use-package conda
     :init
-    (setq conda-anaconda-home "/opt/miniconda3/bin")
+    (setq conda-anaconda-home "/opt/miniconda3")
     (when sys/linuxp
-      (setq conda-anaconda-home "/opt/miniconda3/bin"))
+      (setq conda-anaconda-home "/opt/miniconda3"))
     (when sys/macp
-      (setq conda-anaconda-home (expand-file-name "~/miniconda3/bin")))
+      (setq conda-anaconda-home (expand-file-name "~/mambaforge/")))
     :config
     (conda-env-initialize-interactive-shells)
+    (conda-env-initialize-eshell)
+    ;; (conda-env-autoactivate-mode t)
+    (add-hook 'find-file-hook (lambda () (when (bound-and-true-p conda-project-env-path)
+                                           (conda-env-activate-for-buffer))))
     )
+
+  ;; (when (and (executable-find "python3")
+  ;;            (string= python-shell-interpreter "python"))
+  ;;   (setq python-shell-interpreter "python3"))
   ;; (when sys/macp
-  ;;   (setq python-shell-interpreter "~/mambaforge/bin/python3"))
+  ;;   (setq python-shell-interpreter (expand-file-name "~/mambaforge/bin/python3")))
   ;; (when sys/linuxp
   ;;   (setq python-shell-interpreter "/opt/miniconda3/bin/python3"))
   ;; Env vars
-  (with-eval-after-load 'exec-path-from-shell
-    (exec-path-from-shell-copy-env "PYTHONPATH")))
+  ;; (with-eval-after-load 'exec-path-from-shell
+  ;;   (exec-path-from-shell-copy-env "PYTHONPATH"))
+  )
 
 
 
@@ -527,13 +532,42 @@ Lisp function does not specify a special indentation."
 (yas-global-mode 1)
 
 (require 'lsp-bridge)
-(when sys/macp
-  (setq lsp-bridge-python-command "python"))
+;; (when sys/macp
+;;   (setq lsp-bridge-python-command (expand-file-name "~/mambaforge/bin/python")))
+(setq lsp-bridge-python-multi-lsp-server "pyright_ruff")
 (global-lsp-bridge-mode)
+(add-hook 'python-mode-hook (lambda () (conda-env-activate "base")))
+(add-hook 'conda-postactivate-hook
+          (lambda ()
+            (lsp-bridge-restart-process)))
+
 
 
 (add-to-list 'load-path "~/github/blink-search")
 (require 'blink-search)
+
+;; (defun local/lsp-bridge-get-single-lang-server-by-project (project-path filepath)
+;;   (let* ((json-object-type 'plist)
+;;          (custom-dir (expand-file-name ".cache/lsp-bridge/pyright" user-emacs-directory))
+;;          (custom-config (expand-file-name "pyright.json" custom-dir))
+;;          (default-config (json-read-file (expand-file-name "../github/lsp-bridge/langserver/pyright.json" user-emacs-directory)))
+;;          (settings (plist-get default-config :settings))
+;;          )
+
+;;     (plist-put settings :pythonPath (executable-find "python"))
+
+;;     (make-directory (file-name-directory custom-config) t)
+
+;;     (with-temp-file custom-config
+;;       (insert (json-encode default-config)))
+
+;;     custom-config))
+
+;; (add-hook 'python-mode-hook (lambda () (setq-local lsp-bridge-get-single-lang-server-by-project 'local/lsp-bridge-get-single-lang-server-by-project)))
+
+;; (add-hook 'pyvenv-post-activate-hooks
+;;           (lambda ()
+;;             (lsp-bridge-restart-process)))
 
 (use-package pangu-spacing)
 (provide 'init-edit)
