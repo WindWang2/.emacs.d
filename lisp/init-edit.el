@@ -498,7 +498,10 @@ Lisp function does not specify a special indentation."
     :init
     (setq conda-anaconda-home "/opt/miniconda3")
     (when sys/linuxp
-      (setq conda-anaconda-home "/opt/miniconda3"))
+      (if (file-exists-p "/opt/anaconda")
+          (setq conda-anaconda-home "/opt/anaconda")
+        (setq conda-anaconda-home "/opt/miniconda3")))
+
     (when sys/macp
       (setq conda-anaconda-home (expand-file-name "~/mambaforge/")))
     :config
