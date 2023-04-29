@@ -17,6 +17,7 @@
 (setq truncate-partial-width-windows nil)
 (defconst sys/wsl
   (string-match "-[Mm]icrosoft" operating-system-release))
+
 (defconst sys/win32p
   (eq system-type 'windows-nt)
   "Are we running on a WinTel system?")
@@ -39,6 +40,14 @@
 (defconst sys/mac-ns-p
   (eq window-system 'ns)
   "Are we running on a GNUstep or Macintosh Cocoa display?")
+
+(defun childframe-workable-p ()
+  "Whether childframe is workable."
+  (or (not (or noninteractive
+               emacs-basic-display
+               (not (display-graphic-p))))
+      (daemonp)))
+
 (unless (or (daemonp) noninteractive init-file-debug)
   (let ((old-file-name-handler-alist file-name-handler-alist))
     (setq file-name-handler-alist nil)

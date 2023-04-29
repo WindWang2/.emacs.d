@@ -33,9 +33,10 @@
 ;;                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/"))))
 
 (setq package-archives '(("gnu"   . "http://elpa.gnu.org/packages/")
-			 ("nongnu" . "http://elpa.nongnu.org/nongnu/")
+			             ("nongnu" . "http://elpa.nongnu.org/nongnu/")
                          ("melpa" . "http://melpa.org/packages/")))
-(package-install 'use-package-ensure-system-package)
+(unless (package-installed-p 'use-package-ensure-system-package)
+  (package-install 'use-package-ensure-system-package))
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 ;; Setup `use-package

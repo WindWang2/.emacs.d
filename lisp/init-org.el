@@ -34,7 +34,7 @@
   :after pretty-hydra
   :ensure nil
   :commands (org-dynamic-block-define)
-  :custom-face (org-ellipsis ((t (:foreground nil))))
+  :custom-face (org-ellipsis ((t (:foreground unspecified))))
   :pretty-hydra
   ((:title (pretty-hydra-title "Org Template" 'fileicon "org" :face 'all-the-icons-green :height 1.1 :v-adjust 0.0)
     :color blue :quit-key "q")
@@ -658,11 +658,11 @@ is non-nil and `re-search-forward' otherwise."
 		        "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
 		        "\\)")))
 ;; Roam
-(use-package emacsql-sqlite
-  :ensure t)
-(use-package emacsql-sqlite-builtin)
+;; (use-package emacsql-sqlite
+;;   :ensure t)
+;; (use-package emacsql-sqlite-builtin)
 (use-package org-roam
-  :after emacsql-sqlite emacsql-sqlite-builtin
+  ;; :after emacsql-sqlite-builtin
   :diminish
   :hook (after-init . org-roam-db-autosync-enable)
   :bind (("C-c n l" . org-roam-buffer-toggle)
@@ -673,9 +673,9 @@ is non-nil and `re-search-forward' otherwise."
          ("C-c n j" . org-roam-dailies-capture-today))
   :init
   (setq org-roam-directory (file-truename own-org-directory))
-
   ;; (setq org-roam-v2-ack t)
   :config
+  (setq org-roam-database-connector 'sqlite-builtin)
   (cl-defmethod org-roam-node-type ((node org-roam-node))
     "Return the TYPE of NODE."
     (condition-case nil
@@ -690,11 +690,16 @@ is non-nil and `re-search-forward' otherwise."
   (use-package org-roam-ui
     :init
     (when (featurep 'xwidget-internal)
-      (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url)))
+      (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url))
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-follow-mode t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
 
   :custom
-  (org-roam-database-connector 'sqlite-builtin)
   (org-roam-db-gc-threshold most-positive-fixnum)
+  (org-roam-completion-everywhere t)
   (org-roam-capture-templates '(("d" "default (main)" plain "%?" :target
                                  (file+head "%<%Y>-${slug}.org" "#+title: ${title}\n")
                                  :imediate-finish t
@@ -727,7 +732,7 @@ is non-nil and `re-search-forward' otherwise."
 
   (org-roam-node-display-template
    (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag))))
-
+(use-package emacsql-sqlite-builtin)
 (use-package vulpea
   :ensure t
   :after org-roam
@@ -883,6 +888,7 @@ tasks."
 (add-hook 'before-save-hook #'vulpea-project-update-tag)
 (advice-add 'org-agenda :before #'vulpea-agenda-files-update)
 (advice-add 'org-todo-list :before #'vulpea-agenda-files-update)
+
 
 
 ;; (use-package emacsql-sqlite-module
