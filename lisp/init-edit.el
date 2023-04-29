@@ -524,7 +524,9 @@ Lisp function does not specify a special indentation."
   ;;   (exec-path-from-shell-copy-env "PYTHONPATH"))
   )
 
-
+(use-package treesit-auto
+  :hook (after-init . global-treesit-auto-mode)
+  :init (setq treesit-auto-install 'prompt))
 
 (use-package markdown-mode
   :defer t)
