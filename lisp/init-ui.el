@@ -282,6 +282,17 @@
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."
   (find-font (font-spec :name font-name)))
+
+(use-package default-text-scale
+  :hook (after-init . default-text-scale-mode)
+  :bind (:map default-text-scale-mode-map
+         ("s-="   . default-text-scale-increase)
+         ("s--"   . default-text-scale-decrease)
+         ("s-0"   . default-text-scale-reset)
+         ("C-s-=" . default-text-scale-increase)
+         ("C-s--" . default-text-scale-decrease)
+         ("C-s-0" . default-text-scale-reset)))
+
 (defun centaur-setup-fonts ()
   "Setup fonts."
   (when (display-graphic-p)
