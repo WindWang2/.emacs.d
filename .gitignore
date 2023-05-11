@@ -12,6 +12,7 @@
 .dap-*
 .extension/
 .vscode/
+tree-sitter/
 /.agignore
 /.elfeed
 /.emacs*.desktop

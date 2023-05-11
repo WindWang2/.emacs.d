@@ -537,8 +537,8 @@ Lisp function does not specify a special indentation."
 (yas-global-mode 1)
 
 (require 'lsp-bridge)
-;; (when sys/macp
-;;   (setq lsp-bridge-python-command (expand-file-name "~/mambaforge/bin/python")))
+(when sys/macp
+  (setq lsp-bridge-python-command (expand-file-name "~/mambaforge/bin/python")))
 (setq lsp-bridge-python-multi-lsp-server "pyright_ruff")
 (global-lsp-bridge-mode)
 (add-hook 'python-mode-hook (lambda () (conda-env-activate "base")))
