@@ -163,38 +163,6 @@
     "Show trailing spaces and delete on saving."
     (setq show-trailing-whitespace t)
     (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
-
-  ;; Prettify the process list
-  ;; (with-no-warnings
-  ;;   (add-hook 'process-menu-mode-hook
-  ;;             (lambda ()
-  ;;               (setq tabulated-list-format
-  ;;                     (vconcat `(("" ,(if (icon-displayable-p) 2 0)))
-  ;;                              tabulated-list-format))))
-
-  ;;   (defun my-list-processes--prettify ()
-  ;;     "Prettify process list."
-  ;;     (when-let ((entries tabulated-list-entries))
-  ;;       (setq tabulated-list-entries nil)
-  ;;       (dolist (p (process-list))
-  ;;         (when-let* ((val (cadr (assoc p entries)))
-  ;;                     (icon "x")
-  ;;                     (name (aref val 0))
-  ;;                     (pid (aref val 1))
-  ;;                     (status (aref val 2))
-  ;;                     (status (list status
-  ;;                                   'face
-  ;;                                   (if (memq status '(stop exit closed failed))
-  ;;                                       'error
-  ;;                                     'success)))
-  ;;                     (buf-label (aref val 3))
-  ;;                     (tty (list (aref val 4) 'face 'font-lock-doc-face))
-  ;;                     (thread (list (aref val 5) 'face 'font-lock-doc-face))
-  ;;                     (cmd (list (aref val (if t 6 5)) 'face 'completions-annotations)))
-  ;;           (push (list
-  ;;                  (vector icon name pid status buf-label tty cmd))
-  ;;   	          tabulated-list-entries)))))
-  ;;   (advice-add #'list-processes--refresh :after #'my-list-processes--prettify))
   )
 
 (use-package time
@@ -233,9 +201,11 @@
 (setq save-interprogram-paste-before-kill t)
 
 ;; Kill & Mark things easily
-(use-package easy-kill
-  :bind (([remap kill-ring-save] . easy-kill)
-         ([remap mark-sexp] . easy-mark)))
+(use-package browse-kill-ring
+  :bind ("C-c k" . browse-kill-ring)
+  :hook (after-init . browse-kill-ring-default-keybindings)
+  :init (setq browse-kill-ring-separator "────────────────"
+              browse-kill-ring-separator-face 'shadow))
 
 ;; Interactively insert and edit items from kill-ring
 (use-package browse-kill-ring
@@ -274,8 +244,8 @@
           (height (or height 1.0))
           (v-adjust (or v-adjust 0.0)))
       (concat
-       (when (and (icon-displayable-p) icon-type icon-name)
-         (let ((f (intern (format "all-the-icons-%s" icon-type))))
+       (when (and (icons-displayable-p) icon-type icon-name)
+         (let ((f (intern (format "nerd-icons-%s" icon-type))))
            (when (fboundp f)
              (concat
               (apply f (list icon-name :face face :height height :v-adjust v-adjust))

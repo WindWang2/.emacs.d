@@ -71,15 +71,13 @@
     (tao-theme-yang-palette))
   )
 
-(use-package all-the-icons
-  :after cnfonts
-  :if (display-graphic-p))
+(use-package nerd-icons)
 
-(defun icon-displayable-p ()
+(defun icons-displayable-p ()
   "Return non-nil if icons are displayable."
-  (and    (or (display-graphic-p) (daemonp))
-	  (or (featurep 'all-the-icons)
-	      (require 'all-the-icons nil t))))
+  (or (featurep 'nerd-icons)
+      (require 'nerd-icons nil t)))
+
 (use-package doom-themes)
 ;; Show native line numbers if possible, otherwise use `linum'
 (if (fboundp 'display-line-numbers-mode)
@@ -132,7 +130,6 @@
     (setq-default mode-line-format nil))
 
   :config
-  (setq all-the-icons-scale-factor 1.0)
   (set-face-attribute 'mode-line nil :height 100)
   (set-face-attribute 'mode-line-inactive nil :height 100)
   (doom-modeline-mode)

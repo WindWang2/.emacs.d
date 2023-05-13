@@ -158,11 +158,6 @@
   (with-eval-after-load 'projectile
     (setq popper-group-function #'popper-group-by-projectile))
 
-  ;; (when (display-grayscale-p)
-  ;;   (setq popper-mode-line
-  ;;         '(:eval
-  ;;           (format " %s " (all-the-icons-octicon "pin" :height 0.9 :v-adjust 0.0 :face 'mode-line-emphasis)))))
-
   (setq popper-echo-dispatch-actions t)
   :config
   (popper-echo-mode 1)
@@ -216,61 +211,29 @@
     ;; Quick sort dired buffers via hydra
     (use-package dired-quick-sort
       :bind (:map dired-mode-map
-	     ("S" . hydra-dired-quick-sort/body))))
+	         ("S" . hydra-dired-quick-sort/body))))
 
   ;; Show git info in dired
   (use-package dired-git-info
     :bind (:map dired-mode-map
-	   (")" . dired-git-info-mode)))
+	       (")" . dired-git-info-mode)))
 
   ;; Allow rsync from dired buffers
   (use-package dired-rsync
     :bind (:map dired-mode-map
-	   ("C-c C-r" . dired-rsync)))
+	       ("C-c C-r" . dired-rsync)))
 
   ;; Colourful dired
   (use-package diredfl
     :init (diredfl-global-mode 1))
 
   ;; Shows icons
-  (use-package all-the-icons-dired
+  (use-package nerd-icons-dired
     :diminish
-    :hook (dired-mode . (lambda ()
-                          (when (icon-displayable-p)
-                            (all-the-icons-dired-mode))))
-    :init (setq all-the-icons-dired-monochrome nil)
-    :config
-    (with-no-warnings
-      (defun my-all-the-icons-dired--refresh ()
-        "Display the icons of files in a dired buffer."
-        (all-the-icons-dired--remove-all-overlays)
-        ;; NOTE: don't display icons it too many items
-        (if (<= (count-lines (point-min) (point-max)) 1000)
-            (save-excursion
-              (goto-char (point-min))
-              (while (not (eobp))
-                (when (dired-move-to-filename nil)
-                  (let ((case-fold-search t))
-                    (when-let* ((file (dired-get-filename 'relative 'noerror))
-                                (icon (if (file-directory-p file)
-                                          (all-the-icons-icon-for-dir
-                                           file
-                                           :face 'all-the-icons-dired-dir-face
-                                           :height 0.9
-                                           :v-adjust all-the-icons-dired-v-adjust)
-                                        (apply #'all-the-icons-icon-for-file
-                                               file
-                                               (append
-                                                '(:height 0.9)
-                                                `(:v-adjust ,all-the-icons-dired-v-adjust)
-                                                (when all-the-icons-dired-monochrome
-                                                  `(:face ,(face-at-point))))))))
-                      (if (member file '("." ".."))
-                          (all-the-icons-dired--add-overlay (dired-move-to-filename) "   \t")
-                        (all-the-icons-dired--add-overlay (dired-move-to-filename) (concat " " icon "\t"))))))
-                (forward-line 1)))
-          (message "Not display icons because of too many items.")))
-      (advice-add #'all-the-icons-dired--refresh :override #'my-all-the-icons-dired--refresh)))
+    :commands nerd-icons-dired-mode
+    :custom-face
+    (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
+    :hook (dired-mode . nerd-icons-dired-mode))
 
   ;; Extra Dired functionality
   (use-package dired-aux :ensure nil)
@@ -436,25 +399,6 @@
   (setq proced-auto-update-flag t
         proced-auto-update-interval 3))
 
-;; text mode directory tree
-;; (use-package ztree
-;;   :custom-face
-;;   (ztreep-header-face ((t (:inherit diff-header))))
-;;   (ztreep-arrow-face ((t (:inherit font-lock-comment-face))))
-;;   (ztreep-leaf-face ((t (:inherit diff-index))))
-;;   (ztreep-node-face ((t (:inherit font-lock-variable-name-face))))
-;;   (ztreep-expand-sign-face ((t (:inherit font-lock-function-name-face))))
-;;   (ztreep-diff-header-face ((t (:inherit (diff-header bold)))))
-;;   (ztreep-diff-header-small-face ((t (:inherit diff-file-header))))
-;;   (ztreep-diff-model-normal-face ((t (:inherit font-lock-doc-face))))
-;;   (ztreep-diff-model-ignored-face ((t (:inherit font-lock-doc-face :strike-through t))))
-;;   (ztreep-diff-model-diff-face ((t (:inherit diff-removed))))
-;;   (ztreep-diff-model-add-face ((t (:inherit diff-nonexistent))))
-;;   :bind (:map ztreediff-mode-map
-;;          ("C-<f5>" . ztree-hydra/body))
-;;   :init (setq ztree-draw-unicode-lines t
-;;               ztree-show-number-of-children t))
-
 ;; Misc
 (use-package copyit)                    ; copy path, url, etc.
 (use-package focus)                     ; Focus on the current region
@@ -463,7 +407,7 @@
 (use-package list-environment
   :hook (list-environment-mode . (lambda ()
                                    (setq tabulated-list-format
-                                         (vconcat `(("" ,(if (icon-displayable-p) 2 0)))
+                                         (vconcat `(("" ,(if (icons-displayable-p) 2 0)))
                                                   tabulated-list-format))
                                    (tabulated-list-init-header)))
   :init
@@ -475,8 +419,8 @@
                        (key (car kv))
                        (val (mapconcat #'identity (cdr kv) "=")))
                   (list key (vector
-                             (if (icon-displayable-p)
-                                 (all-the-icons-octicon "key" :height 0.8 :v-adjust -0.05)
+                             (if (icons-displayable-p)
+                                 (nerd-icons-octicon "key" :height 0.8 :v-adjust -0.05)
                                "")
                              `(,key face font-lock-keyword-face)
                              `(,val face font-lock-string-face)))))
@@ -490,10 +434,6 @@
 
 (when sys/win32p
   (use-package sis
-    ;; :hook
-    ;; enable the /follow context/ and /inline region/ mode for specific buffers
-    ;; (((text-mode prog-mode) . sis-context-mode)
-    ;;  ((text-mode prog-mode) . sis-inline-mode))
     :init
     :bind ("C-\\" . sis-switch)
     :config
@@ -501,11 +441,9 @@
       (sis-ism-lazyman-config nil t 'w32))
     (when sys/macp
       (sis-ism-lazyman-config
-
        ;; English input source may be: "ABC", "US" or another one.
        ;; "com.apple.keylayout.ABC"
        "com.apple.keylayout.US"
-
        ;; Other language input source: "rime", "sogou" or another one.
        ;; "im.rime.inputmethod.Squirrel.Rime"
        "com.sogou.inputmethod.sogou.pinyin"))
