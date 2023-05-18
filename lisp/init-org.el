@@ -444,7 +444,7 @@ If the function sets CREATED, it returns its value."
     (with-eval-after-load 'org
       (org-download-enable))
     :config
-    (setq org-download-image-dir (concat own-org-directory "/images"))
+    (setq org-download-image-dir (concat own-org-directory "images"))
     (defun dummy-org-download-annotate-function (link)
       "")
     (if (eq system-type 'darwin)
@@ -458,7 +458,6 @@ If the function sets CREATED, it returns its value."
     :custom
     (org-image-actual-width 360)
     (org-download-heading-lvl nil)
-    (org-download-image-dir (concat own-org-directory "/images"))
     )
 
   ;; (use-package org-wild-notifier)

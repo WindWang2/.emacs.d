@@ -79,7 +79,7 @@
   :config
   (setq citar-at-point-function 'embark-act
         citar-bibliography (mapcar (lambda (file) (concat bibtex-file-path file)) bibtex-files)
-        citar-library-paths `(,(concat bibtex-file-path "../PDFs/"))
+        citar-library-paths `(,(concat bibtex-file-path "../../../DEVON/PDFs/"))
         citar-notes-paths `(,bibtex-notes-path))
 
   (defun citar-copy-title (citekey)
@@ -171,7 +171,7 @@
         ;; ebib-notes-default-file (concat bibtex-file-path "../paper_notes/notes.org")
         ebib-keywords (concat bibtex-file-path "keywords.txt")
         ebib-preload-bib-files `(,(concat bibtex-file-path "NSF_Fund.bib"))
-        ebib-file-search-dirs (list (concat bibtex-file-path "../PDFs")
+        ebib-file-search-dirs (list (concat bibtex-file-path "../../../DEVON/PDFs/")
                                     (concat bibtex-file-path "../bibs"))
         ebib-notes-template-specifiers '((?k . ebib-create-key)
                                          (?i . ebib-create-id)

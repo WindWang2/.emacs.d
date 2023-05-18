@@ -38,7 +38,7 @@
 (use-package ef-themes
   :ensure t
   :config
-  ;; (load-theme 'ef-duo-light 'no-confirm)
+  (load-theme 'ef-duo-light t)
   ;; (ef-themes-select 'ef-duo-light)
   ;; (load-theme 'default 'no-confirm)
   )
@@ -66,7 +66,7 @@
   (setq tao-theme-use-height nil)
   (setq tao-theme-sepia-depth 10)
   (setq tao-theme-sepia-saturation 1.08)
-  (load-theme 'tao-yang t)
+  ;; (load-theme 'tao-yang t)
   (defun tao-palette ()
     (tao-theme-yang-palette))
   )
@@ -294,7 +294,7 @@
   "Setup fonts."
   (when (display-graphic-p)
     ;; Set default font
-    (cl-loop for font in '("Source Code Pro" "Cascadia Code" "Fira Code" "Jetbrains Mono" "Monego Nerd Font Fix"
+    (cl-loop for font in '("Cascadia Code" "Source Code Pro" "Fira Code" "Jetbrains Mono" "Monego Nerd Font Fix"
                            "SF Mono" "Hack" "Menlo"
                            "Monaco" "DejaVu Sans Mono" "Consolas")
              when (font-installed-p font)
