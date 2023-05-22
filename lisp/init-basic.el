@@ -34,7 +34,10 @@
 
 (setq package-archives '(("gnu"   . "http://elpa.gnu.org/packages/")
 			             ("nongnu" . "http://elpa.nongnu.org/nongnu/")
-                         ("melpa" . "http://melpa.org/packages/")))
+				     ("melpa" . "http://melpa.org/packages/")))
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
 (unless (package-installed-p 'use-package-ensure-system-package)
   (package-install 'use-package-ensure-system-package))
 (require 'use-package-ensure)
