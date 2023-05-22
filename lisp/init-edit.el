@@ -501,9 +501,9 @@ Lisp function does not specify a special indentation."
       (if (file-exists-p "/opt/anaconda")
           (setq conda-anaconda-home "/opt/anaconda")
         (setq conda-anaconda-home "/opt/miniconda3")))
-
     (when sys/macp
       (setq conda-anaconda-home (expand-file-name "~/mambaforge/")))
+
     :config
     (conda-env-initialize-interactive-shells)
     (conda-env-initialize-eshell)
@@ -540,8 +540,8 @@ Lisp function does not specify a special indentation."
   (add-to-list 'load-path "~/github/blink-search")
   (require 'blink-search)
   (when sys/macp
-  (setq lsp-bridge-python-command (expand-file-name "~/mambaforge/bin/python"))
-  (setq lsp-bridge-python-multi-lsp-server "pyright_ruff"))
+    (setq lsp-bridge-python-command (expand-file-name "~/mambaforge/bin/python"))
+    (setq lsp-bridge-python-multi-lsp-server "pyright_ruff"))
   (add-hook 'python-mode-hook (lambda () (conda-env-activate "base")))
   (add-hook 'conda-postactivate-hook
             (lambda ()
