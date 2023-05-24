@@ -674,7 +674,8 @@ is non-nil and `re-search-forward' otherwise."
   (setq org-roam-directory (file-truename own-org-directory))
   ;; (setq org-roam-v2-ack t)
   :config
-  (setq org-roam-database-connector 'sqlite-builtin)
+  (when (>= emacs-major-version 29)
+    (setq org-roam-database-connector 'sqlite-builtin))
   (cl-defmethod org-roam-node-type ((node org-roam-node))
     "Return the TYPE of NODE."
     (condition-case nil
@@ -731,7 +732,8 @@ is non-nil and `re-search-forward' otherwise."
 
   (org-roam-node-display-template
    (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag))))
-(use-package emacsql-sqlite-builtin)
+(when (>= emacs-major-version 29)
+  (use-package emacsql-sqlite-builtin))
 (use-package vulpea
   :ensure t
   :after org-roam
