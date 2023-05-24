@@ -548,6 +548,8 @@
     ;; (define-key rime-active-mode-map (kbd "M-j") 'rime-inline-ascii)
     (if (eq system-type 'darwin)
         (setq rime-librime-root "~/.emacs.d/librime/dist"))
+    (when (string-match-p "termux" (getenv "PREFIX"))
+      (setq rime-share-data-dir "~/.emacs.d/rime"))
     )
   )
 
