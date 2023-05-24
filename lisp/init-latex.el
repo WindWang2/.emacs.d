@@ -81,6 +81,8 @@
         citar-bibliography (mapcar (lambda (file) (concat bibtex-file-path file)) bibtex-files)
         citar-library-paths `(,(concat bibtex-file-path "../../../DEVON/PDFs/"))
         citar-notes-paths `(,bibtex-notes-path))
+  (when sys/wsl
+    (setq citar-library-paths `(,(concat bibtex-file-path "/mnt/c/DEVON/PDFs/"))))
 
   (defun citar-copy-title (citekey)
     "Copy title associated with the CITEKEYS."
@@ -181,6 +183,9 @@
                                          (?L . ebib-create-org-link)
                                          (?F . ebib-create-org-file-name)
                                          (?S . ebib-create-org-time-stamp)))
+  (when sys/wsl
+    (setq ebib-file-search-dirs (list (concat bibtex-file-path "/mnt/c/DEVON/PDFs/")
+                                      (concat bibtex-file-path "../bibs"))))
   ;; Rename of ~ebib-import-file~, Ref: https://mtino1594.hatenablog.com/entry/2019/02/04/230032
   (defun my/get-file-name (name)
     (if (> (length name) 50) (substring name 0 50) name))
