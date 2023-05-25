@@ -243,7 +243,7 @@ If the function sets CREATED, it returns its value."
           (nil . (:level . 1)))
         org-agenda-clockreport-parameter-plist '(:scope agenda-with-archives :link t :maxlevel 3)
         org-agenda-archives-mode t)
-
+  (setq org-cycle-separator-lines -1)
   (defadvice org-archive-subtree (around fix-hierarchy activate)
     (let* ((fix-archive-p (and (not current-prefix-arg)
                                (not (use-region-p))))
