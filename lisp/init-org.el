@@ -712,6 +712,10 @@ is non-nil and `re-search-forward' otherwise."
                                  (file+head "project/${title}.org" "#+title: Project: ${title}\n")
                                  :imediate-finish t
                                  :unnarrowed t)
+                                ("m" "Manuscript (paper)" plain "%?" :target
+                                 (file+head "manuscript/${title}.org" "#+title: Manuscript: ${title}\n")
+                                 :imediate-finish t
+                                 :unnarrowed t)
                                 ))
   (defun org-roam-open-refs ()
     "Open REFs of the node at point."
