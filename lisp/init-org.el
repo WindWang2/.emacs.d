@@ -708,6 +708,14 @@ is non-nil and `re-search-forward' otherwise."
                                  (file+head "collections/${title}.org" "#+title: ${title}\n")
                                  :imediate-finish t
                                  :unnarrowed t)
+                                ("n" "notes" plain "%?" :target
+                                 (file+head "notes/${title}.org" "#+title: note: ${title}\n")
+                                 :imediate-finish t
+                                 :unnarrowed t)
+                                ("a" "acadamic notes" plain "%?" :target
+                                 (file+head "notes/${title}.org" "#+title: Study note: ${title}\n")
+                                 :imediate-finish t
+                                 :unnarrowed t)
                                 ("p" "Project (project)" plain "%?" :target
                                  (file+head "project/${title}.org" "#+title: Project: ${title}\n")
                                  :imediate-finish t
