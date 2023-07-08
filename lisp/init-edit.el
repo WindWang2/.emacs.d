@@ -491,26 +491,26 @@ Lisp function does not specify a special indentation."
   :init
   ;; Disable readline based native completion
   (setq python-shell-completion-native-enable nil)
-  :config
+  ;; :config
   ;; Default to Python 3. Prefer the versioned Python binaries since some
   ;; systems stupidly make the unversioned one point at Python 2.
-  (use-package conda
-    :init
-    (setq conda-anaconda-home "/opt/miniconda3")
-    (when sys/linuxp
-      (if (file-exists-p "/opt/anaconda")
-          (setq conda-anaconda-home "/opt/anaconda")
-        (setq conda-anaconda-home "/opt/miniconda3")))
-    (when sys/macp
-      (setq conda-anaconda-home (expand-file-name "~/mambaforge/")))
+  ;; (use-package conda
+  ;;   :init
+  ;;   (setq conda-anaconda-home "/opt/miniconda3")
+  ;;   (when sys/linuxp
+  ;;     (if (file-exists-p "/opt/anaconda")
+  ;;         (setq conda-anaconda-home "/opt/anaconda")
+  ;;       (setq conda-anaconda-home "/opt/miniconda3")))
+  ;;   (when sys/macp
+  ;;     (setq conda-anaconda-home (expand-file-name "~/mambaforge/")))
 
-    :config
-    (conda-env-initialize-interactive-shells)
-    (conda-env-initialize-eshell)
-    ;; (conda-env-autoactivate-mode t)
-    (add-hook 'find-file-hook (lambda () (when (bound-and-true-p conda-project-env-path)
-                                           (conda-env-activate-for-buffer))))
-    )
+  ;;   :config
+  ;;   (conda-env-initialize-interactive-shells)
+  ;;   (conda-env-initialize-eshell)
+  ;;   ;; (conda-env-autoactivate-mode t)
+  ;;   (add-hook 'find-file-hook (lambda () (when (bound-and-true-p conda-project-env-path)
+  ;;                                          (conda-env-activate-for-buffer))))
+  ;;   )
 
   ;; (when (and (executable-find "python3")
   ;;            (string= python-shell-interpreter "python"))
