@@ -189,6 +189,7 @@ If the function sets CREATED, it returns its value."
 
         org-tag-persistent-alist '(("Reminder" .?r)
                                    ("THIS_WEEK" . ?t)
+                                   ("noexport" . ?e)
                                    (:startgrouptag)
                                    ("CONTEXT")
                                    (:grouptags)
@@ -443,8 +444,8 @@ If the function sets CREATED, it returns its value."
     (add-hook 'dired-mode-hook 'org-download-enable)
     (with-eval-after-load 'org
       (org-download-enable))
+    (setq-default org-download-image-dir (concat own-org-directory "images"))
     :config
-    (setq org-download-image-dir (concat own-org-directory "images"))
     (defun dummy-org-download-annotate-function (link)
       "")
     (if (eq system-type 'darwin)
