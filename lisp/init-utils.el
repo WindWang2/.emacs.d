@@ -824,4 +824,36 @@
 ;; (require 'websocket-bridge)
 ;; (add-to-list 'load-path "~/github/dictionary-overlay/")
 ;; (require 'dictionary-overlay)
+;; EAF
+(use-package ox-hugo)
+(use-package org-transclusion)
+(when sys/linuxp
+  (add-to-list 'load-path "~/github/popweb") ; add popweb to your load-path
+  ;; Org-Roam ID link and footnote link previewer
+  (add-to-list 'load-path "~/github/popweb/extension/org-roam")
+  (require 'popweb-org-roam-link)
+  ;; LaTeX preview functionality
+  (add-to-list 'load-path "~/github/popweb/extension/latex")
+  (require 'popweb-latex)
+  (add-hook 'latex-mode-hook #'popweb-latex-mode)
+  ;; Chinese-English translation popup
+  (add-to-list 'load-path "~/github/popweb/extension/dict")
+  (require 'popweb-dict)
+  (setq popweb-dict-say-word-p nil)
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-application-framework/")
+  (require 'eaf)
+  (require 'eaf-browser)
+  (require 'eaf-pdf-viewer)
+  ;; (require 'eaf-music-player)
+  ;; (use-package netease-music)
+  ;; (use-package netease-cloud-music)
+  ;; (require 'eaf-netease-cloud-music)
+  (eaf-setq eaf-webengine-pc-user-agent "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.58")
+  (eaf-setq eaf-browser-enable-adblocker "true")
+  (eaf-setq eaf-browser-enable-autofill "true")
+  (eaf-setq eaf-browser-default-zoom "1.50")
+  (defun eaf-translate-text (text)
+    (popweb-dict-bing-input text))
+  )
+
 (provide 'init-utils)

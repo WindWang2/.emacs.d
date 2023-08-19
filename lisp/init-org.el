@@ -189,6 +189,7 @@ If the function sets CREATED, it returns its value."
 
         org-tag-persistent-alist '(("Reminder" .?r)
                                    ("THIS_WEEK" . ?t)
+                                   ("noexport" . ?e)
                                    (:startgrouptag)
                                    ("CONTEXT")
                                    (:grouptags)
@@ -443,8 +444,8 @@ If the function sets CREATED, it returns its value."
     (add-hook 'dired-mode-hook 'org-download-enable)
     (with-eval-after-load 'org
       (org-download-enable))
+    (setq-default org-download-image-dir (concat own-org-directory "images"))
     :config
-    (setq org-download-image-dir (concat own-org-directory "images"))
     (defun dummy-org-download-annotate-function (link)
       "")
     (if (eq system-type 'darwin)
@@ -708,8 +709,20 @@ is non-nil and `re-search-forward' otherwise."
                                  (file+head "collections/${title}.org" "#+title: ${title}\n")
                                  :imediate-finish t
                                  :unnarrowed t)
+                                ("n" "notes" plain "%?" :target
+                                 (file+head "notes/${title}.org" "#+title: note: ${title}\n")
+                                 :imediate-finish t
+                                 :unnarrowed t)
+                                ("a" "acadamic notes" plain "%?" :target
+                                 (file+head "notes/${title}.org" "#+title: Study note: ${title}\n")
+                                 :imediate-finish t
+                                 :unnarrowed t)
                                 ("p" "Project (project)" plain "%?" :target
                                  (file+head "project/${title}.org" "#+title: Project: ${title}\n")
+                                 :imediate-finish t
+                                 :unnarrowed t)
+                                ("m" "Manuscript (paper)" plain "%?" :target
+                                 (file+head "manuscript/${title}.org" "#+title: Manuscript: ${title}\n")
                                  :imediate-finish t
                                  :unnarrowed t)
                                 ))

@@ -356,22 +356,22 @@ channel."
   (when (org-string-nw-p contents)
     (format "$%s$" (org-trim contents))))
 
-;; (setq org-latex-listings 'minted)
-;; (defvar minted-cache-dir
-;;   (file-name-as-directory
-;;    (cond (sys/macp    (expand-file-name ".minted/jombname"
-;;                                         temporary-file-directory))
-;;          (sys/win32p    (expand-file-name ".minted/\\jombname"
-;;                                           temporary-file-directory))
-;;          (sys/linuxp    (expand-file-name ".minted/jombname"
-;;                                           temporary-file-directory))
-;;          )))
-;; (add-to-list 'org-latex-packages-alist
-;;              `(,(concat "cachedir=" minted-cache-dir)
-;;                "minted" nil))
-;; (setq org-latex-packages-alist '(("" "minted")))
-;; (setq org-latex-minted-options '(("breaklines" "true")
-;;                                  ("breakanywhere" "true")))
+(setq org-latex-listings 'minted)
+(defvar minted-cache-dir
+  (file-name-as-directory
+   (cond (sys/macp    (expand-file-name ".minted/jombname"
+                                        temporary-file-directory))
+         (sys/win32p    (expand-file-name ".minted/\\jombname"
+                                          temporary-file-directory))
+         (sys/linuxp    (expand-file-name ".minted/jombname"
+                                          temporary-file-directory))
+         )))
+(add-to-list 'org-latex-packages-alist
+             `(,(concat "cachedir=" minted-cache-dir)
+               "minted" nil))
+(setq org-latex-packages-alist '(("" "minted")))
+(setq org-latex-minted-options '(("breaklines" "true")
+                                 ("breakanywhere" "true")))
 
 ;; for latex preview process  ---------------------------------------------------------- <2022-10-29 周六>
 
