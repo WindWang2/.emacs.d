@@ -133,19 +133,39 @@
          (flyspell-mode . (lambda ()
                             (dolist (key '("C-;" "C-," "C-."))
                               (unbind-key key flyspell-mode-map)))))
-  :init (setq flyspell-issue-message-flag nil
-              ispell-program-name "enchant-2"
-              ispell-dictionary "english")
-  ;; ispell-program-name "aspell"
-  ;; ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together"))
+
+  ;; :init (setq ispell-program-name "aspell"
+  ;;             ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together"))
+
+  ;;                                       ; flyspell-issue-message-flag nil
+  ;;                                       ;            ispell-program-name "enchant-2"
+  ;;                                       ;            ispell-dictionary "english")
   :config
+  (cond ((eq system-type 'windows-nt)
+         (setq ispell-alternate-dictionary
+               "~/.emacs.d/dict/words.txt")))
+  ;; remove minibuffer message "starting look.exe process ...", which is annoying
+  (advice-add
+   'ispell-lookup-words
+   :around
+   (lambda (orig-fun &rest args)
+     (advice-add
+      'message :override (lambda (format-string &rest args) ""))
+     (let ((result (apply orig-fun args)))
+       (advice-remove 'message (lambda (format-string &rest args) ""))
+       result)))
   ;; (add-hook 'org-mode-hook (lambda () (flyspell-mode -1)))
-  ;; Correcting words with flyspell via Ivy
+  ;; ;; Correcting words with flyspell via Ivy
   ;; (use-package flyspell-correct-ivy
   ;;   :after ivy
   ;;   :bind (:map flyspell-mode-map
   ;;          ([remap flyspell-correct-word-before-point] . flyspell-correct-wrapper))
   ;;   :init (setq flyspell-correct-interface #'flyspell-correct-ivy))
+  :custom
+  (ispell-program-name "enchant-2")
+  (flyspell-issue-message-flag nil)
+  (ispell-dictionary "english")
+  (ispell-silently-savep t)
   )
 
 ;; Treat undo history as a tree
