@@ -477,15 +477,24 @@ If the function sets CREATED, it returns its value."
 	    ("C-c C-x m" . org-pomodoro)))
     :config
     (when sys/win32p
-      (defun notify-pomo (title message)
-        "Temporary replacement for function of the same name which uses the buggy alert.el package. TITLE is the title of the MESSAGE."
-        (let*
-            ((toast "toast")
-             (t-title (concat " -t \"" title))
-             (t-message (concat "\" -m \"" message "\""))
-             (t-image (concat " -p \"C:\\emacs-app\\share\\icons\\hicolor\\128x128\\apps\\emacs.png\""))
-             (my-command (concat toast t-title t-message t-image)))
-          (call-process-shell-command my-command))))
+      ;; (defun notify-pomo (title message)
+      ;;   "Temporary replacement for function of the same name which uses the buggy alert.el package. TITLE is the title of the MESSAGE."
+      ;;   (let*
+      ;;       ((toast "toast")
+      ;;        (t-title (concat " -t \"" title))
+      ;;        (t-message (concat "\" -m \"" message "\""))
+      ;;        (t-image (concat " -p \"C:\\emacs-app\\share\\icons\\hicolor\\128x128\\apps\\emacs.png\""))
+      ;;        (my-command (concat toast t-title t-message t-image)))
+      ;;     (call-process-shell-command my-command)))
+      (use-package alert
+        :commands (alert)
+        :config (setq alert-default-style 'toast))
+      (use-package alert-toast
+        :after alert)
+      (defun notify-pomo (aa mes)
+        (alert-toast-notify `(:title ,aa :message ,mes :data (:long t)))
+        )
+      )
     (when sys/macp
       (defun notify-pomo (title message)
         (call-process "terminal-notifier"

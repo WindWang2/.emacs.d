@@ -562,6 +562,8 @@ Lisp function does not specify a special indentation."
   (when sys/macp
     (setq lsp-bridge-python-command (expand-file-name "~/mambaforge/bin/python"))
     (setq lsp-bridge-python-multi-lsp-server "pyright_ruff"))
+  (when sys/win32p
+    (setq lsp-bridge-python-command "C:/MiniConda3/python.exe"))
   ;; (add-hook 'python-mode-hook (lambda () (conda-env-activate "base")))
   ;; (add-hook 'conda-postactivate-hook
   ;;           (lambda ()
