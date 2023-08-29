@@ -522,96 +522,96 @@ If the function sets CREATED, it returns its value."
     (add-hook 'org-pomodoro-killed-hook
 	          (lambda ()
 		        (notify-pomo "Org-pomodoro GTD 番茄取消" "取消！！！")))
-    )
-  (use-package org-super-agenda
-    :ensure t
-    :after org-agenda
-    :init
-    (setq org-agenda-skip-scheduled-if-done t
-          org-agenda-skip-deadline-if-done t
-          org-agenda-compact-blocks t
-          org-agenda-start-day "+0d"
-          org-agenda-span 1)
-    (setq org-agenda-custom-commands
-          '(("p" "Project View"
-             ((alltodo "" ((org-agenda-override-header "")
-                           (org-super-agenda-groups
-                            '((:name "Project View"
-			                   :auto-parent t))
-                            )))))
-            ("P" "This week"
-             ((alltodo "" ((org-agenda-override-header "")
-                           (org-super-agenda-groups
-                            '((:name "This Weak"
-			                   :and (:todo "TODO" :tag "THIS_WEEK")))
-                            )))))
-            ("z" "Super view"
-             ((agenda "" ((org-agenda-span 'day)
-                          (org-super-agenda-groups
-                           '((:name "Today"
-			                  :time-grid t
-			                  :date today
-			                  :todo "TODO"
-			                  :scheduled today
-			                  :order 1)))))
-              (alltodo "" ((org-agenda-overriding-header "")
-                           (org-super-agenda-groups
-                            '((:name "Next @Sicnu"
-			                   :and (:todo "TODO" :tag ("@Sicnu" "THIS_WEEK") :priority>="B")
-			                   :order 1)
-                              (:name "Next @Home"
-			                   :and (:tag ("THIS_WEEK" "@Home") :todo "TODO" :priority>="B")
-			                   :order 2)
-                              (:name "Important"
-			                   :and (:todo "TODO" :priority>="B")
-			                   :order 3)
-                              (:name "Not Important"
-			                   :and (:todo "TODO" :priority>="C")
-			                   :order 3)
-                              (:name "Due Today"
-			                   :deadline today
-			                   :order 4)
-                              (:name "Due Soon"
-			                   :deadline future
-			                   :order 8)
-                              (:name "Overdue"
-			                   :deadline past
-			                   :order 7)
-                              (:name "This Week"
-			                   :tag "THIS_WEEK"
-			                   :order 5)
-                              (:name "At SICNU"
-			                   :tag "@Sicnu"
-			                   :order 13)
-                              (:name "At SWJTU"
-			                   :tag "@SWJTU"
-			                   :order 13)
-                              (:name "Reading List"
-			                   :and (:file-path "reading_list" :todo "TODO")
-			                   :order 13)
-                              (:name "trivial"
-			                   :priority<= "C"
-			                   :tag ("Trivial" "Unimportant")
-			                   :todo ("SOMEDAY")
-			                   :order 90)
-                              (:discard (:tag ("Chore" "Routine" "Daily")))))))))
-            ("r" . "Review")
-            ("rw" "Review Archives"
-             tags "closed>=\"<-1w>\"")
-            ("rd" "Review Day"
-             tags "closed>=\"<today>\"")
-            ("rm" "Review month"
-             tags "closed>=\"<-1m>\"")
-            ("f" "查看TODO条目（按创建时间排序）" todo "TODO"
-             ((org-agenda-sorting-strategy '(priority-down time-up))))
-            )
-          )
-    :custom
-    (org-super-agenda-mode t)))
+    ))
+  ;; (use-package org-super-agenda
+  ;;   :ensure t
+  ;;   :after org-agenda
+  ;;   :init
+  ;;   (setq org-agenda-skip-scheduled-if-done t
+  ;;         org-agenda-skip-deadline-if-done t
+  ;;         org-agenda-compact-blocks t
+  ;;         org-agenda-start-day "+0d"
+  ;;         org-agenda-span 1)
+  ;;   (setq org-agenda-custom-commands
+  ;;         '(("p" "Project View"
+  ;;            ((alltodo "" ((org-agenda-override-header "")
+  ;;                          (org-super-agenda-groups
+  ;;                           '((:name "Project View"
+  ;;   		                   :auto-parent t))
+  ;;                           )))))
+  ;;           ("P" "This week"
+  ;;            ((alltodo "" ((org-agenda-override-header "")
+  ;;                          (org-super-agenda-groups
+  ;;                           '((:name "This Weak"
+  ;;   		                   :and (:todo "TODO" :tag "THIS_WEEK")))
+  ;;                           )))))
+  ;;           ("z" "Super view"
+  ;;            ((agenda "" ((org-agenda-span 'day)
+  ;;                         (org-super-agenda-groups
+  ;;                          '((:name "Today"
+  ;;   		                  :time-grid t
+  ;;   		                  :date today
+  ;;   		                  :todo "TODO"
+  ;;   		                  :scheduled today
+  ;;   		                  :order 1)))))
+  ;;             (alltodo "" ((org-agenda-overriding-header "")
+  ;;                          (org-super-agenda-groups
+  ;;                           '((:name "Next @Sicnu"
+  ;;   		                   :and (:todo "TODO" :tag ("@Sicnu" "THIS_WEEK") :priority>="B")
+  ;;   		                   :order 1)
+  ;;                             (:name "Next @Home"
+  ;;   		                   :and (:tag ("THIS_WEEK" "@Home") :todo "TODO" :priority>="B")
+  ;;   		                   :order 2)
+  ;;                             (:name "Important"
+  ;;   		                   :and (:todo "TODO" :priority>="B")
+  ;;   		                   :order 3)
+  ;;                             (:name "Not Important"
+  ;;   		                   :and (:todo "TODO" :priority>="C")
+  ;;   		                   :order 3)
+  ;;                             (:name "Due Today"
+  ;;   		                   :deadline today
+  ;;   		                   :order 4)
+  ;;                             (:name "Due Soon"
+  ;;   		                   :deadline future
+  ;;   		                   :order 8)
+  ;;                             (:name "Overdue"
+  ;;   		                   :deadline past
+  ;;   		                   :order 7)
+  ;;                             (:name "This Week"
+  ;;   		                   :tag "THIS_WEEK"
+  ;;   		                   :order 5)
+  ;;                             (:name "At SICNU"
+  ;;   		                   :tag "@Sicnu"
+  ;;   		                   :order 13)
+  ;;                             (:name "At SWJTU"
+  ;;   		                   :tag "@SWJTU"
+  ;;   		                   :order 13)
+  ;;                             (:name "Reading List"
+  ;;   		                   :and (:file-path "reading_list" :todo "TODO")
+  ;;   		                   :order 13)
+  ;;                             (:name "trivial"
+  ;;   		                   :priority<= "C"
+  ;;   		                   :tag ("Trivial" "Unimportant")
+  ;;   		                   :todo ("SOMEDAY")
+  ;;   		                   :order 90)
+  ;;                             (:discard (:tag ("Chore" "Routine" "Daily")))))))))
+  ;;           ("r" . "Review")
+  ;;           ("rw" "Review Archives"
+  ;;            tags "closed>=\"<-1w>\"")
+  ;;           ("rd" "Review Day"
+  ;;            tags "closed>=\"<today>\"")
+  ;;           ("rm" "Review month"
+  ;;            tags "closed>=\"<-1m>\"")
+  ;;           ("f" "查看TODO条目（按创建时间排序）" todo "TODO"
+  ;;            ((org-agenda-sorting-strategy '(priority-down time-up))))
+  ;;           )
+  ;;         )
+  ;;   :custom
+  ;;   (org-super-agenda-mode t)))
 
-(use-package org-contrib
-  :pin nongnu
-  )
+  (use-package org-contrib
+    :pin nongnu
+    )
 
 (use-package deft
   :defer t
