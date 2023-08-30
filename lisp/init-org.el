@@ -88,6 +88,7 @@
                               (make-variable-buffer-local 'show-paren-mode)
                               (setq show-paren-mode nil))))
   :config
+  (setq calendar-week-start-day 1)
   (defun hot-expand (str &optional mod)
     "Expand org template.
 STR is a structure template string recognised by org like <s. MOD is a
