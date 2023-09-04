@@ -196,7 +196,7 @@ If the function sets CREATED, it returns its value."
                                    (:grouptags)
                                    ("@Sicnu" . ?s)
                                    ("@SWJTU" . ?j)
-                                   ("@Sicnu_Class" . ?S)
+                                   ("@Sicnu_CL" . ?S)
                                    ("@Home" . ?h)
                                    ("@BUS" . ?b)
                                    ("@南充" . ?n)
@@ -539,10 +539,16 @@ If the function sets CREATED, it returns its value."
                    `(org-agenda-skip-entry-if
                      'notregexp ,(format "\\[#%s\\]" (char-to-string org-priority-highest))))
                   (org-agenda-block-separator nil)
-                  (org-agenda-overriding-header "Important tasks without a date\n")))
-      (tags-todo "+PRIORITY=\"B\"-\@SWJTU"
+                  (org-agenda-overriding-header "重要任务-[A]")))
+      (tags-todo "+PRIORITY=\"B\"-Reminder"
                  ((org-agenda-block-separator nil)
-                  (org-agenda-overriding-header "\n Others \n")))
+                  (org-agenda-overriding-header "其他重要任务-[B]")))
+      (tags-todo "+PRIORITY=\"C\"-Reminder"
+                 ((org-agenda-block-separator nil)
+                  (org-agenda-overriding-header "其他任务-[C]")))
+      (tags-todo "Reminder"
+                 ((org-agenda-block-separator nil)
+                  (org-agenda-overriding-header "提醒")))
       (agenda "" ((org-agenda-span 1)
                   (org-deadline-warning-days 0)
                   (org-agenda-block-separator nil)
@@ -577,6 +583,17 @@ If the function sets CREATED, it returns its value."
   (setq org-agenda-custom-commands
         `(("A" "Daily agenda and top priority tasks"
            ,prot-org-custom-daily-agenda)
+          ("g" . "GTD contexts")
+          ("gs" "四川师范大学--办公室" tags-todo "@Sicnu")
+          ("gh" "家" tags-todo "@Home")
+          ("gj" "西南交通大学--犀浦" tags-todo "@SWJTU")
+          ("gr" "提醒" tags-todo "Reminder")
+          ("gt" "这周完成的任务" tags-todo "THIS_WEEK")
+          ("G" "GTD Block Agenda THIS_WEEK"
+           ((tags-todo "@Sicnu+THIS_WEEK-Reminder")
+            (tags-todo "@SWJTU+THIS_WEEK-Reminder")
+            (tags-todo "@Home+THIS_WEEK-Reminder")
+            (tags-todo "Reminder")) nil)
           ("P" "Plain text daily agenda and top priorities"
            ,prot-org-custom-daily-agenda
            ((org-agenda-with-colors nil)
