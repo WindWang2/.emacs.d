@@ -196,6 +196,7 @@ If the function sets CREATED, it returns its value."
                                    (:grouptags)
                                    ("@Sicnu" . ?s)
                                    ("@SWJTU" . ?j)
+                                   ("@Sicnu_Class" . ?S)
                                    ("@Home" . ?h)
                                    ("@BUS" . ?b)
                                    ("@南充" . ?n)
@@ -532,13 +533,16 @@ If the function sets CREATED, it returns its value."
     ;;
     ;; So we match everything and then skip entries with
     ;; `org-agenda-skip-function'.
-    `((tags-todo "*"
+    `((tags-todo "+PRIORITY=\"A\"-Reminder"
                  ((org-agenda-skip-function '(org-agenda-skip-if nil '(timestamp)))
                   (org-agenda-skip-function
                    `(org-agenda-skip-entry-if
                      'notregexp ,(format "\\[#%s\\]" (char-to-string org-priority-highest))))
                   (org-agenda-block-separator nil)
                   (org-agenda-overriding-header "Important tasks without a date\n")))
+      (tags-todo "+PRIORITY=\"B\"-\@SWJTU"
+                 ((org-agenda-block-separator nil)
+                  (org-agenda-overriding-header "\n Others \n")))
       (agenda "" ((org-agenda-span 1)
                   (org-deadline-warning-days 0)
                   (org-agenda-block-separator nil)
