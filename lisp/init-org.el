@@ -540,15 +540,21 @@ If the function sets CREATED, it returns its value."
                      'notregexp ,(format "\\[#%s\\]" (char-to-string org-priority-highest))))
                   (org-agenda-block-separator nil)
                   (org-agenda-overriding-header "重要任务-[A]")))
-      (tags-todo "+PRIORITY=\"B\"-Reminder"
+      (tags-todo "+PRIORITY=\"B\"-Reminder-Reading"
                  ((org-agenda-block-separator nil)
                   (org-agenda-overriding-header "其他重要任务-[B]")))
-      (tags-todo "+PRIORITY=\"C\"-Reminder"
+      (tags-todo "+PRIORITY=\"C\"-Reminder-Reading"
                  ((org-agenda-block-separator nil)
                   (org-agenda-overriding-header "其他任务-[C]")))
       (tags-todo "Reminder"
                  ((org-agenda-block-separator nil)
                   (org-agenda-overriding-header "提醒")))
+      (tags-todo "Reading+PRIORITY=\"B\""
+                 ((org-agenda-block-separator nil)
+                  (org-agenda-overriding-header "待读")))
+      (tags-todo "Reading+PRIORITY=\"C\""
+                 ((org-agenda-block-separator nil)
+                  (org-agenda-overriding-header "有空读")))
       (agenda "" ((org-agenda-span 1)
                   (org-deadline-warning-days 0)
                   (org-agenda-block-separator nil)
