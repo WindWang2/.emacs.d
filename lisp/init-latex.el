@@ -144,11 +144,6 @@
   (ebib-index-default-sort '("timestamp" . descend))
   :config
   ;; (w32-shell-execute "open" file)
-  (when (eq system-type 'windows-nt)
-    (modify-coding-system-alist 'process "c:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe" '(utf-8 . chinese-gbk-dos))
-    (setq ebib-file-associations '(("pdf" . "c:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe")))
-    ;; (setq ebib-file-associations '(("pdf" . "")))
-    )
   (when sys/linuxp
     (setq ebib-file-associations '(("pdf" . "evince")))
     )
@@ -183,6 +178,13 @@
                                          (?L . ebib-create-org-link)
                                          (?F . ebib-create-org-file-name)
                                          (?S . ebib-create-org-time-stamp)))
+  (when (eq system-type 'windows-nt)
+    (modify-coding-system-alist 'process "c:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe" '(utf-8 . chinese-gbk-dos))
+    (setq ebib-file-associations '(("pdf" . "c:/Users/Administrator/AppData/Local/SumatraPDF/SumatraPDF.exe")))
+    ;; (setq ebib-file-associations '(("pdf" . "")))
+    (setq ebib-file-search-dirs (list (concat bibtex-file-path "../../../../DEVON/PDFs/")
+                                      (concat bibtex-file-path "../bibs")))
+    )
   (when sys/wsl
     (setq ebib-file-search-dirs (list (concat bibtex-file-path "/mnt/c/DEVON/PDFs/")
                                       (concat bibtex-file-path "../bibs"))))
