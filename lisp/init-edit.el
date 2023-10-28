@@ -569,6 +569,5 @@ Lisp function does not specify a special indentation."
   ;;           (lambda ()
   ;;             (lsp-bridge-restart-process)))
   )
-
 (use-package pangu-spacing)
 (provide 'init-edit)
