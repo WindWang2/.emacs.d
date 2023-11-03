@@ -95,17 +95,21 @@
                                       "*esh command on file*")))
 
 (use-package popper
-  :defines popper-echo-dispatch-actions
-  :commands popper-group-by-projectile
+  :diminish (popper-mode popper-echo-mode)
+  :custom
+  (popper-group-function #'popper-group-by-directory)
+  (popper-echo-dispatch-actions t)
   :bind (:map popper-mode-map
-         ("C-h z" . popper-toggle-latest)
-         ("C-<tab>"   . popper-cycle)
-         ("C-M-<tab>" . popper-toggle-type))
-  :hook (emacs-startup . popper-mode)
+         ("C-h z"       . popper-toggle)
+         ("C-<tab>"     . popper-cycle)
+         ("C-M-<tab>"   . popper-toggle-type))
+  :hook ((emacs-startup . popper-mode)
+         (popper-mode   . popper-echo-mode))
   :init
   (setq popper-reference-buffers
         '("\\*Messages\\*"
           "Output\\*$" "\\*Pp Eval Output\\*$"
+          "^\\*eldoc.*\\*$"
           "\\*Compile-Log\\*"
           "\\*Completions\\*"
           "\\*Warnings\\*"
@@ -114,7 +118,9 @@
           "\\*Backtrace\\*"
           "\\*Calendar\\*"
           "\\*Finder\\*"
-          "\\*Embark Actions\\*"
+          "\\*Kill Ring\\*"
+          "\\*Go-Translate\\*"
+          "\\*Embark \\(Collect\\|Live\\):.*\\*"
 
           bookmark-bmenu-mode
           comint-mode
@@ -123,20 +129,23 @@
           tabulated-list-mode
           Buffer-menu-mode
 
+          flymake-diagnostics-buffer-mode
+          flycheck-error-list-mode flycheck-verify-mode
+
           gnus-article-mode devdocs-mode
           grep-mode occur-mode rg-mode deadgrep-mode ag-mode pt-mode
-          ivy-occur-mode ivy-occur-grep-mode
-          process-menu-mode list-environment-mode cargo-process-mode
           youdao-dictionary-mode osx-dictionary-mode fanyi-mode
 
-          "^\\*eshell.*\\*.*$" eshell-mode
-          "^\\*shell.*\\*.*$"  shell-mode
-          "^\\*terminal.*\\*.*$" term-mode
-          "^\\*vterm.*\\*.*$"  vterm-mode
+          "^\\*Process List\\*" process-menu-mode
+          list-environment-mode cargo-process-mode
+
+          "^\\*eshell.*\\*.*$"       eshell-mode
+          "^\\*shell.*\\*.*$"        shell-mode
+          "^\\*terminal.*\\*.*$"     term-mode
+          "^\\*vterm[inal]*.*\\*.*$" vterm-mode
 
           "\\*DAP Templates\\*$" dap-server-log-mode
           "\\*ELP Profiling Restuls\\*" profiler-report-mode
-          "\\*Flycheck errors\\*$" " \\*Flycheck checker\\*$"
           "\\*Paradox Report\\*$" "\\*package update results\\*$" "\\*Package-Lint\\*$"
           "\\*[Wo]*Man.*\\*$"
           "\\*ert\\*$" overseer-buffer-mode
@@ -144,24 +153,29 @@
           "\\*lsp-help\\*$" "\\*lsp session\\*$"
           "\\*quickrun\\*$"
           "\\*tldr\\*$"
-          "\\*vc-.*\\*$"
-          "^\\*elfeed-entry\\*$"
+          "\\*vc-.*\\**"
+          "\\*diff-hl\\**"
           "^\\*macro expansion\\**"
 
           "\\*Agenda Commands\\*" "\\*Org Select\\*" "\\*Capture\\*" "^CAPTURE-.*\\.org*"
           "\\*Gofmt Errors\\*$" "\\*Go Test\\*$" godoc-mode
-          "\\*docker-containers\\*" "\\*docker-images\\*" "\\*docker-networks\\*" "\\*docker-volumes\\*"
+          "\\*docker-.+\\*"
           "\\*prolog\\*" inferior-python-mode inf-ruby-mode swift-repl-mode
           "\\*rustfmt\\*$" rustic-compilation-mode rustic-cargo-clippy-mode
-          rustic-cargo-outdated-mode rustic-cargo-test-moed))
+          rustic-cargo-outdated-mode rustic-cargo-run-mode rustic-cargo-test-mode))
 
-  (with-eval-after-load 'projectile
-    (setq popper-group-function #'popper-group-by-projectile))
-
-  (setq popper-echo-dispatch-actions t)
+  (with-eval-after-load 'doom-modeline
+    (setq popper-mode-line
+          '(:eval (let ((face (if (doom-modeline--active)
+                                  'doom-modeline-emphasis
+                                'doom-modeline)))
+                    (if (and (icons-displayable-p)
+                             (bound-and-true-p doom-modeline-icon)
+                             (bound-and-true-p doom-modeline-mode))
+                        (format " %s "
+                                (nerd-icons-octicon "nf-oct-pin" :face face))
+                      (propertize " POP " 'face face))))))
   :config
-  (popper-echo-mode 1)
-
   (with-no-warnings
     (defun my-popper-fit-window-height (win)
       "Determine the height of popup window WIN by fitting it to the buffer's content."
@@ -181,7 +195,6 @@
           (when (window-live-p window)
             (delete-window window)))))
     (advice-add #'keyboard-quit :before #'popper-close-window-hack)))
-
 
 (use-package dired
   :ensure nil
@@ -848,12 +861,30 @@
   ;; (use-package netease-music)
   ;; (use-package netease-cloud-music)
   ;; (require 'eaf-netease-cloud-music)
-  (eaf-setq eaf-webengine-pc-user-agent "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.58")
+  (eaf-setq eaf-webengine-pc-user-agent "Mozilla/5.0 (X11; Linux i586; rv:31.0) Gecko/20100101 Firefox/72.0")
   (eaf-setq eaf-browser-enable-adblocker "true")
   (eaf-setq eaf-browser-enable-autofill "true")
   (eaf-setq eaf-browser-default-zoom "1.50")
   (defun eaf-translate-text (text)
     (popweb-dict-bing-input text))
   )
-
+(when (display-graphic-p)
+  (add-to-list 'load-path "~/github/lsp-bridge")
+  (require 'yasnippet)
+  (yas-global-mode 1)
+  (require 'lsp-bridge)
+  (global-lsp-bridge-mode)
+  (add-to-list 'load-path "~/github/blink-search")
+  (require 'blink-search)
+  (when sys/macp
+    (setq lsp-bridge-python-command (expand-file-name "~/mambaforge/bin/python"))
+    (setq lsp-bridge-python-multi-lsp-server "pyright_ruff"))
+  (when sys/win32p
+    (setq lsp-bridge-python-command "C:/MiniConda3/python.exe"))
+  ;; (add-hook 'python-mode-hook (lambda () (conda-env-activate "base")))
+  ;; (add-hook 'conda-postactivate-hook
+  ;;           (lambda ()
+  ;;             (lsp-bridge-restart-process)))
+  )
+;; (toggle-debug-on-error)
 (provide 'init-utils)

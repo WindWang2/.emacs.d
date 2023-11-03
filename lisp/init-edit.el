@@ -119,8 +119,8 @@
          ("C-|" . mc/vertical-align-with-space)))
 
 ;; Smartly select region, rectangle, multi cursors
-(use-package smart-region
-  :hook (after-init . smart-region-on))
+;; (use-package smart-region
+;;   :hook (after-init . smart-region-on))
 
 ;; On-the-fly spell checker
 (use-package flyspell
@@ -551,23 +551,6 @@ Lisp function does not specify a special indentation."
 (use-package markdown-mode
   :defer t)
 
-(when (display-graphic-p)
-  (add-to-list 'load-path "~/github/lsp-bridge")
-  (require 'yasnippet)
-  (yas-global-mode 1)
-  (require 'lsp-bridge)
-  (global-lsp-bridge-mode)
-  (add-to-list 'load-path "~/github/blink-search")
-  (require 'blink-search)
-  (when sys/macp
-    (setq lsp-bridge-python-command (expand-file-name "~/mambaforge/bin/python"))
-    (setq lsp-bridge-python-multi-lsp-server "pyright_ruff"))
-  (when sys/win32p
-    (setq lsp-bridge-python-command "C:/MiniConda3/python.exe"))
-  ;; (add-hook 'python-mode-hook (lambda () (conda-env-activate "base")))
-  ;; (add-hook 'conda-postactivate-hook
-  ;;           (lambda ()
-  ;;             (lsp-bridge-restart-process)))
-  )
+
 (use-package pangu-spacing)
 (provide 'init-edit)
