@@ -54,23 +54,23 @@
    `(rjsx-mode . ("[^.][[:space:]]*"
                   "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
                   (nil font-lock-variable-name-face js2-function-param)))))
-(use-package tao-theme
-  :ensure t
-  :config
-  ;; (defun tao-palette () (tao-theme-golden-grayscale-yin-palette))
-  ;; (tao-with-color-variables tao-palette
-  ;;                           (progn
-  ;;                             (setq
-  ;;                              hl-paren-colors (list color-14 color-11 color-9 color-7 color-6)
-  ;;                              hl-paren-background-colors (list color-4 color-4 color-4 color-4 color-4))))
-  (setq tao-theme-use-sepia t)
-  (setq tao-theme-use-height nil)
-  (setq tao-theme-sepia-depth 10)
-  (setq tao-theme-sepia-saturation 1.08)
-  ;; (load-theme 'tao-yang t)
-  (defun tao-palette ()
-    (tao-theme-yang-palette))
-  )
+;; (use-package tao-theme
+;;   :ensure t
+;;   :config
+;;   ;; (defun tao-palette () (tao-theme-golden-grayscale-yin-palette))
+;;   ;; (tao-with-color-variables tao-palette
+;;   ;;                           (progn
+;;   ;;                             (setq
+;;   ;;                              hl-paren-colors (list color-14 color-11 color-9 color-7 color-6)
+;;   ;;                              hl-paren-background-colors (list color-4 color-4 color-4 color-4 color-4))))
+;;   (setq tao-theme-use-sepia t)
+;;   (setq tao-theme-use-height nil)
+;;   (setq tao-theme-sepia-depth 10)
+;;   (setq tao-theme-sepia-saturation 1.08)
+;;   ;; (load-theme 'tao-yang t)
+;;   (defun tao-palette ()
+;;     (tao-theme-yang-palette))
+;;   )
 
 (use-package nerd-icons)
 
@@ -79,46 +79,46 @@
   (or (featurep 'nerd-icons)
       (require 'nerd-icons nil t)))
 
-(use-package doom-themes)
-;; Show native line numbers if possible, otherwise use `linum'
-(if (fboundp 'display-line-numbers-mode)
-    (use-package display-line-numbers
-      :ensure nil
-      :hook ((prog-mode yaml-mode conf-mode) . display-line-numbers-mode)
-      :init (setq display-line-numbers-width-start t))
-  (use-package linum-off
-    :demand t
-    :defines linum-format
-    :hook (after-init . global-linum-mode)
-    :init (setq linum-format "%4d ")
-    :config
-    ;; Highlight current line number
-    (use-package hlinum
-      :defines linum-highlight-in-all-buffersp
-      :custom-face (linum-highlight-face ((t (:inherit default :background nil :foreground nil))))
-      :hook (global-linum-mode . hlinum-activate)
-      :init (setq linum-highlight-in-all-buffersp t))))
+;; (use-package doom-themes)
+;; ;; Show native line numbers if possible, otherwise use `linum'
+;; (if (fboundp 'display-line-numbers-mode)
+;;     (use-package display-line-numbers
+;;       :ensure nil
+;;       :hook ((prog-mode yaml-mode conf-mode) . display-line-numbers-mode)
+;;       :init (setq display-line-numbers-width-start t))
+;;   (use-package linum-off
+;;     :demand t
+;;     :defines linum-format
+;;     :hook (after-init . global-linum-mode)
+;;     :init (setq linum-format "%4d ")
+;;     :config
+;;     ;; Highlight current line number
+;;     (use-package hlinum
+;;       :defines linum-highlight-in-all-buffersp
+;;       :custom-face (linum-highlight-face ((t (:inherit default :background nil :foreground nil))))
+;;       :hook (global-linum-mode . hlinum-activate)
+;;       :init (setq linum-highlight-in-all-buffersp t))))
 
 ;; set default windows size
-(defun set-frame-size-according-to-resolution ()
-  (interactive)
-  (if (display-graphic-p)
-      (progn
-        ;; use 120 char wide window for largeish displays
-        ;; and smaller 80 column windows for smaller displays
-        ;; pick whatever numbers make sense for you
-        (if (> (x-display-pixel-width) 1280)
-            (add-to-list 'default-frame-alist (cons 'width 120))
-          (add-to-list 'default-frame-alist (cons 'width 100)))
-        ;; for the height, subtract a couple hundred pixels
-        ;; from the screen height (for panels, menubars and
-        ;; whatnot), then divide by the height of a char to
-        ;; get the height we want
-        (add-to-list 'default-frame-alist
-                     (cons 'height (/ (- (x-display-pixel-height) 100)
-                                      (frame-char-height)))))))
+;; (defun set-frame-size-according-to-resolution ()
+;;   (interactive)
+;;   (if (display-graphic-p)
+;;       (progn
+;;         ;; use 120 char wide window for largeish displays
+;;         ;; and smaller 80 column windows for smaller displays
+;;         ;; pick whatever numbers make sense for you
+;;         (if (> (x-display-pixel-width) 1280)
+;;             (add-to-list 'default-frame-alist (cons 'width 120))
+;;           (add-to-list 'default-frame-alist (cons 'width 100)))
+;;         ;; for the height, subtract a couple hundred pixels
+;;         ;; from the screen height (for panels, menubars and
+;;         ;; whatnot), then divide by the height of a char to
+;;         ;; get the height we want
+;;         (add-to-list 'default-frame-alist
+;;                      (cons 'height (/ (- (x-display-pixel-height) 100)
+;;                                       (frame-char-height)))))))
 
-(set-frame-size-according-to-resolution)
+;; (set-frame-size-according-to-resolution)
 ;; doom modeline
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
@@ -301,9 +301,11 @@
              when (font-installed-p font)
              return (set-face-attribute 'default nil
                                         :family font
-                                        :height (cond (sys/macp 130)
-                                                      (sys/win32p 100)
-                                                      (t 100))))
+                                        :height (cond
+                                                 (sys/wsl 150)
+                                                 (sys/macp 120)
+                                                 (sys/win32p 100)
+                                                 (t 100))))
     ;; Set mode-line font
     ;; (cl-loop for font in '("Menlo" "SF Pro Display" "Helvetica")
     ;;          when (font-installed-p font)
@@ -340,12 +342,13 @@
                       (set-fontset-font t '(#xf0e7 . #x9fff) (font-spec :family font))))))
 (set-face-attribute 'fixed-pitch nil
                     :font "Source Code Pro"
-                    :height (cond (sys/macp 130)
-                                  (sys/win32p 100)
-                                  (t 100)))
+                    :height (cond
+                             (sys/wsl 150)
+                             (sys/macp 120)
+                             (sys/win32p 100)
+                             (t 100)))
 
 (centaur-setup-fonts)
 (add-hook 'window-setup-hook #'centaur-setup-fonts)
 (add-hook 'server-after-make-frame-hook #'centaur-setup-fonts)
-
 (provide 'init-ui)

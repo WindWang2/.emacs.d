@@ -168,6 +168,16 @@
   (ispell-silently-savep t)
   )
 
+(use-package jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-languages))
+  :config
+  (add-to-list 'jinx-exclude-regexps '(t "\\cc"))
+  :custom
+  (setq jinx-languages '("en"))
+  )
+
 ;; Treat undo history as a tree
 (use-package undo-tree
   :diminish
