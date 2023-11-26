@@ -106,3 +106,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :extend nil :stipple nil :background "#fff8f0" :foreground "#222222" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 140 :width normal :foundry "ADBO" :family "Source Code Pro")))))
+
+;; Local Variables:
+;; jinx-languages: "en"
+;; End:
