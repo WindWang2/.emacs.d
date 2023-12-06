@@ -326,16 +326,16 @@ If the function sets CREATED, it returns its value."
   (progn
     (use-package org-superstar
       :if (and (display-graphic-p) (char-displayable-p ?◉))
-      :hook (org-mode . org-superstar-mode)
-      :init (setq org-superstar-headline-bullets-list '("◉""○""◈""◇""⁕")))
+      :hook (org-mode . org-superstar-mode))
+    ;; :init (setq org-superstar-headline-bullets-list '("◉""○""◈""◇""⁕")))
     (use-package org-fancy-priorities
       :defer t
       :diminish
-      :hook (org-mode . org-fancy-priorities-mode)
-      :init (setq org-fancy-priorities-list
-                  (if (and (display-graphic-p) (char-displayable-p ?🅐))
-                      '("🅐" "🅑" "🅒" "🅓")
-                    '("HIGH" "MEDIUM" "LOW" "OPTIONAL")))))
+      :hook (org-mode . org-fancy-priorities-mode)))
+  ;; :init (setq org-fancy-priorities-list
+  ;;             (if (and (display-graphic-p) (char-displayable-p ?🅐))
+  ;;                 '("🅐" "🅑" "🅒" "🅓")
+  ;;               '("HIGH" "MEDIUM" "LOW" "OPTIONAL")))))
 
   ;; Babel
   (setq org-confirm-babel-evaluate nil
