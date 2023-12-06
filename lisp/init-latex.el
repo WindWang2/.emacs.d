@@ -186,7 +186,7 @@
                                       (concat bibtex-file-path "../bibs")))
     )
   (when sys/wsl
-    (setq ebib-file-search-dirs (list (concat bibtex-file-path "/mnt/c/DEVON/PDFs/")
+    (setq ebib-file-search-dirs (list "/mnt/c/DEVON/PDFs/"
                                       (concat bibtex-file-path "../bibs"))))
   ;; Rename of ~ebib-import-file~, Ref: https://mtino1594.hatenablog.com/entry/2019/02/04/230032
   (defun my/get-file-name (name)
