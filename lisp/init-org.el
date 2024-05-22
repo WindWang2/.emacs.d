@@ -315,7 +315,6 @@ If the function sets CREATED, it returns its value."
   ;; Prettify UI
 
   (use-package org-modern
-    :defer t
     :hook ((org-mode . org-modern-mode)
            (org-agenda-finalize . org-modern-agenda)
            (org-modern-mode . (lambda ()
